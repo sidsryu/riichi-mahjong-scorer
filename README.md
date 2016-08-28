@@ -23,10 +23,22 @@ Japanese mahjong scorer for c++14
 
 - [ ] 점수 계산하기
 - [ ] 부수 계산하기
-- [ ] 역 계산하기
+- [ ] 판수 계산하기
 - [ ] 텐파이 확인하기
 - [ ] 대기패 찾기
 
+
+## Scoring Tables
+
+점수표에서 해당 점수를 찾습니다.
+
+## Minipoints
+
+부수를 계산합니다.
+
+## Winning hands
+
+판수를 계산합니다.
 
 ## Licensing
 
