@@ -1,13 +1,13 @@
-# richi-mahjong-scorer
+# riichi-mahjong-scorer
 
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)][license]
 
 Japanese mahjong scorer in c++14
 
-[license]: https://github.com/sidsryu/richi-mahjong-scorer/blob/master/LICENSE 
+[license]: https://github.com/sidsryu/riichi-mahjong-scorer/blob/master/LICENSE 
 
 
-## About Richi Mahjong Scorer
+## About Riichi Mahjong Scorer
 
 리치마작 계산기입니다. 일본마작이라고도 하죠.
 
