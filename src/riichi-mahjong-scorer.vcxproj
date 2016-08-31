@@ -118,6 +118,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="scoring-table.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="scoring-table.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
