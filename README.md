@@ -36,7 +36,7 @@ Japanese mahjong scorer in c++14
 
 부수를 계산합니다.
 
-## Winning hands
+## Winning Hands
 
 판수를 계산합니다.
 
