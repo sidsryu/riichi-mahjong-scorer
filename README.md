@@ -50,7 +50,7 @@ v2.0 목표
 - 친 쯔모: x2
 - 자 쯔모: x1, x2
 
-[latex]: https://latex.codecogs.com/gif.latex?\bg_white&space;basic\\_points&space;=&space;fu&space;\times&space;2^{(2&space;&plus;&space;han)}
+[latex]: http://www.sciweavers.org/tex2img.php?eq=basic%5C_point%20%3D%20fu%20%20%5Ctimes%202%20%5E%20%7B%282%20%2B%20han%29%7D%0A&bc=White&fc=Black&im=png&fs=12&ff=arev&edit=0
 
 
 ## Minipoints
