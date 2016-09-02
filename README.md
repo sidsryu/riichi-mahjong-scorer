@@ -4,7 +4,7 @@
 
 Japanese mahjong scorer in c++14
 
-[license]: https://github.com/sidsryu/riichi-mahjong-scorer/blob/master/LICENSE 
+[license]: LICENSE 
 
 
 ## About Riichi Mahjong Scorer
@@ -50,7 +50,7 @@ v2.0 목표
 - 친 쯔모: x2
 - 자 쯔모: x1, x2
 
-[latex]: http://www.sciweavers.org/tex2img.php?eq=basic%5C_point%20%3D%20fu%20%20%5Ctimes%202%20%5E%20%7B%282%20%2B%20han%29%7D%0A&bc=White&fc=Black&im=png&fs=12&ff=arev&edit=0
+[latex]: image/latex-basic-points.png
 
 
 ## Minipoints
