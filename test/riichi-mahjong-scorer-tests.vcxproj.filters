@@ -17,6 +17,9 @@
     <ClCompile Include="scoringtable_test.cpp">
       <Filter>tests</Filter>
     </ClCompile>
+    <ClCompile Include="minipointcounter_test.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyOwnNewMacros.h">

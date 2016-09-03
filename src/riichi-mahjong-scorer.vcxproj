@@ -118,10 +118,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="minipoint-counter.cpp" />
     <ClCompile Include="scoring-table.cpp" />
+    <ClCompile Include="wining-hand-counter.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="hand-define.h" />
+    <ClInclude Include="minipoint-counter.h" />
     <ClInclude Include="scoring-table.h" />
+    <ClInclude Include="wining-hand-counter.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
