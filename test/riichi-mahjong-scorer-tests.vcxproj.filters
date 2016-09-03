@@ -17,7 +17,7 @@
     <ClCompile Include="scoringtable_test.cpp">
       <Filter>tests</Filter>
     </ClCompile>
-    <ClCompile Include="minipointcounter_test.cpp">
+    <ClCompile Include="playerhand_test.cpp">
       <Filter>tests</Filter>
     </ClCompile>
   </ItemGroup>
