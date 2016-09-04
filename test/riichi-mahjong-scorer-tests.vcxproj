@@ -137,6 +137,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="playerhand_test.cpp" />
     <ClCompile Include="scoringtable_test.cpp" />
+    <ClCompile Include="wininghandcounter_test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyOwnNewMacros.h" />

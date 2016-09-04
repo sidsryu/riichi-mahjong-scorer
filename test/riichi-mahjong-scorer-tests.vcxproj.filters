@@ -20,6 +20,9 @@
     <ClCompile Include="playerhand_test.cpp">
       <Filter>tests</Filter>
     </ClCompile>
+    <ClCompile Include="wininghandcounter_test.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyOwnNewMacros.h">

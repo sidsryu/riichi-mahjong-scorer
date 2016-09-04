@@ -120,11 +120,14 @@
   <ItemGroup>
     <ClCompile Include="player-hand.cpp" />
     <ClCompile Include="scoring-table.cpp" />
+    <ClCompile Include="wining-hand-counter.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="hand-define.h" />
     <ClInclude Include="player-hand.h" />
     <ClInclude Include="scoring-table.h" />
     <ClInclude Include="tile-define.h" />
+    <ClInclude Include="wining-hand-counter.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

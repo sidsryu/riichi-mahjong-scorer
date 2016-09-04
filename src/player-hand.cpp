@@ -67,3 +67,11 @@ bool PlayerHand::isClaim() const
 {
 	return is_claim;
 }
+
+void PlayerHand::each(std::function<void(Tile)> fn) const
+{
+	for (auto it : tiles)
+	{
+		fn(it);
+	}
+}

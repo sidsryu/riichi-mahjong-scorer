@@ -25,7 +25,7 @@ enum class Tile
 	OneOfCharacters = 51,
 	TwoOfCharacters,
 	ThreeOfCharacters,
-	FourceOfCharacters,
+	FourOfCharacters,
 	FiveOfCharacters,
 	SixOfCharacters,
 	SevenOfCharacters,

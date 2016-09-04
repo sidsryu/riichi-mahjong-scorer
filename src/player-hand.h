@@ -1,6 +1,7 @@
 #pragma once
 
 #include <set>
+#include <functional>
 
 enum class Tile;
 
@@ -18,6 +19,8 @@ public:
 	bool isRon() const;
 	int countTile(Tile tile) const;
 	bool isClaim() const;
+
+	void each(std::function<void(Tile)> fn) const;
 
 private:
 	void draw(Tile tile);

@@ -17,6 +17,9 @@
     <ClCompile Include="player-hand.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="wining-hand-counter.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="scoring-table.h">
@@ -26,6 +29,12 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="tile-define.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="wining-hand-counter.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="hand-define.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
