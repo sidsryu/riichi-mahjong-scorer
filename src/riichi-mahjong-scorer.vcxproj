@@ -120,6 +120,7 @@
   <ItemGroup>
     <ClCompile Include="player-hand.cpp" />
     <ClCompile Include="scoring-table.cpp" />
+    <ClCompile Include="tile-holder.cpp" />
     <ClCompile Include="wining-hand-counter.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -127,7 +128,9 @@
     <ClInclude Include="player-hand.h" />
     <ClInclude Include="scoring-table.h" />
     <ClInclude Include="tile-define.h" />
+    <ClInclude Include="tile-holder.h" />
     <ClInclude Include="wining-hand-counter.h" />
+    <ClInclude Include="wining-hand.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

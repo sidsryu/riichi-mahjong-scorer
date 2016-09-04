@@ -4,6 +4,7 @@
 // include stl
 #include <utility>
 #include <set>
+#include <vector>
 
 // cpputest MemoryLeakDetectorNewMacros
 #include "CppUTest/MemoryLeakDetectorNewMacros.h"
