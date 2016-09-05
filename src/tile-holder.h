@@ -8,6 +8,8 @@ enum class Tile;
 
 class TileHolder
 {
+	using Meld = std::vector<Tile>;
+
 public:
 	void add(Tile tile);
 	bool empty() const;
@@ -16,8 +18,9 @@ public:
 	bool isNextTilePon() const;
 	bool isNextTileChii() const;
 
-	Tile popFront();
-	void popFrontChii(std::function<void(Tile)> fn);
+	Meld popNextPair();
+	Meld popNextPon();
+	Meld popNextChii();
 
 private:
 	std::vector<Tile> tiles;

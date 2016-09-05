@@ -15,12 +15,15 @@ void WiningHandCounter::calculate()
 		holder.add(tile);
 	});
 
-	WiningHand hand;
-	bt(hand, holder);
+	WiningHand wining_hand;
+	bt(wining_hand, holder);
 
-	if (0 < wining_hands.size())
+	for (auto it : wining_hands)
 	{
-		hands.insert(Hand::SelfPick);
+		if (!hand.isClaim() && !hand.isRon())
+		{
+			hands.insert(Hand::SelfPick);
+		}
 	}
 }
 
@@ -51,9 +54,8 @@ void WiningHandCounter::bt(WiningHand hand, TileHolder holder)
 void WiningHandCounter::pairBt(WiningHand hand, TileHolder holder)
 {
 	Meld meld;
-	meld.tiles.push_back(holder.popFront());
-	meld.tiles.push_back(holder.popFront());
-	hand.pairs.push_back(meld);
+	meld.tiles = holder.popNextPair();
+	hand.melds.push_back(meld);
 
 	bt(hand, holder);
 }
@@ -61,9 +63,7 @@ void WiningHandCounter::pairBt(WiningHand hand, TileHolder holder)
 void WiningHandCounter::ponBt(WiningHand hand, TileHolder holder)
 {
 	Meld meld;
-	meld.tiles.push_back(holder.popFront());
-	meld.tiles.push_back(holder.popFront());
-	meld.tiles.push_back(holder.popFront());
+	meld.tiles = holder.popNextPon();
 	hand.melds.push_back(meld);
 
 	bt(hand, holder);
@@ -72,9 +72,7 @@ void WiningHandCounter::ponBt(WiningHand hand, TileHolder holder)
 void WiningHandCounter::chiiBt(WiningHand hand, TileHolder holder)
 {
 	Meld meld;
-	holder.popFrontChii([&meld](Tile tile) {
-		meld.tiles.push_back(tile);
-	});
+	meld.tiles = holder.popNextChii();	
 	hand.melds.push_back(meld);
 
 	bt(hand, holder);

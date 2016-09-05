@@ -43,7 +43,7 @@ TEST(WiningHandCounterTest, SelfPick)
 TEST(WiningHandCounterTest, NoHandClaim)
 {
 	makeNoHandWait();
-	h.tsumo(Tile::SevenOfCharacters);
+	h.chii(Tile::SevenOfCharacters);
 	w.calculate();
 
 	CHECK(w.isNoHand());

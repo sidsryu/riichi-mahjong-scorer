@@ -1,5 +1,6 @@
 #include "tile-holder.h"
 #include <algorithm>
+#include <cassert>
 
 using namespace std;
 
@@ -48,15 +49,43 @@ bool TileHolder::isNextTileChii()  const
 	return false;
 }
 
-Tile TileHolder::popFront()
+TileHolder::Meld TileHolder::popNextPair()
 {
-	auto tile = tiles.front();
+	assert(2 <= tiles.size());
+
+	vector<Tile> pair;
+
+	pair.push_back(tiles.front());
 	tiles.erase(tiles.begin());
-	return tile;
+
+	pair.push_back(tiles.front());
+	tiles.erase(tiles.begin());
+
+	return pair;
 }
 
-void TileHolder::popFrontChii(std::function<void(Tile)> fn)
+TileHolder::Meld TileHolder::popNextPon()
 {
+	assert(3 <= tiles.size());
+
+	vector<Tile> pon;
+
+	pon.push_back(tiles.front());
+	tiles.erase(tiles.begin());
+
+	pon.push_back(tiles.front());
+	tiles.erase(tiles.begin());
+
+	pon.push_back(tiles.front());
+	tiles.erase(tiles.begin());
+
+	return pon;
+}
+
+TileHolder::Meld TileHolder::popNextChii()
+{
+	vector<Tile> chii;
+
 	auto tile = tiles.front();
 	auto count = 0;
 
@@ -64,15 +93,18 @@ void TileHolder::popFrontChii(std::function<void(Tile)> fn)
 	{
 		if (count == 0 || tile != *it)
 		{
-			fn(*it);
+			chii.push_back(*it);
 			it = tiles.erase(it);
 			count++;
 
-			if (count == 3) return;
+			if (count == 3) break;
 		}
 		else
 		{
 			it++;
 		}
 	}
+
+	assert(3 == chii.size());
+	return chii;
 }
