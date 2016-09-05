@@ -3,6 +3,7 @@
 #include "hand-define.h"
 #include "wining-hand.h"
 #include "tile-holder.h"
+#include <cassert>
 
 WiningHandCounter::WiningHandCounter(const PlayerHand& hand)
 	: hand(hand)
@@ -18,12 +19,48 @@ void WiningHandCounter::calculate()
 	WiningHand wining_hand;
 	bt(wining_hand, holder);
 
+	assert(wining_hands.size() < 2);
+
 	for (auto it : wining_hands)
-	{
+	{		
+		if (hand.isDoubleRiichi())
+		{
+			hands.insert(Hand::DoubleReady);			
+		}
+
+		if (hand.isRiichi())
+		{
+			hands.insert(Hand::ReadyHand);
+		}
+
 		if (!hand.isClaim() && !hand.isRon())
 		{
 			hands.insert(Hand::SelfPick);
 		}
+
+		auto chii_count = 0;
+		auto is_wait_multi = false;
+		for (auto m : it.melds)
+		{
+			if (m.tiles[0] != m.tiles[1])
+			{
+				chii_count++;
+
+				if (m.tiles[0] == hand.lastTile() || m.tiles[2] == hand.lastTile())
+				{
+					is_wait_multi = true;
+				}
+			}
+		}
+		if (chii_count == 4 && is_wait_multi)
+		{
+			hands.insert(Hand::NoPointsHand);
+		}
+
+		if (7 == it.pairs.size())
+		{
+			hands.insert(Hand::SevenPairs);
+		}		
 	}
 }
 
@@ -55,7 +92,7 @@ void WiningHandCounter::pairBt(WiningHand hand, TileHolder holder)
 {
 	Meld meld;
 	meld.tiles = holder.popNextPair();
-	hand.melds.push_back(meld);
+	hand.pairs.push_back(meld);
 
 	bt(hand, holder);
 }

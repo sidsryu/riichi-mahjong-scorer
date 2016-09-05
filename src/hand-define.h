@@ -2,6 +2,9 @@
 
 enum class Hand
 {
+	ReadyHand,
+	DoubleReady,
 	SelfPick,
-	NoPointsHand,
+	NoPointsHand,	
+	SevenPairs,
 };

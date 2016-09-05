@@ -72,3 +72,9 @@ TEST(PlayerHandTest, Chii)
 	CHECK(h.isClaim());
 	CHECK_EQUAL(1, h.countTile(Tile::ThreeOfCircles));
 }
+
+TEST(PlayerHandTest, Riichi)
+{
+	h.riichi();
+	CHECK(h.isRiichi());
+}

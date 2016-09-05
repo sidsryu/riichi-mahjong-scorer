@@ -30,7 +30,8 @@ void PlayerHand::discard(Tile tile)
 
 void PlayerHand::pon(Tile tile)
 {
-	assert(2 <= tiles.count(tile));
+	assert(!is_riichi);
+	assert(!is_double_riichi);
 
 	draw(tile);
 	is_claim = true;
@@ -38,14 +39,36 @@ void PlayerHand::pon(Tile tile)
 
 void PlayerHand::kon(Tile tile)
 {
+	assert(!is_riichi);
+	assert(!is_double_riichi);
+
 	draw(tile);
 	is_claim = true;
 }
 
 void PlayerHand::chii(Tile tile)
 {
+	assert(!is_riichi);
+	assert(!is_double_riichi);
+
 	draw(tile);
 	is_claim = true;
+}
+
+void PlayerHand::riichi()
+{
+	assert(!is_claim);
+	assert(!is_double_riichi);
+
+	is_riichi = true;
+}
+
+void PlayerHand::doubleRiichi()
+{
+	assert(!is_claim);
+	assert(!is_riichi);
+
+	is_double_riichi = true;
 }
 
 Tile PlayerHand::lastTile() const
@@ -66,6 +89,16 @@ int PlayerHand::countTile(Tile tile) const
 bool PlayerHand::isClaim() const
 {
 	return is_claim;
+}
+
+bool PlayerHand::isRiichi() const
+{
+	return is_riichi;
+}
+
+bool PlayerHand::isDoubleRiichi() const
+{
+	return is_double_riichi;
 }
 
 void PlayerHand::each(std::function<void(Tile)> fn) const
