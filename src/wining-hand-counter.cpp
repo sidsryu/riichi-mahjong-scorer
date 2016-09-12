@@ -4,6 +4,7 @@
 #include "wining-state.h"
 #include "tile-holder.h"
 #include "type-define.h"
+#include "tile-functor.h"
 #include <cassert>
 
 WiningHandCounter::WiningHandCounter(const PlayerHand& hand, const WiningState& state)
@@ -44,17 +45,27 @@ void WiningHandCounter::calculate()
 		auto is_wait_multi = false;
 		for (auto m : it.melds)
 		{
-			if (m.tiles[0] != m.tiles[1])
+			if (!IsSame()(m.tiles[0], m.tiles[1]))
 			{
 				chii_count++;
 
-				if (m.tiles[0] == hand.lastTile() || m.tiles[2] == hand.lastTile())
+				if ((IsSame()(m.tiles[0], hand.lastTile()) && !IsTerminal()(m.tiles[2])) ||
+					(IsSame()(m.tiles[2], hand.lastTile()) && !IsTerminal()(m.tiles[0])))
 				{
 					is_wait_multi = true;
 				}
 			}
 		}
-		if (chii_count == 4 && is_wait_multi)
+
+		auto is_fu_pair = false;		
+		if (IsDragon()(it.pairs.front().tiles.front()) ||
+			IsSame()(it.pairs.front().tiles.front(), state.ownWind()) ||
+			IsSame()(it.pairs.front().tiles.front(), state.roundWind()))
+		{
+			is_fu_pair = true;
+		}
+
+		if (chii_count == 4 && is_wait_multi && !is_fu_pair)
 		{
 			hands.insert(Hand::NoPointsHand);
 		}
@@ -92,7 +103,19 @@ void WiningHandCounter::bt(WiningHand hand, TileHolder holder)
 
 void WiningHandCounter::pairBt(WiningHand hand, TileHolder holder)
 {
+	if (1 < hand.melds.size() && 1 < hand.pairs.size())
+	{
+		return;
+	}
+
 	auto pair = holder.popNextPair();
+	for (auto it : hand.pairs)
+	{
+		if (IsSame()(it.tiles.front(), pair.tiles.front()))
+		{
+			return;
+		}
+	}
 	hand.pairs.push_back(pair);
 
 	bt(hand, holder);

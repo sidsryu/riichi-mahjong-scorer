@@ -1,5 +1,11 @@
 #include "wining-state.h"
+#include "tile-define.h"
 #include <cassert>
+
+WiningState::WiningState()
+	: round_wind(Tile::EastWind)
+	, own_wind(Tile::EastWind)
+{}
 
 void WiningState::setRiichi()
 {
@@ -25,6 +31,16 @@ void WiningState::setTsumo()
 	is_tsumo = true;
 }
 
+void WiningState::setRountWind(Tile tile)
+{
+	round_wind = tile;
+}
+
+void WiningState::setOwnWind(Tile tile)
+{
+	own_wind = tile;
+}
+
 bool WiningState::isRiichi() const
 {
 	return is_riichi;
@@ -43,4 +59,14 @@ bool WiningState::isRon() const
 bool WiningState::isTsumo() const
 {
 	return is_tsumo;
+}
+
+Tile WiningState::roundWind() const
+{
+	return round_wind;
+}
+
+Tile WiningState::ownWind() const
+{
+	return own_wind;
 }
