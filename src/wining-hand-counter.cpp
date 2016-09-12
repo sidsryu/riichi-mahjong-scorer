@@ -62,7 +62,7 @@ void WiningHandCounter::calculate()
 		if (7 == it.pairs.size())
 		{
 			hands.insert(Hand::SevenPairs);
-		}		
+		}
 	}
 }
 

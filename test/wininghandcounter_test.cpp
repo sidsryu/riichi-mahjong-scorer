@@ -48,54 +48,6 @@ TEST_GROUP(WiningHandCounterTest)
 	}
 };
 
-TEST(WiningHandCounterTest, SelfPick)
-{
-	addNoWiningHand();
-
-	s.setTsumo();
-	w.calculate();
-
-	CHECK(w.hasHand(Hand::SelfPick));
-}
-
-TEST(WiningHandCounterTest, NoHandClaim)
-{
-	addNoWiningHand();
-
-	h.bindChii({ 
-		Tile::SevenOfCharacters,
-		Tile::EightOfCharacters,
-		Tile::NineOfCharacters
-	});
-	w.calculate();
-
-	CHECK(w.isNoHand());
-}
-
-TEST(WiningHandCounterTest, NoHandRon)
-{
-	addNoWiningHand();
-
-	s.setRon();	
-	w.calculate();
-
-	CHECK(w.isNoHand());
-}
-
-TEST(WiningHandCounterTest, ReadyHand)
-{
-	addNoWiningHand();
-	
-	s.setRiichi();
-	s.setRon();
-	w.calculate();
-
-	CHECK(w.hasHand(Hand::ReadyHand));
-}
-
-TEST(WiningHandCounterTest, OneShot)
-{}
-
 TEST(WiningHandCounterTest, NoPointsHand)
 {
 	addPair(Tile::FiveOfCharacters);
@@ -126,26 +78,6 @@ TEST(WiningHandCounterTest, DeadWallDraw)
 
 TEST(WiningHandCounterTest, RobblingAQuad)
 {}
-
-TEST(WiningHandCounterTest, LastTileFromTheWall)
-{}
-
-TEST(WiningHandCounterTest, LastDiscard)
-{}
-
-TEST(WiningHandCounterTest, Dora)
-{}
-
-TEST(WiningHandCounterTest, DoubleReady)
-{
-	addNoWiningHand();
-
-	s.setDoubleRiichi();
-	s.setRon();
-	w.calculate();
-
-	CHECK(w.hasHand(Hand::DoubleReady));
-}
 
 TEST(WiningHandCounterTest, SevenPairs)
 {
