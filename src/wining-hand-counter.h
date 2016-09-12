@@ -3,16 +3,16 @@
 #include <set>
 #include <vector>
 
-#include "wining-hand.h"
-
 enum class Hand;
+struct WiningHand;
 class PlayerHand;
 class TileHolder;
+class WiningState;
 
 class WiningHandCounter
 {
 public:
-	WiningHandCounter(const PlayerHand& hand);
+	WiningHandCounter(const PlayerHand& hand, const WiningState& state);
 	void calculate();
 
 	bool hasHand(Hand hand) const;
@@ -27,6 +27,7 @@ private:
 
 private:
 	const PlayerHand& hand;
+	const WiningState& state;
 	std::set<Hand> hands;
 	std::vector<WiningHand> wining_hands;
 };

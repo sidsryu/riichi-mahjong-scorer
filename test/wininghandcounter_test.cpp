@@ -1,54 +1,58 @@
 #include "CppUTest/TestHarness.h"
 #include "wining-hand-counter.h"
+#include "wining-state.h"
 #include "player-hand.h"
+#include "tile-functor.h"
 #include "hand-define.h"
 #include "tile-define.h"
+#include "type-define.h"
 #include <cassert>
 
 TEST_GROUP(WiningHandCounterTest)
 {
 	PlayerHand h;
-	WiningHandCounter w { h };
+	WiningState s;
+	WiningHandCounter w { h, s };
 
-	void tsumoPair(Tile tile)
+	void addPair(Tile tile)
 	{
-		h.tsumo(tile);
-		h.tsumo(tile);
+		h.add(tile);
+		h.add(tile);
 	}
 
-	void tsumoPon(Tile tile)
+	void addPon(Tile tile)
 	{
-		h.tsumo(tile);
-		h.tsumo(tile);
-		h.tsumo(tile);
+		h.add(tile);
+		h.add(tile);
+		h.add(tile);
 	}
 
-	void tsumoChii(Tile tile)
+	void addChii(Tile tile)
 	{
 		assert(int(tile) % 10 <= 7);
 
-		h.tsumo(tile);
-		h.tsumo(static_cast<Tile>(int(tile) + 1));
-		h.tsumo(static_cast<Tile>(int(tile) + 2));
+		h.add(tile);
+		h.add(NextTile()(h.lastTile()));
+		h.add(NextTile()(h.lastTile()));
 	}
 
-	void waitNoWiningHand()
+	void addNoWiningHand()
 	{
-		tsumoPair(Tile::OneOfBamboos);
+		addPair(Tile::OneOfBamboos);
 
-		tsumoChii(Tile::TwoOfBamboos);		
-		tsumoChii(Tile::ThreeOfCharacters);
-		tsumoPon(Tile::SixOfCircles);
-		
-		h.tsumo(Tile::EightOfCharacters);
-		h.tsumo(Tile::NineOfCharacters);
+		addChii(Tile::TwoOfBamboos);		
+		addChii(Tile::ThreeOfCharacters);
+		addPon(Tile::SixOfCircles);
+
+		addChii(Tile::SevenOfCharacters);
 	}
 };
 
 TEST(WiningHandCounterTest, SelfPick)
 {
-	waitNoWiningHand();
-	h.tsumo(Tile::SevenOfCharacters);
+	addNoWiningHand();
+
+	s.setTsumo();
 	w.calculate();
 
 	CHECK(w.hasHand(Hand::SelfPick));
@@ -56,8 +60,13 @@ TEST(WiningHandCounterTest, SelfPick)
 
 TEST(WiningHandCounterTest, NoHandClaim)
 {
-	waitNoWiningHand();
-	h.chii(Tile::SevenOfCharacters);
+	addNoWiningHand();
+
+	h.bindChii({ 
+		Tile::SevenOfCharacters,
+		Tile::EightOfCharacters,
+		Tile::NineOfCharacters
+	});
 	w.calculate();
 
 	CHECK(w.isNoHand());
@@ -65,8 +74,9 @@ TEST(WiningHandCounterTest, NoHandClaim)
 
 TEST(WiningHandCounterTest, NoHandRon)
 {
-	waitNoWiningHand();
-	h.ron(Tile::SevenOfCharacters);
+	addNoWiningHand();
+
+	s.setRon();	
 	w.calculate();
 
 	CHECK(w.isNoHand());
@@ -74,9 +84,10 @@ TEST(WiningHandCounterTest, NoHandRon)
 
 TEST(WiningHandCounterTest, ReadyHand)
 {
-	waitNoWiningHand();
-	h.riichi();
-	h.ron(Tile::SevenOfCharacters);	
+	addNoWiningHand();
+	
+	s.setRiichi();
+	s.setRon();
 	w.calculate();
 
 	CHECK(w.hasHand(Hand::ReadyHand));
@@ -87,14 +98,14 @@ TEST(WiningHandCounterTest, OneShot)
 
 TEST(WiningHandCounterTest, NoPointsHand)
 {
-	tsumoPair(Tile::FiveOfCharacters);
-	tsumoChii(Tile::TwoOfBamboos);
-	tsumoChii(Tile::SevenOfBamboos);
-	tsumoChii(Tile::OneOfCircles);
+	addPair(Tile::FiveOfCharacters);
+	addChii(Tile::TwoOfBamboos);
+	addChii(Tile::SevenOfBamboos);
+	addChii(Tile::OneOfCircles);
 
-	h.tsumo(Tile::SixOfCircles);
-	h.tsumo(Tile::SevenOfCircles);
-	h.tsumo(Tile::EightOfCircles);
+	h.add(Tile::SixOfCircles);
+	h.add(Tile::SevenOfCircles);
+	h.add(Tile::EightOfCircles);
 
 	w.calculate();
 
@@ -127,9 +138,10 @@ TEST(WiningHandCounterTest, Dora)
 
 TEST(WiningHandCounterTest, DoubleReady)
 {
-	waitNoWiningHand();
-	h.doubleRiichi();
-	h.ron(Tile::SevenOfCharacters);
+	addNoWiningHand();
+
+	s.setDoubleRiichi();
+	s.setRon();
 	w.calculate();
 
 	CHECK(w.hasHand(Hand::DoubleReady));
@@ -137,13 +149,13 @@ TEST(WiningHandCounterTest, DoubleReady)
 
 TEST(WiningHandCounterTest, SevenPairs)
 {
-	tsumoPair(Tile::EastWind);
-	tsumoPair(Tile::NorthWind);
-	tsumoPair(Tile::ThreeOfCharacters);
-	tsumoPair(Tile::NineOfCircles);
-	tsumoPair(Tile::OneOfBamboos);
-	tsumoPair(Tile::GreenDragon);
-	tsumoPair(Tile::OneOfCharacters);	
+	addPair(Tile::EastWind);
+	addPair(Tile::NorthWind);
+	addPair(Tile::ThreeOfCharacters);
+	addPair(Tile::NineOfCircles);
+	addPair(Tile::OneOfBamboos);
+	addPair(Tile::GreenDragon);
+	addPair(Tile::OneOfCharacters);	
 	w.calculate();
 
 	CHECK(w.hasHand(Hand::SevenPairs));
@@ -151,13 +163,13 @@ TEST(WiningHandCounterTest, SevenPairs)
 
 TEST(WiningHandCounterTest, SevenPairsFourSuit)
 {
-	tsumoPair(Tile::EastWind);
-	tsumoPair(Tile::NorthWind);
-	tsumoPair(Tile::ThreeOfCharacters);
-	tsumoPair(Tile::NineOfCircles);
-	tsumoPair(Tile::OneOfBamboos);
-	tsumoPair(Tile::GreenDragon);
-	tsumoPair(Tile::GreenDragon);
+	addPair(Tile::EastWind);
+	addPair(Tile::NorthWind);
+	addPair(Tile::ThreeOfCharacters);
+	addPair(Tile::NineOfCircles);
+	addPair(Tile::OneOfBamboos);
+	addPair(Tile::GreenDragon);
+	addPair(Tile::GreenDragon);
 	w.calculate();
 
 	CHECK(w.hasHand(Hand::SevenPairs));

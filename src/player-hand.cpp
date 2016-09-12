@@ -1,104 +1,95 @@
 #include "player-hand.h"
+#include "tile-functor.h"
+#include "type-define.h"
 #include <cassert>
 
-void PlayerHand::tsumo(Tile tile)
-{
-	draw(tile);
-}
+using namespace std;
 
-void PlayerHand::ron(Tile tile)
+void PlayerHand::add(Tile tile)
 {
-	draw(tile);
-	is_ron = true;
-}
-
-void PlayerHand::draw(Tile tile)
-{
-	assert(tiles.count(tile) < 4);
-
 	tiles.insert(tile);
-	last = tile;
+	last_tile = tile;
 }
 
-void PlayerHand::discard(Tile tile)
+void PlayerHand::remove(Tile tile)
 {
-	auto it = tiles.find(tile);
-	assert(it != tiles.end());
+	assert(0 < tiles.count(tile));
 
+	auto it = tiles.find(tile);
 	tiles.erase(it);
 }
 
-void PlayerHand::pon(Tile tile)
+void PlayerHand::bindPon(BindTiles tiles)
 {
-	assert(!is_riichi);
-	assert(!is_double_riichi);
+	assert(3 == tiles.size());
+	assert(IsSame()(tiles[0], tiles[1]));
+	assert(IsSame()(tiles[0], tiles[2]));
 
-	draw(tile);
-	is_claim = true;
+	for (auto it : tiles)
+	{
+		remove(it);
+	}
+
+	melds.push_back({ tiles, true });
 }
 
-void PlayerHand::kon(Tile tile)
+void PlayerHand::bindKan(BindTiles tiles)
 {
-	assert(!is_riichi);
-	assert(!is_double_riichi);
+	assert(4 == tiles.size());
+	assert(IsSame()(tiles[0], tiles[1]));
+	assert(IsSame()(tiles[1], tiles[2]));
+	assert(IsSame()(tiles[2], tiles[3]));
 
-	draw(tile);
-	is_claim = true;
+	for (auto it : tiles)
+	{
+		remove(it);
+	}
+
+	melds.push_back({ tiles, true });
 }
 
-void PlayerHand::chii(Tile tile)
+void PlayerHand::bindCloseKan(BindTiles tiles)
 {
-	assert(!is_riichi);
-	assert(!is_double_riichi);
+	assert(4 == tiles.size());
+	assert(IsSame()(tiles[0], tiles[1]));
+	assert(IsSame()(tiles[1], tiles[2]));
+	assert(IsSame()(tiles[2], tiles[3]));
 
-	draw(tile);
-	is_claim = true;
+	for (auto it : tiles)
+	{
+		remove(it);
+	}
+
+	melds.push_back({ tiles, false });
 }
 
-void PlayerHand::riichi()
+void PlayerHand::bindChii(BindTiles tiles)
 {
-	assert(!is_claim);
-	assert(!is_double_riichi);
+	assert(3 == tiles.size());
+	assert(IsSame()(NextTile()(tiles[0]), tiles[1]));
+	assert(IsSame()(NextTile()(tiles[1]), tiles[2]));
 
-	is_riichi = true;
-}
+	for (auto it : tiles)
+	{
+		remove(it);
+	}
 
-void PlayerHand::doubleRiichi()
-{
-	assert(!is_claim);
-	assert(!is_riichi);
-
-	is_double_riichi = true;
-}
-
-Tile PlayerHand::lastTile() const
-{
-	return last;
-}
-
-bool PlayerHand::isRon() const
-{
-	return is_ron;
-}
-
-int PlayerHand::countTile(Tile tile) const
-{
-	return tiles.count(tile);
+	melds.push_back({ tiles, true });
 }
 
 bool PlayerHand::isClaim() const
 {
-	return is_claim;
+	for (auto it : melds)
+	{
+		if (it.is_open) return true;
+	}
+
+	return false;
 }
 
-bool PlayerHand::isRiichi() const
+Tile PlayerHand::lastTile() const
 {
-	return is_riichi;
-}
-
-bool PlayerHand::isDoubleRiichi() const
-{
-	return is_double_riichi;
+	return last_tile;
 }
 
 void PlayerHand::each(std::function<void(Tile)> fn) const

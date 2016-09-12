@@ -23,6 +23,12 @@
     <ClCompile Include="tile-holder.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="tile-functor.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="wining-state.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="scoring-table.h">
@@ -40,10 +46,16 @@
     <ClInclude Include="hand-define.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="wining-hand.h">
+    <ClInclude Include="tile-holder.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="tile-holder.h">
+    <ClInclude Include="tile-functor.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="wining-state.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="type-define.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

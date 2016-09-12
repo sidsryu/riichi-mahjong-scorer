@@ -1,6 +1,7 @@
 #include "CppUTest/TestHarness.h"
 #include "player-hand.h"
 #include "tile-define.h"
+#include "type-define.h"
 
 TEST_GROUP(PlayerHandTest)
 {
@@ -9,72 +10,73 @@ TEST_GROUP(PlayerHandTest)
 
 TEST(PlayerHandTest, LastDrawTile)
 {
-	h.tsumo(Tile::OneOfCircles);
+	h.add(Tile::OneOfCircles);
 	CHECK(Tile::OneOfCircles == h.lastTile());
 
-	h.ron(Tile::TwoOfCircles);
+	h.add(Tile::TwoOfCircles);
 	CHECK(Tile::TwoOfCircles == h.lastTile());
-}
-
-TEST(PlayerHandTest, Ron)
-{
-	h.tsumo(Tile::OneOfCircles);
-	CHECK(!h.isRon());
-
-	h.ron(Tile::TwoOfCircles);
-	CHECK(h.isRon());
-}
-
-TEST(PlayerHandTest, Draw)
-{
-	h.tsumo(Tile::OneOfCircles);
-	CHECK_EQUAL(1, h.countTile(Tile::OneOfCircles));
-
-	h.ron(Tile::TwoOfCircles);
-	CHECK_EQUAL(1, h.countTile(Tile::TwoOfCircles));
-}
-
-TEST(PlayerHandTest, Discard)
-{
-	h.tsumo(Tile::OneOfCircles);
-	h.discard(Tile::OneOfCircles);
-
-	CHECK_EQUAL(0, h.countTile(Tile::OneOfCircles));
 }
 
 TEST(PlayerHandTest, Pon)
 {
-	h.tsumo(Tile::OneOfCircles);
-	h.tsumo(Tile::OneOfCircles);	
-	h.pon(Tile::OneOfCircles);
+	h.add(Tile::OneOfCircles);
+	h.add(Tile::OneOfCircles);
+	h.add(Tile::OneOfCircles);
+
+	h.bindPon({
+		Tile::OneOfCircles,
+		Tile::OneOfCircles,
+		Tile::OneOfCircles
+	});
 
 	CHECK(h.isClaim());
-	CHECK_EQUAL(3, h.countTile(Tile::OneOfCircles));
 }
 
 TEST(PlayerHandTest, Kon)
 {
-	h.tsumo(Tile::OneOfCircles);
-	h.tsumo(Tile::OneOfCircles);
-	h.tsumo(Tile::OneOfCircles);
-	h.kon(Tile::OneOfCircles);
+	h.add(Tile::OneOfCircles);
+	h.add(Tile::OneOfCircles);
+	h.add(Tile::OneOfCircles);
+	h.add(Tile::OneOfCircles);
+
+	h.bindKan({
+		Tile::OneOfCircles,
+		Tile::OneOfCircles,
+		Tile::OneOfCircles,
+		Tile::OneOfCircles
+	});
 
 	CHECK(h.isClaim());
-	CHECK_EQUAL(4, h.countTile(Tile::OneOfCircles));
+}
+
+TEST(PlayerHandTest, CloseKon)
+{
+	h.add(Tile::OneOfCircles);
+	h.add(Tile::OneOfCircles);
+	h.add(Tile::OneOfCircles);
+	h.add(Tile::OneOfCircles);
+
+	h.bindCloseKan({
+		Tile::OneOfCircles,
+		Tile::OneOfCircles,
+		Tile::OneOfCircles,
+		Tile::OneOfCircles
+	});
+
+	CHECK(!h.isClaim());
 }
 
 TEST(PlayerHandTest, Chii)
 {
-	h.tsumo(Tile::OneOfCircles);
-	h.tsumo(Tile::TwoOfCircles);
-	h.chii(Tile::ThreeOfCircles);
+	h.add(Tile::OneOfCircles);
+	h.add(Tile::TwoOfCircles);
+	h.add(Tile::ThreeOfCircles);
+
+	h.bindChii({
+		Tile::OneOfCircles,
+		Tile::TwoOfCircles,
+		Tile::ThreeOfCircles
+	});
 
 	CHECK(h.isClaim());
-	CHECK_EQUAL(1, h.countTile(Tile::ThreeOfCircles));
-}
-
-TEST(PlayerHandTest, Riichi)
-{
-	h.riichi();
-	CHECK(h.isRiichi());
 }

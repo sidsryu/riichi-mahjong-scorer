@@ -1,12 +1,14 @@
 #include "wining-hand-counter.h"
 #include "player-hand.h"
 #include "hand-define.h"
-#include "wining-hand.h"
+#include "wining-state.h"
 #include "tile-holder.h"
+#include "type-define.h"
 #include <cassert>
 
-WiningHandCounter::WiningHandCounter(const PlayerHand& hand)
+WiningHandCounter::WiningHandCounter(const PlayerHand& hand, const WiningState& state)
 	: hand(hand)
+	, state(state)
 {}
 
 void WiningHandCounter::calculate()
@@ -23,17 +25,17 @@ void WiningHandCounter::calculate()
 
 	for (auto it : wining_hands)
 	{		
-		if (hand.isDoubleRiichi())
+		if (state.isDoubleRiichi())
 		{
-			hands.insert(Hand::DoubleReady);			
+			hands.insert(Hand::DoubleReady);
 		}
 
-		if (hand.isRiichi())
+		if (state.isRiichi())
 		{
 			hands.insert(Hand::ReadyHand);
 		}
 
-		if (!hand.isClaim() && !hand.isRon())
+		if (!hand.isClaim() && !state.isRon())
 		{
 			hands.insert(Hand::SelfPick);
 		}
@@ -90,17 +92,15 @@ void WiningHandCounter::bt(WiningHand hand, TileHolder holder)
 
 void WiningHandCounter::pairBt(WiningHand hand, TileHolder holder)
 {
-	Meld meld;
-	meld.tiles = holder.popNextPair();
-	hand.pairs.push_back(meld);
+	auto pair = holder.popNextPair();
+	hand.pairs.push_back(pair);
 
 	bt(hand, holder);
 }
 
 void WiningHandCounter::ponBt(WiningHand hand, TileHolder holder)
 {
-	Meld meld;
-	meld.tiles = holder.popNextPon();
+	auto meld = holder.popNextPon();
 	hand.melds.push_back(meld);
 
 	bt(hand, holder);
@@ -108,8 +108,7 @@ void WiningHandCounter::ponBt(WiningHand hand, TileHolder holder)
 
 void WiningHandCounter::chiiBt(WiningHand hand, TileHolder holder)
 {
-	Meld meld;
-	meld.tiles = holder.popNextChii();	
+	auto meld = holder.popNextChii();	
 	hand.melds.push_back(meld);
 
 	bt(hand, holder);

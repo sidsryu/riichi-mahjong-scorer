@@ -1,4 +1,6 @@
 #include "tile-holder.h"
+#include "type-define.h"
+#include "tile-functor.h"
 #include <algorithm>
 #include <cassert>
 
@@ -10,6 +12,11 @@ void TileHolder::add(Tile tile)
 	sort(tiles.begin(), tiles.end());	
 }
 
+void TileHolder::add(Meld meld)
+{
+
+}
+
 bool TileHolder::empty() const
 {
 	return tiles.empty();
@@ -18,13 +25,13 @@ bool TileHolder::empty() const
 bool TileHolder::isNextTilePair()  const
 {
 	if (tiles.size() < 2) return false;
-	return tiles.front() == tiles.at(1);	
+	return IsSame()(tiles.front(), tiles.at(1));	
 }
 
 bool TileHolder::isNextTilePon() const
 {
 	if (tiles.size() < 3) return false;
-	return tiles.front() == tiles.at(1) && tiles.front() == tiles.at(2);
+	return IsSame()(tiles.front(), tiles.at(1)) && IsSame()(tiles.front(), tiles.at(2));
 }
 
 bool TileHolder::isNextTileChii()  const
@@ -34,7 +41,7 @@ bool TileHolder::isNextTileChii()  const
 
 	for (auto it : tiles)
 	{
-		if (tile != it)
+		if (IsSame()(NextTile()(tile), it))
 		{
 			tile = it;
 			count++;
@@ -42,14 +49,14 @@ bool TileHolder::isNextTileChii()  const
 
 		if (count == 3)
 		{
-			return 2 == static_cast<int>(tile) - static_cast<int>(tiles.front());
+			return true;
 		}
 	}
 
 	return false;
 }
 
-TileHolder::Meld TileHolder::popNextPair()
+Pair TileHolder::popNextPair()
 {
 	assert(2 <= tiles.size());
 
@@ -64,7 +71,7 @@ TileHolder::Meld TileHolder::popNextPair()
 	return pair;
 }
 
-TileHolder::Meld TileHolder::popNextPon()
+Meld TileHolder::popNextPon()
 {
 	assert(3 <= tiles.size());
 
@@ -79,10 +86,10 @@ TileHolder::Meld TileHolder::popNextPon()
 	pon.push_back(tiles.front());
 	tiles.erase(tiles.begin());
 
-	return pon;
+	return { pon, false };
 }
 
-TileHolder::Meld TileHolder::popNextChii()
+Meld TileHolder::popNextChii()
 {
 	vector<Tile> chii;
 
@@ -91,9 +98,10 @@ TileHolder::Meld TileHolder::popNextChii()
 
 	for (auto it = tiles.begin(); it != tiles.end();)
 	{
-		if (count == 0 || tile != *it)
+		if (count == 0 || IsSame()(NextTile()(tile), *it))
 		{
 			chii.push_back(*it);
+			tile = *it;
 			it = tiles.erase(it);
 			count++;
 
@@ -106,5 +114,5 @@ TileHolder::Meld TileHolder::popNextChii()
 	}
 
 	assert(3 == chii.size());
-	return chii;
+	return { chii, false };
 }

@@ -5,20 +5,21 @@
 #include <functional>
 
 enum class Tile;
+struct Meld;
+struct Pair;
 
 class TileHolder
 {
-	using Meld = std::vector<Tile>;
-
 public:
 	void add(Tile tile);
+	void add(Meld meld);
 	bool empty() const;
 
 	bool isNextTilePair() const;
 	bool isNextTilePon() const;
 	bool isNextTileChii() const;
 
-	Meld popNextPair();
+	Pair popNextPair();
 	Meld popNextPon();
 	Meld popNextChii();
 
