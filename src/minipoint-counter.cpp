@@ -10,6 +10,11 @@ MinipointCounter::MinipointCounter(const WiningHand& hand, const WiningState& st
 
 int MinipointCounter::total() const
 {
+	if (7 == hand.pairs.size())
+	{
+		return 25;
+	}
+
 	auto is_closed = true;
 	for (auto it : hand.melds)
 	{
@@ -74,20 +79,66 @@ int MinipointCounter::total() const
 	{
 		if (!it.is_open)
 		{
-			if (IsSame()(it.tiles[1], hand.last_tile))
+			if (!IsSame()(it.tiles[0], it.tiles[1]))
 			{
-				is_single_wait = true;
-			}
-			if (IsSame()(it.tiles[0], hand.last_tile) && IsTerminal()(it.tiles[2]) ||
-				IsSame()(it.tiles[2], hand.last_tile) && IsTerminal()(it.tiles[0]))
-			{
-				is_single_wait = true;
+				if (IsSame()(it.tiles[1], hand.last_tile))
+				{
+					is_single_wait = true;
+				}
+				if (IsSame()(it.tiles[0], hand.last_tile) && IsTerminal()(it.tiles[2]) ||
+					IsSame()(it.tiles[2], hand.last_tile) && IsTerminal()(it.tiles[0]))
+				{
+					is_single_wait = true;
+				}
 			}
 		}
 	}
 	if (is_single_wait)
 	{
 		total += 2;
+	}
+
+	for (auto it : hand.pairs)
+	{
+		if (IsDragon()(it.tiles.front()))
+		{
+			total += 2;
+		}
+
+		if (IsSame()(it.tiles.front(), state.ownWind()))
+		{
+			total += 2;
+		}
+
+		if (IsSame()(it.tiles.front(), state.roundWind()))
+		{
+			total += 2;
+		}
+	}
+
+	for (auto it : hand.melds)
+	{
+		if (IsSame()(it.tiles[0], it.tiles[1]))
+		{
+			auto basic = 2;
+
+			if (IsHornor()(it.tiles[0]) || IsTerminal()(it.tiles[0]))
+			{
+				basic *= 2;
+			}
+
+			if (!it.is_open)
+			{
+				basic *= 2;
+			}
+
+			if (4 == it.tiles.size())
+			{
+				basic *= 4;
+			}
+
+			total += basic;
+		}
 	}
 
 	return total;

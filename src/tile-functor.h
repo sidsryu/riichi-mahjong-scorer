@@ -17,6 +17,11 @@ struct IsDragon
 	bool operator()(const Tile& tile) const;
 };
 
+struct IsHornor
+{
+	bool operator()(const Tile& tile) const;
+};
+
 struct NextTile
 {
 	Tile operator()(const Tile& tile) const;

@@ -20,6 +20,12 @@ bool IsDragon::operator()(const Tile& tile) const
 	return suit == 5;
 }
 
+bool IsHornor::operator()(const Tile& tile) const
+{
+	auto suit = static_cast<int>(tile) / 100;
+	return suit == 4 || suit == 5;
+}
+
 Tile NextTile::operator()(const Tile& tile) const
 {
 	auto code = static_cast<int>(tile);
