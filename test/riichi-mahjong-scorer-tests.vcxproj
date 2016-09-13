@@ -135,6 +135,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="minipointcounter_test.cpp" />
     <ClCompile Include="playerhand_test.cpp" />
     <ClCompile Include="scoringtable_test.cpp" />
     <ClCompile Include="wininghandcounter_test.cpp" />

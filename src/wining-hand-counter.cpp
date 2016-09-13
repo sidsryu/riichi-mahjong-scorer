@@ -20,6 +20,7 @@ void WiningHandCounter::calculate()
 	});
 
 	WiningHand wining_hand;
+	wining_hand.last_tile = hand.lastTile();
 	bt(wining_hand, holder);
 
 	assert(wining_hands.size() < 2);
@@ -49,8 +50,8 @@ void WiningHandCounter::calculate()
 			{
 				chii_count++;
 
-				if ((IsSame()(m.tiles[0], hand.lastTile()) && !IsTerminal()(m.tiles[2])) ||
-					(IsSame()(m.tiles[2], hand.lastTile()) && !IsTerminal()(m.tiles[0])))
+				if ((IsSame()(m.tiles[0], it.last_tile) && !IsTerminal()(m.tiles[2])) ||
+					(IsSame()(m.tiles[2], it.last_tile) && !IsTerminal()(m.tiles[0])))
 				{
 					is_wait_multi = true;
 				}

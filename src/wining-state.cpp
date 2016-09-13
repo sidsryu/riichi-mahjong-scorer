@@ -21,14 +21,12 @@ void WiningState::setDoubleRiichi()
 
 void WiningState::setRon()
 {
-	assert(!is_tsumo);
 	is_ron = true;
 }
 
 void WiningState::setTsumo()
 {
-	assert(!is_ron);	
-	is_tsumo = true;
+	is_ron = false;
 }
 
 void WiningState::setRountWind(Tile tile)
@@ -58,7 +56,7 @@ bool WiningState::isRon() const
 
 bool WiningState::isTsumo() const
 {
-	return is_tsumo;
+	return !is_ron;
 }
 
 Tile WiningState::roundWind() const

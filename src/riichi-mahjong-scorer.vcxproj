@@ -118,6 +118,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="minipoint-counter.cpp" />
     <ClCompile Include="player-hand.cpp" />
     <ClCompile Include="scoring-table.cpp" />
     <ClCompile Include="tile-functor.cpp" />
@@ -127,6 +128,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="hand-define.h" />
+    <ClInclude Include="minipoint-counter.h" />
     <ClInclude Include="player-hand.h" />
     <ClInclude Include="scoring-table.h" />
     <ClInclude Include="tile-define.h" />
