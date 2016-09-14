@@ -126,8 +126,64 @@ TEST(WiningHandCounterTest, Not_OneSetOfIdenticalSequences_Open)
 	CHECK(!w.hasHand(Hand::OneSetOfIdenticalSequences));
 }
 
-TEST(WiningHandCounterTest, HonorTiles)
-{}
+TEST(WiningHandCounterTest, HonorTiles_Dragon)
+{
+	addPair(Tile::SouthWind);
+	addChii(Tile::OneOfCharacters);
+	addChii(Tile::TwoOfCircles);
+	addChii(Tile::TwoOfBamboos);
+	addPon(Tile::WhiteDragon);
+
+	w.calculate();
+
+	CHECK(w.hasHand(Hand::WhiteDragon));
+
+	h.bindPon({
+		Tile::WhiteDragon,
+		Tile::WhiteDragon,
+		Tile::WhiteDragon
+	});
+
+	w.calculate();
+
+	CHECK(w.hasHand(Hand::WhiteDragon));
+}
+
+TEST(WiningHandCounterTest, HonorTiles_Wind)
+{
+	s.setRountWind(Tile::EastWind);
+	s.setOwnWind(Tile::SouthWind);
+
+	addPair(Tile::WhiteDragon);
+	addChii(Tile::OneOfCharacters);
+	addChii(Tile::TwoOfCircles);
+	addChii(Tile::TwoOfBamboos);
+	addPon(Tile::EastWind);
+
+	w.calculate();
+
+	CHECK(w.hasHand(Hand::EastWind));
+
+	h.bindPon({
+		Tile::EastWind,
+		Tile::EastWind,
+		Tile::EastWind
+	});
+
+	w.calculate();
+
+	CHECK(w.hasHand(Hand::EastWind));
+
+	s.setOwnWind(Tile::EastWind);
+	w.calculate();
+
+	CHECK(w.hasHand(Hand::DoubleEastWind));
+
+	s.setRountWind(Tile::SouthWind);
+	w.calculate();
+
+	CHECK(w.hasHand(Hand::EastWind));
+}
 
 TEST(WiningHandCounterTest, AllSimples)
 {}

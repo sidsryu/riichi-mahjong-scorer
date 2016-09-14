@@ -5,6 +5,7 @@
 #include "tile-holder.h"
 #include "type-define.h"
 #include "tile-functor.h"
+#include "tile-define.h"
 #include <cassert>
 
 WiningHandCounter::WiningHandCounter(const PlayerHand& hand, const WiningState& state)
@@ -14,6 +15,8 @@ WiningHandCounter::WiningHandCounter(const PlayerHand& hand, const WiningState& 
 
 void WiningHandCounter::calculate()
 {
+	wining_hands.clear();
+
 	auto tile_holder = hand.makeHandHolder();
 
 	WiningHand wining_hand;
@@ -87,6 +90,120 @@ void WiningHandCounter::calculate()
 					{
 						hands.insert(Hand::OneSetOfIdenticalSequences);
 					}
+				}
+			}
+		}
+
+		for (auto m : it.melds)
+		{
+			if (IsSame()(m.tiles.front(), Tile::WhiteDragon))
+			{
+				hands.insert(Hand::WhiteDragon);
+			}
+
+			if (IsSame()(m.tiles.front(), Tile::GreenDragon))
+			{
+				hands.insert(Hand::GreenDragon);
+			}
+
+			if (IsSame()(m.tiles.front(), Tile::RedDragon))
+			{
+				hands.insert(Hand::RedDragon);
+			}
+
+			if (IsSame()(m.tiles.front(), Tile::EastWind))
+			{
+				auto wind_count = 0;
+
+				if (IsSame()(m.tiles.front(), state.roundWind()))
+				{
+					wind_count++;
+				}
+
+				if (IsSame()(m.tiles.front(), state.ownWind()))
+				{
+					wind_count++;
+				}
+
+				if (1 == wind_count)
+				{
+					hands.insert(Hand::EastWind);
+				}
+				else if (2 == wind_count)
+				{
+					hands.insert(Hand::DoubleEastWind);
+				}
+			}
+
+			if (IsSame()(m.tiles.front(), Tile::SouthWind))
+			{
+				auto wind_count = 0;
+
+				if (IsSame()(m.tiles.front(), state.roundWind()))
+				{
+					wind_count++;
+				}
+
+				if (IsSame()(m.tiles.front(), state.ownWind()))
+				{
+					wind_count++;
+				}
+
+				if (1 == wind_count)
+				{
+					hands.insert(Hand::SouthWind);
+				}
+				else if (2 == wind_count)
+				{
+					hands.insert(Hand::DoubleSouthWind);
+				}
+			}
+
+			if (IsSame()(m.tiles.front(), Tile::WestWind))
+			{
+				auto wind_count = 0;
+
+				if (IsSame()(m.tiles.front(), state.roundWind()))
+				{
+					wind_count++;
+				}
+
+				if (IsSame()(m.tiles.front(), state.ownWind()))
+				{
+					wind_count++;
+				}
+
+				if (1 == wind_count)
+				{
+					hands.insert(Hand::WestWind);
+				}
+				else if (2 == wind_count)
+				{
+					hands.insert(Hand::DoubleWestWind);
+				}
+			}
+
+			if (IsSame()(m.tiles.front(), Tile::NorthWind))
+			{
+				auto wind_count = 0;
+
+				if (IsSame()(m.tiles.front(), state.roundWind()))
+				{
+					wind_count++;
+				}
+
+				if (IsSame()(m.tiles.front(), state.ownWind()))
+				{
+					wind_count++;
+				}
+
+				if (1 == wind_count)
+				{
+					hands.insert(Hand::NorthWind);
+				}
+				else if (2 == wind_count)
+				{
+					hands.insert(Hand::DoubleNorthWind);
 				}
 			}
 		}
