@@ -8,7 +8,7 @@ MinipointCounter::MinipointCounter(const WiningHand& hand, const WiningState& st
 	, state(state)
 {}
 
-int MinipointCounter::total() const
+int MinipointCounter::total(bool is_round_up) const
 {
 	if (7 == hand.pairs.size())
 	{
@@ -140,6 +140,11 @@ int MinipointCounter::total() const
 			total += basic;
 		}
 	}
+		
+	return is_round_up ? roundUp(total) : total;
+}
 
-	return total;
+int MinipointCounter::roundUp(int total) const
+{
+	return static_cast<int>(std::ceil(total / 10.0) * 10);
 }

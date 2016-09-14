@@ -7,7 +7,10 @@ class MinipointCounter
 {
 public:
 	MinipointCounter(const WiningHand& hand, const WiningState& state);
-	int total() const;
+	int total(bool is_round_up = true) const;
+
+private:
+	int roundUp(int total) const;
 
 private:
 	const WiningHand& hand;
