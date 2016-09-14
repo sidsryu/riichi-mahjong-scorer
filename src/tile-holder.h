@@ -1,8 +1,6 @@
 #pragma once
 
 #include <vector>
-#include <utility>
-#include <functional>
 
 enum class Tile;
 struct Meld;
@@ -16,13 +14,14 @@ public:
 	bool empty() const;
 
 	bool isNextTilePair() const;
-	bool isNextTilePon() const;
+	bool isNextTilePonOrKan() const;
 	bool isNextTileChii() const;
 
 	Pair popNextPair();
-	Meld popNextPon();
+	Meld popNextPonOrKan();
 	Meld popNextChii();
 
 private:
 	std::vector<Tile> tiles;
+	std::vector<Meld> melds;
 };

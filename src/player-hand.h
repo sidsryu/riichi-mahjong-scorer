@@ -6,6 +6,7 @@
 
 enum class Tile;
 struct Meld;
+class TileHolder;
 
 class PlayerHand
 {
@@ -21,7 +22,7 @@ public:
 
 	bool isClaim() const;
 	Tile lastTile() const;
-	void each(std::function<void(Tile)> fn) const;
+	TileHolder makeHandHolder() const;
 
 private:
 	Tile last_tile;

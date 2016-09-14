@@ -14,15 +14,12 @@ WiningHandCounter::WiningHandCounter(const PlayerHand& hand, const WiningState& 
 
 void WiningHandCounter::calculate()
 {
-	TileHolder holder;
-	hand.each([&holder](Tile tile) {
-		holder.add(tile);
-	});
+	auto tile_holder = hand.makeHandHolder();
 
 	WiningHand wining_hand;
 	wining_hand.last_tile = hand.lastTile();
-	bt(wining_hand, holder);
 
+	bt(wining_hand, tile_holder);
 	assert(wining_hands.size() < 2);
 
 	for (auto it : wining_hands)
@@ -75,6 +72,24 @@ void WiningHandCounter::calculate()
 		{
 			hands.insert(Hand::SevenPairs);
 		}
+
+		if (!hand.isClaim())
+		{
+			for (size_t i = 0; i < it.melds.size(); i++)
+			{
+				if (IsSame()(it.melds[i].tiles[0], it.melds[i].tiles[1])) continue;
+
+				for (auto j = i + 1; j < it.melds.size(); j++)
+				{
+					if (IsSame()(it.melds[j].tiles[0], it.melds[j].tiles[1])) continue;
+
+					if (IsSame()(it.melds[i].tiles[0], it.melds[j].tiles[0]))
+					{
+						hands.insert(Hand::OneSetOfIdenticalSequences);
+					}
+				}
+			}
+		}
 	}
 }
 
@@ -91,7 +106,7 @@ void WiningHandCounter::bt(WiningHand hand, TileHolder holder)
 		pairBt(hand, holder);
 	}
 
-	if (holder.isNextTilePon())
+	if (holder.isNextTilePonOrKan())
 	{
 		ponBt(hand, holder);
 	}
@@ -104,7 +119,7 @@ void WiningHandCounter::bt(WiningHand hand, TileHolder holder)
 
 void WiningHandCounter::pairBt(WiningHand hand, TileHolder holder)
 {
-	if (1 < hand.melds.size() && 1 < hand.pairs.size())
+	if (1 <= hand.pairs.size() && 1 <= hand.melds.size())
 	{
 		return;
 	}
@@ -124,7 +139,7 @@ void WiningHandCounter::pairBt(WiningHand hand, TileHolder holder)
 
 void WiningHandCounter::ponBt(WiningHand hand, TileHolder holder)
 {
-	auto meld = holder.popNextPon();
+	auto meld = holder.popNextPonOrKan();
 	hand.melds.push_back(meld);
 
 	bt(hand, holder);

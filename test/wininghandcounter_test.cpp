@@ -35,38 +35,27 @@ TEST_GROUP(WiningHandCounterTest)
 		h.add(NextTile()(h.lastTile()));
 		h.add(NextTile()(h.lastTile()));
 	}
-
-	void addNoWiningHand()
-	{
-		addPair(Tile::OneOfBamboos);
-
-		addChii(Tile::TwoOfBamboos);		
-		addChii(Tile::ThreeOfCharacters);
-		addPon(Tile::SixOfCircles);
-
-		addChii(Tile::SevenOfCharacters);
-	}
 };
 
 TEST(WiningHandCounterTest, NoPointsHand)
 {
 	addPair(Tile::SouthWind);
+	addChii(Tile::OneOfCharacters);
+	addChii(Tile::TwoOfCircles);
 	addChii(Tile::TwoOfBamboos);
-	addChii(Tile::SevenOfBamboos);
-	addChii(Tile::OneOfCircles);
-	addChii(Tile::SevenOfCircles);
+	addChii(Tile::SevenOfCharacters);
 
 	w.calculate();
 
 	CHECK(w.hasHand(Hand::NoPointsHand));
 }
 
-TEST(WiningHandCounterTest, NoPointsHand_NoTwoSidedWait)
+TEST(WiningHandCounterTest, Not_NoPointsHand_NotMultiWait)
 {
 	addPair(Tile::SouthWind);
+	addChii(Tile::OneOfCharacters);
+	addChii(Tile::TwoOfCircles);
 	addChii(Tile::TwoOfBamboos);
-	addChii(Tile::SevenOfBamboos);
-	addChii(Tile::OneOfCircles);
 		
 	h.add(Tile::NineOfCircles);
 	h.add(Tile::EightOfCircles);
@@ -77,26 +66,28 @@ TEST(WiningHandCounterTest, NoPointsHand_NoTwoSidedWait)
 	CHECK(!w.hasHand(Hand::NoPointsHand));
 }
 
-TEST(WiningHandCounterTest, NoPointsHand_Hornor)
-{	
+TEST(WiningHandCounterTest, Not_NoPointsHand_DragonPair)
+{
 	addPair(Tile::WhiteDragon);
+	addChii(Tile::OneOfCharacters);
+	addChii(Tile::TwoOfCircles);
 	addChii(Tile::TwoOfBamboos);
-	addChii(Tile::SevenOfBamboos);
-	addChii(Tile::OneOfCircles);
-	addChii(Tile::SevenOfCircles);
+	addChii(Tile::SevenOfCharacters);
 
 	w.calculate();
 
 	CHECK(!w.hasHand(Hand::NoPointsHand));
 }
 
-TEST(WiningHandCounterTest, NoPointsHand_ScoringWind)
+TEST(WiningHandCounterTest, NoPointsHand_ScoringWindPair)
 {
+	s.setRountWind(Tile::EastWind);
+
 	addPair(Tile::EastWind);
+	addChii(Tile::OneOfCharacters);
+	addChii(Tile::TwoOfCircles);
 	addChii(Tile::TwoOfBamboos);
-	addChii(Tile::SevenOfBamboos);
-	addChii(Tile::OneOfCircles);
-	addChii(Tile::SevenOfCircles);
+	addChii(Tile::SevenOfCharacters);
 
 	w.calculate();
 
@@ -104,7 +95,36 @@ TEST(WiningHandCounterTest, NoPointsHand_ScoringWind)
 }
 
 TEST(WiningHandCounterTest, OneSetOfIdenticalSequences)
-{}
+{
+	addPair(Tile::SouthWind);
+	addChii(Tile::OneOfCharacters);
+	addChii(Tile::TwoOfCircles);
+	addChii(Tile::TwoOfCircles);
+	addPon(Tile::NineOfBamboos);
+
+	w.calculate();
+
+	CHECK(w.hasHand(Hand::OneSetOfIdenticalSequences));
+}
+
+TEST(WiningHandCounterTest, Not_OneSetOfIdenticalSequences_Open)
+{
+	addPair(Tile::SouthWind);
+	addChii(Tile::OneOfCharacters);
+	addChii(Tile::TwoOfCircles);
+	addChii(Tile::TwoOfCircles);
+	addPon(Tile::NineOfBamboos);
+
+	h.bindPon({
+		Tile::NineOfBamboos,
+		Tile::NineOfBamboos,
+		Tile::NineOfBamboos
+	});
+
+	w.calculate();
+
+	CHECK(!w.hasHand(Hand::OneSetOfIdenticalSequences));
+}
 
 TEST(WiningHandCounterTest, HonorTiles)
 {}
@@ -132,7 +152,7 @@ TEST(WiningHandCounterTest, SevenPairs)
 	CHECK(w.hasHand(Hand::SevenPairs));
 }
 
-TEST(WiningHandCounterTest, SevenPairs_FourSuit)
+TEST(WiningHandCounterTest, Not_SevenPairs_FourSuit)
 {
 	addPair(Tile::EastWind);
 	addPair(Tile::NorthWind);

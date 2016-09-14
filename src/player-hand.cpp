@@ -1,6 +1,7 @@
 #include "player-hand.h"
 #include "tile-functor.h"
 #include "type-define.h"
+#include "tile-holder.h"
 #include <cassert>
 
 using namespace std;
@@ -92,10 +93,19 @@ Tile PlayerHand::lastTile() const
 	return last_tile;
 }
 
-void PlayerHand::each(std::function<void(Tile)> fn) const
+TileHolder PlayerHand::makeHandHolder() const
 {
+	TileHolder h;
+
 	for (auto it : tiles)
 	{
-		fn(it);
+		h.add(it);
 	}
+
+	for (auto it : melds)
+	{
+		h.add(it);
+	}
+	
+	return h;
 }

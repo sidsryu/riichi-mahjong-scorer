@@ -3,6 +3,8 @@
 
 // include stl
 #include <utility>
+#include <algorithm>
+#include <functional>
 #include <set>
 #include <vector>
 

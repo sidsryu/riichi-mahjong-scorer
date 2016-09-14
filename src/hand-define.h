@@ -6,5 +6,6 @@ enum class Hand
 	DoubleReady,
 	SelfPick,
 	NoPointsHand,	
-	SevenPairs,
+	OneSetOfIdenticalSequences,
+	SevenPairs,	
 };

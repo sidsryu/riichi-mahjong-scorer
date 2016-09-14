@@ -14,28 +14,45 @@ void TileHolder::add(Tile tile)
 
 void TileHolder::add(Meld meld)
 {
-
+	melds.push_back(meld);
+	sort(melds.begin(), melds.end(), [](const auto& lhs, const auto& rhs) {
+		return lhs.tiles.front() < rhs.tiles.front();
+	});
 }
 
 bool TileHolder::empty() const
 {
-	return tiles.empty();
+	return tiles.empty() && melds.empty();
 }
 
 bool TileHolder::isNextTilePair()  const
 {
 	if (tiles.size() < 2) return false;
-	return IsSame()(tiles.front(), tiles.at(1));	
+	return IsSame()(tiles.front(), tiles.at(1));
 }
 
-bool TileHolder::isNextTilePon() const
+bool TileHolder::isNextTilePonOrKan() const
 {
+	if (tiles.empty())
+	{
+		const auto& meld = melds.front();
+		return IsSame()(meld.tiles[0], meld.tiles[1]);
+	}
+
 	if (tiles.size() < 3) return false;
 	return IsSame()(tiles.front(), tiles.at(1)) && IsSame()(tiles.front(), tiles.at(2));
 }
 
 bool TileHolder::isNextTileChii()  const
 {
+	if (tiles.empty())
+	{
+		const auto& meld = melds.front();
+		return !IsSame()(meld.tiles[0], meld.tiles[1]);
+	}
+
+	if (tiles.size() < 3) return false;
+
 	auto tile = tiles.front();
 	auto count = 1;
 
@@ -71,48 +88,85 @@ Pair TileHolder::popNextPair()
 	return pair;
 }
 
-Meld TileHolder::popNextPon()
+Meld TileHolder::popNextPonOrKan()
 {
-	assert(3 <= tiles.size());
+	if (3 <= tiles.size())
+	{
+		if (IsSame()(tiles.front(), tiles.at(1)) && IsSame()(tiles.front(), tiles.at(2)))
+		{
+			vector<Tile> pon;
 
-	vector<Tile> pon;
+			pon.push_back(tiles.front());
+			tiles.erase(tiles.begin());
 
-	pon.push_back(tiles.front());
-	tiles.erase(tiles.begin());
+			pon.push_back(tiles.front());
+			tiles.erase(tiles.begin());
 
-	pon.push_back(tiles.front());
-	tiles.erase(tiles.begin());
+			pon.push_back(tiles.front());
+			tiles.erase(tiles.begin());
 
-	pon.push_back(tiles.front());
-	tiles.erase(tiles.begin());
+			return { pon, false };
+		}
+	}
 
-	return { pon, false };
+	for (auto it = melds.begin(); it != melds.end(); it++)
+	{
+		if (IsSame()(it->tiles[0], it->tiles[1]))
+		{
+			auto meld = *it;
+			melds.erase(it);
+
+			return meld;
+		}
+	}
+
+	assert(false);
+	return { {}, false };
 }
 
 Meld TileHolder::popNextChii()
 {
-	vector<Tile> chii;
-
-	auto tile = tiles.front();
-	auto count = 0;
-
-	for (auto it = tiles.begin(); it != tiles.end();)
+	if (3 <= tiles.size())
 	{
-		if (count == 0 || IsSame()(NextTile()(tile), *it))
-		{
-			chii.push_back(*it);
-			tile = *it;
-			it = tiles.erase(it);
-			count++;
+		vector<Tile> chii;
 
-			if (count == 3) break;
-		}
-		else
+		auto tile = tiles.front();
+		auto count = 0;
+
+		for (auto it = tiles.begin(); it != tiles.end();)
 		{
-			it++;
+			if (count == 0 || IsSame()(NextTile()(tile), *it))
+			{
+				chii.push_back(*it);
+				tile = *it;
+				it = tiles.erase(it);
+				count++;
+
+				if (count == 3) break;
+			}
+			else
+			{
+				it++;
+			}
+		}
+
+		if (3 == chii.size())
+		{
+			return { chii, false };
 		}
 	}
 
-	assert(3 == chii.size());
-	return { chii, false };
+	for (auto it = melds.begin(); it != melds.end(); it++)
+	{
+		if (!IsSame()(it->tiles[0], it->tiles[1]))
+		{
+			auto meld = *it;
+			melds.erase(it);
+
+			return meld;
+		}
+	}
+
+	assert(false);
+	return { {}, false };
 }
