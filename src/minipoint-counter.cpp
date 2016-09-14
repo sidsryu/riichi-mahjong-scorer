@@ -8,114 +8,53 @@ MinipointCounter::MinipointCounter(const WiningHand& hand, const WiningState& st
 	, state(state)
 {}
 
-int MinipointCounter::total(bool is_round_up) const
+int MinipointCounter::total(bool is_round_up)
 {
-	if (7 == hand.pairs.size())
-	{
-		return 25;
-	}
+	if (isNoPointsHandSelfPick()) return 20;
+	if (isSevenPairs()) return 25;
 
-	auto is_closed = true;
+	point = 20;
+
+	calculateWining();
+	calculateMelds();
+	calculatePair();
+	calculateWait();
+
+	return is_round_up ? roundUp(point) : point;
+}
+
+int MinipointCounter::roundUp(int point) const
+{
+	return static_cast<int>(std::ceil(point / 10.0) * 10);
+}
+
+bool MinipointCounter::isNoPointsHandSelfPick() const
+{
+	if (state.isRon()) return false;
+
+	auto is_multi_wait = false;
 	for (auto it : hand.melds)
 	{
-		if (it.is_open)
+		if (it.is_open) return false;
+		if (IsSame()(it.tiles[0], it.tiles[1])) return false;
+
+		if ((IsSame()(it.tiles[0], hand.last_tile) && !IsTerminal()(it.tiles[2])) ||
+			(IsSame()(it.tiles[2], hand.last_tile) && !IsTerminal()(it.tiles[0])))
 		{
-			is_closed = false;
-			break;
+			is_multi_wait = true;
 		}
 	}
 
-	auto is_no_points_hand = false;
-	if (is_closed)
-	{
-		auto chii_count = 0;
-		auto is_multi_wait = false;
+	return is_multi_wait;
+}
 
-		for (auto it : hand.melds)
-		{
-			if (!IsSame()(it.tiles[0], it.tiles[1]))
-			{
-				chii_count++;
+bool MinipointCounter::isSevenPairs() const
+{
+	return 7 == hand.pairs.size();
+}
 
-				if ((IsSame()(it.tiles[0], hand.last_tile) && !IsTerminal()(it.tiles[2])) ||
-					(IsSame()(it.tiles[2], hand.last_tile) && !IsTerminal()(it.tiles[0])))
-				{
-					is_multi_wait = true;
-				}
-			}
-		}
-		if (4 == chii_count && is_multi_wait)
-		{
-			is_no_points_hand = true;
-		}
-	}
-
-	auto total = 20;
-	if (is_closed && state.isRon())
-	{
-		total += 10;
-	}
-
-	if (is_no_points_hand)
-	{
-		return total;
-	}
-
-	if (!is_no_points_hand && state.isTsumo())
-	{
-		total += 2;
-	}
-
-	bool is_single_wait = false;
-	for (auto it : hand.pairs)
-	{
-		if (IsSame()(it.tiles[0], hand.last_tile))
-		{
-			is_single_wait = true;
-			break;
-		}		
-	}
-	for (auto it : hand.melds)
-	{
-		if (!it.is_open)
-		{
-			if (!IsSame()(it.tiles[0], it.tiles[1]))
-			{
-				if (IsSame()(it.tiles[1], hand.last_tile))
-				{
-					is_single_wait = true;
-				}
-				if (IsSame()(it.tiles[0], hand.last_tile) && IsTerminal()(it.tiles[2]) ||
-					IsSame()(it.tiles[2], hand.last_tile) && IsTerminal()(it.tiles[0]))
-				{
-					is_single_wait = true;
-				}
-			}
-		}
-	}
-	if (is_single_wait)
-	{
-		total += 2;
-	}
-
-	for (auto it : hand.pairs)
-	{
-		if (IsDragon()(it.tiles.front()))
-		{
-			total += 2;
-		}
-
-		if (IsSame()(it.tiles.front(), state.ownWind()))
-		{
-			total += 2;
-		}
-
-		if (IsSame()(it.tiles.front(), state.roundWind()))
-		{
-			total += 2;
-		}
-	}
-
+void MinipointCounter::calculateMelds()
+{
 	for (auto it : hand.melds)
 	{
 		if (IsSame()(it.tiles[0], it.tiles[1]))
@@ -137,14 +76,83 @@ int MinipointCounter::total(bool is_round_up) const
 				basic *= 4;
 			}
 
-			total += basic;
+			point += basic;
 		}
 	}
-		
-	return is_round_up ? roundUp(total) : total;
 }
 
-int MinipointCounter::roundUp(int total) const
+void MinipointCounter::calculatePair()
 {
-	return static_cast<int>(std::ceil(total / 10.0) * 10);
+	for (auto it : hand.pairs)
+	{
+		auto tile = it.tiles.front();
+
+		if (IsDragon()(tile))
+		{
+			point += 2;
+		}
+		else
+		{
+			if (IsSame()(tile, state.ownWind()))
+			{
+				point += 2;
+			}
+
+			if (IsSame()(tile, state.roundWind()))
+			{
+				point += 2;
+			}
+		}
+	}
+}
+
+void MinipointCounter::calculateWait()
+{
+	for (auto it : hand.pairs)
+	{
+		// pair wait
+		if (IsSame()(it.tiles[0], hand.last_tile))
+		{
+			point += 2;
+			return;
+		}
+	}
+
+	for (auto it : hand.melds)
+	{
+		if (it.is_open) continue;
+		if (IsSame()(it.tiles[0], it.tiles[1])) continue;
+
+		// closed wait
+		if (IsSame()(it.tiles[1], hand.last_tile))
+		{
+			point += 2;
+			return;
+		}
+
+		// edge wait
+		if (IsSame()(it.tiles[0], hand.last_tile) && IsTerminal()(it.tiles[2]) ||
+			IsSame()(it.tiles[2], hand.last_tile) && IsTerminal()(it.tiles[0]))
+		{
+			point += 2;
+			return;
+		}
+	}
+}
+
+void MinipointCounter::calculateWining()
+{
+	if (state.isTsumo())
+	{
+		point += 2;
+	}
+	else
+	{
+		// closed ron
+		for (auto it : hand.melds)
+		{
+			if (it.is_open) return;
+		}
+		point += 10;
+	}
 }
