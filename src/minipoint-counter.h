@@ -17,6 +17,7 @@ private:
 	void calculatePair();
 	void calculateWait();	
 	void calculateWining();
+	void calculateOpenNoPointsHand();
 
 private:
 	const WiningHand& hand;

@@ -81,13 +81,13 @@ TEST_GROUP(MinipointCounterTest)
 	}
 };
 
-TEST(MinipointCounterTest, BasicPoints)
+TEST(MinipointCounterTest, BasicPoints_OpenNoPointsHand)
 {
 	addOpenNoPointHand();
 	s.setRon();
 
-	CHECK_EQUAL(20, m.total(false));
-	CHECK_EQUAL(20, m.total());
+	CHECK_EQUAL(30, m.total(false));
+	CHECK_EQUAL(30, m.total());
 }
 
 TEST(MinipointCounterTest, ClosedRon)

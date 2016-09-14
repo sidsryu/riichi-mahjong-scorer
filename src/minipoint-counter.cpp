@@ -19,6 +19,7 @@ int MinipointCounter::total(bool is_round_up)
 	calculateMelds();
 	calculatePair();
 	calculateWait();
+	calculateOpenNoPointsHand();
 
 	return is_round_up ? roundUp(point) : point;
 }
@@ -153,6 +154,14 @@ void MinipointCounter::calculateWining()
 		{
 			if (it.is_open) return;
 		}
+		point += 10;
+	}
+}
+
+void MinipointCounter::calculateOpenNoPointsHand()
+{
+	if (point == 20)
+	{
 		point += 10;
 	}
 }
