@@ -18,5 +18,6 @@ enum class Hand
 	DoubleSouthWind,
 	DoubleWestWind,
 	DoubleNorthWind,
+	AllSimples,
 	SevenPairs,	
 };

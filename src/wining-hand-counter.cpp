@@ -42,33 +42,36 @@ void WiningHandCounter::calculate()
 			hands.insert(Hand::SelfPick);
 		}
 
-		auto chii_count = 0;
-		auto is_wait_multi = false;
-		for (auto m : it.melds)
+		if (!hand.isClaim())
 		{
-			if (!IsSame()(m.tiles[0], m.tiles[1]))
+			auto chii_count = 0;
+			auto is_wait_multi = false;
+			for (auto m : it.melds)
 			{
-				chii_count++;
-
-				if ((IsSame()(m.tiles[0], it.last_tile) && !IsTerminal()(m.tiles[2])) ||
-					(IsSame()(m.tiles[2], it.last_tile) && !IsTerminal()(m.tiles[0])))
+				if (!IsSame()(m.tiles[0], m.tiles[1]))
 				{
-					is_wait_multi = true;
+					chii_count++;
+
+					if ((IsSame()(m.tiles[0], it.last_tile) && !IsTerminal()(m.tiles[2])) ||
+						(IsSame()(m.tiles[2], it.last_tile) && !IsTerminal()(m.tiles[0])))
+					{
+						is_wait_multi = true;
+					}
 				}
 			}
-		}
 
-		auto is_fu_pair = false;		
-		if (IsDragon()(it.pairs.front().tiles.front()) ||
-			IsSame()(it.pairs.front().tiles.front(), state.ownWind()) ||
-			IsSame()(it.pairs.front().tiles.front(), state.roundWind()))
-		{
-			is_fu_pair = true;
-		}
+			auto is_fu_pair = false;
+			if (IsDragon()(it.pairs.front().tiles.front()) ||
+				IsSame()(it.pairs.front().tiles.front(), state.ownWind()) ||
+				IsSame()(it.pairs.front().tiles.front(), state.roundWind()))
+			{
+				is_fu_pair = true;
+			}
 
-		if (chii_count == 4 && is_wait_multi && !is_fu_pair)
-		{
-			hands.insert(Hand::NoPointsHand);
+			if (chii_count == 4 && is_wait_multi && !is_fu_pair)
+			{
+				hands.insert(Hand::NoPointsHand);
+			}
 		}
 
 		if (7 == it.pairs.size())
@@ -206,6 +209,26 @@ void WiningHandCounter::calculate()
 					hands.insert(Hand::DoubleNorthWind);
 				}
 			}
+		}
+
+		bool is_all_simple = true;
+		for (auto m : it.pairs)
+		{
+			if (!IsSimple()(m.tiles[0]))
+			{
+				is_all_simple = false;
+			}
+		}
+		for (auto m : it.melds)
+		{
+			if (!IsSimple()(m.tiles[0]) || !IsSimple()(m.tiles[2]))
+			{
+				is_all_simple = false;
+			}
+		}
+		if (is_all_simple)
+		{
+			hands.insert(Hand::AllSimples);
 		}
 	}
 }

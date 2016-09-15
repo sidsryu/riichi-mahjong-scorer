@@ -50,6 +50,25 @@ TEST(WiningHandCounterTest, NoPointsHand)
 	CHECK(w.hasHand(Hand::NoPointsHand));
 }
 
+TEST(WiningHandCounterTest, Not_NoPointsHand_Open)
+{
+	addPair(Tile::SouthWind);
+	addChii(Tile::OneOfCharacters);
+	addChii(Tile::TwoOfCircles);
+	addChii(Tile::TwoOfBamboos);
+	addChii(Tile::SevenOfCharacters);
+	
+	h.bindChii({
+		Tile::OneOfCharacters,
+		Tile::TwoOfCharacters,
+		Tile::ThreeOfCharacters
+	});
+
+	w.calculate();
+
+	CHECK(w.isNoHand());
+}
+
 TEST(WiningHandCounterTest, Not_NoPointsHand_NotMultiWait)
 {
 	addPair(Tile::SouthWind);
@@ -123,7 +142,7 @@ TEST(WiningHandCounterTest, Not_OneSetOfIdenticalSequences_Open)
 
 	w.calculate();
 
-	CHECK(!w.hasHand(Hand::OneSetOfIdenticalSequences));
+	CHECK(w.isNoHand());
 }
 
 TEST(WiningHandCounterTest, HonorTiles_Dragon)
@@ -133,16 +152,6 @@ TEST(WiningHandCounterTest, HonorTiles_Dragon)
 	addChii(Tile::TwoOfCircles);
 	addChii(Tile::TwoOfBamboos);
 	addPon(Tile::WhiteDragon);
-
-	w.calculate();
-
-	CHECK(w.hasHand(Hand::WhiteDragon));
-
-	h.bindPon({
-		Tile::WhiteDragon,
-		Tile::WhiteDragon,
-		Tile::WhiteDragon
-	});
 
 	w.calculate();
 
@@ -164,16 +173,6 @@ TEST(WiningHandCounterTest, HonorTiles_Wind)
 
 	CHECK(w.hasHand(Hand::EastWind));
 
-	h.bindPon({
-		Tile::EastWind,
-		Tile::EastWind,
-		Tile::EastWind
-	});
-
-	w.calculate();
-
-	CHECK(w.hasHand(Hand::EastWind));
-
 	s.setOwnWind(Tile::EastWind);
 	w.calculate();
 
@@ -186,13 +185,17 @@ TEST(WiningHandCounterTest, HonorTiles_Wind)
 }
 
 TEST(WiningHandCounterTest, AllSimples)
-{}
+{
+	addPair(Tile::ThreeOfCharacters);
+	addChii(Tile::FiveOfCharacters);
+	addPon(Tile::ThreeOfCircles);
+	addChii(Tile::ThreeOfBamboos);
+	addChii(Tile::SixOfBamboos);
 
-TEST(WiningHandCounterTest, DeadWallDraw)
-{}
+	w.calculate();
 
-TEST(WiningHandCounterTest, RobblingAQuad)
-{}
+	CHECK(w.hasHand(Hand::AllSimples));
+}
 
 TEST(WiningHandCounterTest, SevenPairs)
 {

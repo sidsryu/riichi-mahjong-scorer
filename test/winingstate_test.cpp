@@ -96,6 +96,12 @@ TEST(WiningStateTest, ReadyHand)
 TEST(WiningStateTest, OneShot)
 {}
 
+TEST(WiningStateTest, DeadWallDraw)
+{}
+
+TEST(WiningStateTest, RobblingAQuad)
+{}
+
 TEST(WiningStateTest, LastTileFromTheWall)
 {}
 

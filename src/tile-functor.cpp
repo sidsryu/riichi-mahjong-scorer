@@ -8,10 +8,22 @@ bool IsSame::operator()(const Tile& lhv, const Tile& rhv) const
 	return static_cast<int>(lhv) / 10 == static_cast<int>(rhv) / 10;
 }
 
+bool IsSimple::operator()(const Tile& tile) const
+{
+	auto code = static_cast<int>(tile);
+	auto suit = code / 100;
+	auto number = code / 10 % 10;
+
+	return (1 <= suit && suit <= 3) && (2 <= number && number <= 8);
+}
+
 bool IsTerminal::operator()(const Tile& tile) const
 {
-	auto number = static_cast<int>(tile) / 10 % 10;
-	return number == 1 || number == 9;
+	auto code = static_cast<int>(tile);
+	auto suit = code / 100;
+	auto number = code / 10 % 10;
+
+	return (1 <= suit && suit <= 3) && (1 == number || number == 9);
 }
 
 bool IsDragon::operator()(const Tile& tile) const
