@@ -1,9 +1,11 @@
 #pragma once
 
-#include <vector>
 #include <utility>
+#include <vector>
+#include <set>
 
 enum class Tile;
+enum class Hand;
 
 struct Meld
 {
@@ -30,4 +32,6 @@ struct WiningHand
 	std::vector<Pair> pairs;
 	std::vector<Meld> melds;
 	Tile last_tile;
+
+	std::set<Hand> hands;
 };

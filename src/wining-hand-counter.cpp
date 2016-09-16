@@ -6,7 +6,10 @@
 #include "type-define.h"
 #include "tile-functor.h"
 #include "tile-define.h"
+#include <array>
 #include <cassert>
+
+using namespace std;
 
 WiningHandCounter::WiningHandCounter(const PlayerHand& hand, const WiningState& state)
 	: hand(hand)
@@ -16,6 +19,7 @@ WiningHandCounter::WiningHandCounter(const PlayerHand& hand, const WiningState& 
 void WiningHandCounter::calculate()
 {
 	wining_hands.clear();
+	hands.clear();
 
 	auto tile_holder = hand.makeHandHolder();
 
@@ -23,23 +27,22 @@ void WiningHandCounter::calculate()
 	wining_hand.last_tile = hand.lastTile();
 
 	bt(wining_hand, tile_holder);
-	assert(wining_hands.size() < 2);
 
-	for (auto it : wining_hands)
+	for (auto& it : wining_hands)
 	{		
 		if (state.isDoubleRiichi())
 		{
-			hands.insert(Hand::DoubleReady);
+			it.hands.insert(Hand::DoubleReady);
 		}
 
 		if (state.isRiichi())
 		{
-			hands.insert(Hand::ReadyHand);
+			it.hands.insert(Hand::ReadyHand);
 		}
 
 		if (!hand.isClaim() && !state.isRon())
 		{
-			hands.insert(Hand::SelfPick);
+			it.hands.insert(Hand::SelfPick);
 		}
 
 		if (!hand.isClaim())
@@ -70,17 +73,18 @@ void WiningHandCounter::calculate()
 
 			if (chii_count == 4 && is_wait_multi && !is_fu_pair)
 			{
-				hands.insert(Hand::NoPointsHand);
+				it.hands.insert(Hand::NoPointsHand);
 			}
 		}
 
 		if (7 == it.pairs.size())
 		{
-			hands.insert(Hand::SevenPairs);
+			it.hands.insert(Hand::SevenPairs);
 		}
 
 		if (!hand.isClaim())
 		{
+			auto identical_sequence_count = 0;
 			for (size_t i = 0; i < it.melds.size(); i++)
 			{
 				if (IsSame()(it.melds[i].tiles[0], it.melds[i].tiles[1])) continue;
@@ -91,9 +95,18 @@ void WiningHandCounter::calculate()
 
 					if (IsSame()(it.melds[i].tiles[0], it.melds[j].tiles[0]))
 					{
-						hands.insert(Hand::OneSetOfIdenticalSequences);
+						identical_sequence_count++;
 					}
 				}
+			}
+
+			if (1 == identical_sequence_count)
+			{
+				it.hands.insert(Hand::OneSetOfIdenticalSequences);
+			}
+			else if (2 == identical_sequence_count)
+			{
+				it.hands.insert(Hand::TwoSetsOfIdenticalSequences);
 			}
 		}
 
@@ -101,17 +114,17 @@ void WiningHandCounter::calculate()
 		{
 			if (IsSame()(m.tiles.front(), Tile::WhiteDragon))
 			{
-				hands.insert(Hand::WhiteDragon);
+				it.hands.insert(Hand::WhiteDragon);
 			}
 
 			if (IsSame()(m.tiles.front(), Tile::GreenDragon))
 			{
-				hands.insert(Hand::GreenDragon);
+				it.hands.insert(Hand::GreenDragon);
 			}
 
 			if (IsSame()(m.tiles.front(), Tile::RedDragon))
 			{
-				hands.insert(Hand::RedDragon);
+				it.hands.insert(Hand::RedDragon);
 			}
 
 			if (IsSame()(m.tiles.front(), Tile::EastWind))
@@ -130,11 +143,11 @@ void WiningHandCounter::calculate()
 
 				if (1 == wind_count)
 				{
-					hands.insert(Hand::EastWind);
+					it.hands.insert(Hand::EastWind);
 				}
 				else if (2 == wind_count)
 				{
-					hands.insert(Hand::DoubleEastWind);
+					it.hands.insert(Hand::DoubleEastWind);
 				}
 			}
 
@@ -154,11 +167,11 @@ void WiningHandCounter::calculate()
 
 				if (1 == wind_count)
 				{
-					hands.insert(Hand::SouthWind);
+					it.hands.insert(Hand::SouthWind);
 				}
 				else if (2 == wind_count)
 				{
-					hands.insert(Hand::DoubleSouthWind);
+					it.hands.insert(Hand::DoubleSouthWind);
 				}
 			}
 
@@ -178,11 +191,11 @@ void WiningHandCounter::calculate()
 
 				if (1 == wind_count)
 				{
-					hands.insert(Hand::WestWind);
+					it.hands.insert(Hand::WestWind);
 				}
 				else if (2 == wind_count)
 				{
-					hands.insert(Hand::DoubleWestWind);
+					it.hands.insert(Hand::DoubleWestWind);
 				}
 			}
 
@@ -202,11 +215,11 @@ void WiningHandCounter::calculate()
 
 				if (1 == wind_count)
 				{
-					hands.insert(Hand::NorthWind);
+					it.hands.insert(Hand::NorthWind);
 				}
 				else if (2 == wind_count)
 				{
-					hands.insert(Hand::DoubleNorthWind);
+					it.hands.insert(Hand::DoubleNorthWind);
 				}
 			}
 		}
@@ -228,8 +241,56 @@ void WiningHandCounter::calculate()
 		}
 		if (is_all_simple)
 		{
-			hands.insert(Hand::AllSimples);
+			it.hands.insert(Hand::AllSimples);
 		}
+
+		array<array<bool, 3>, 9> straight_checker {};
+		for (auto m : it.melds)
+		{
+			if (!IsSame()(m.tiles[0], m.tiles[1]))
+			{
+				auto code = static_cast<int>(m.tiles[0]);
+				auto suit = code / 100;
+				auto number = code / 10 % 10;
+
+				straight_checker[number-1][suit-1] = true;
+			}
+		}
+		for (auto c : straight_checker)
+		{
+			if (c[0] && c[1] && c[2])			
+			{
+				it.hands.insert(Hand::ThreeColourStraights);
+				break;
+			}
+		}
+
+		if ((straight_checker[0][0] &&
+				straight_checker[3][0] &&
+				straight_checker[6][0]) ||
+			(straight_checker[0][1] &&
+				straight_checker[3][1] &&
+				straight_checker[6][1]) ||
+			(straight_checker[0][2] &&
+				straight_checker[3][2] &&
+				straight_checker[6][2]))
+		{
+			it.hands.insert(Hand::Straight);
+		}
+	}
+
+	for (auto it : wining_hands)
+	{
+		if (wining_hands.front().hands.empty()) continue;
+
+		if (hands.empty())
+		{
+			hands = it.hands;
+		}
+		else if ((int)*hands.rbegin() < (int)*it.hands.rbegin())
+		{
+			hands = it.hands;
+		}		
 	}
 }
 

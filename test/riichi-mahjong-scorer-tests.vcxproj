@@ -74,12 +74,14 @@
     <TargetName>$(ProjectName)-d</TargetName>
     <IncludePath>$(SolutionDir)lib\cpputest\include;$(SolutionDir)src;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)lib\cpputest\lib;$(LibraryPath)</LibraryPath>
+    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)bin\</OutDir>
     <IntDir>$(SolutionDir)obj\$(ProjectName)\$(Configuration)\</IntDir>
     <IncludePath>$(SolutionDir)lib\cpputest\include;$(SolutionDir)src;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)lib\cpputest\lib;$(LibraryPath)</LibraryPath>
+    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

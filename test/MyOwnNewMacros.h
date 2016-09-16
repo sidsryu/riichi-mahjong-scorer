@@ -7,6 +7,7 @@
 #include <functional>
 #include <set>
 #include <vector>
+#include <array>
 
 // cpputest MemoryLeakDetectorNewMacros
 #include "CppUTest/MemoryLeakDetectorNewMacros.h"
