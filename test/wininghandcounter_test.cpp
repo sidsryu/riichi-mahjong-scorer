@@ -219,6 +219,25 @@ TEST(WiningHandCounterTest, TwoSetsOfIdenticalSequences)
 	CHECK(!w.hasHand(Hand::SevenPairs));
 }
 
+TEST(WiningHandCounterTest, Not_TwoSetsOfIdenticalSequences_Open)
+{
+	addPair(Tile::WestWind);
+	addChii(Tile::TwoOfCharacters);
+	addChii(Tile::TwoOfCharacters);
+	addChii(Tile::ThreeOfCircles);
+	addChii(Tile::ThreeOfCircles);
+
+	h.bindChii({
+		Tile::ThreeOfCircles,
+		Tile::FourOfCircles,
+		Tile::FiveOfCircles
+	});
+
+	w.calculate();
+
+	CHECK(!w.hasHand(Hand::TwoSetsOfIdenticalSequences));
+}
+
 TEST(WiningHandCounterTest, AllTripletHand)
 {
 }
