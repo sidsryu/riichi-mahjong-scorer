@@ -22,5 +22,9 @@ enum class Hand
 	ThreeColourStraights,
 	Straight,
 	SevenPairs,
+	AllTripletHand,
+	ThreeClosedTriplets,
+	ThreeColourTriplets,
+	ThreeKans,
 	TwoSetsOfIdenticalSequences,	
 };

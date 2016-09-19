@@ -277,6 +277,76 @@ void WiningHandCounter::calculate()
 		{
 			it.hands.insert(Hand::Straight);
 		}
+
+		auto triplet_count = 0;
+		auto closed_triplet_count = 0;
+		auto closed_modify = 0;
+		array<int, 9> triplets_colour_checker {};
+		auto kan_count = 0;
+		for (auto m : it.melds)
+		{
+			if (4 == m.tiles.size())
+			{
+				kan_count++;
+			}
+
+			if (IsSame()(m.tiles[0], m.tiles[1]))
+			{
+				auto number = static_cast<int>(m.tiles[0]) / 10 % 10;
+				triplets_colour_checker[number-1]++;
+
+				triplet_count++;
+
+				if (!m.is_open)
+				{
+					closed_triplet_count++;
+
+					if (IsSame()(it.last_tile, m.tiles[0]))
+					{
+						closed_modify--;
+					}
+				}			
+			}
+			else if (!m.is_open)
+			{
+				if (IsSame()(it.last_tile, m.tiles[0]) ||
+					IsSame()(it.last_tile, m.tiles[1]) ||
+					IsSame()(it.last_tile, m.tiles[2]))
+				{
+					closed_modify++;
+				}
+			}
+		}
+		if (closed_modify < 0) closed_triplet_count--;
+
+		if (closed_triplet_count == 4)
+		{
+		}
+		else
+		{
+			if (closed_triplet_count == 3)
+			{
+				it.hands.insert(Hand::ThreeClosedTriplets);
+			}
+
+			if (triplet_count == 4)
+			{
+				it.hands.insert(Hand::AllTripletHand);
+			}
+		}
+
+		for (auto c : triplets_colour_checker)
+		{
+			if (c == 3)
+			{
+				it.hands.insert(Hand::ThreeColourTriplets);
+			}
+		}
+
+		if (kan_count == 3)
+		{
+			it.hands.insert(Hand::ThreeKans);
+		}
 	}
 
 	for (auto it : wining_hands)

@@ -35,6 +35,21 @@ TEST_GROUP(WiningHandCounterTest)
 		h.add(NextTile()(h.lastTile()));
 		h.add(NextTile()(h.lastTile()));
 	}
+
+	void addKanAndBind(Tile tile)
+	{
+		h.add(tile);
+		h.add(tile);
+		h.add(tile);
+		h.add(tile);
+
+		h.bindKan({
+			tile,
+			tile,
+			tile,
+			tile
+		});
+	}
 };
 
 TEST(WiningHandCounterTest, SevenPairs)
@@ -240,18 +255,108 @@ TEST(WiningHandCounterTest, Not_TwoSetsOfIdenticalSequences_Open)
 
 TEST(WiningHandCounterTest, AllTripletHand)
 {
+	addPair(Tile::WestWind);
+	addPon(Tile::OneOfCharacters);
+	addPon(Tile::TwoOfCircles);
+	addPon(Tile::ThreeOfBamboos);
+	addPon(Tile::SevenOfCharacters);
+
+	h.bindPon({
+		Tile::OneOfCharacters,
+		Tile::OneOfCharacters,
+		Tile::OneOfCharacters
+	});
+	h.bindPon({
+		Tile::TwoOfCircles,
+		Tile::TwoOfCircles,
+		Tile::TwoOfCircles
+	});
+
+	w.calculate();
+
+	CHECK(w.hasHand(Hand::AllTripletHand));
 }
 
 TEST(WiningHandCounterTest, ThreeClosedTriplets)
 {
+	addPair(Tile::WestWind);
+	addPon(Tile::OneOfCharacters);
+	addPon(Tile::TwoOfCircles);
+	addPon(Tile::ThreeOfBamboos);
+	addChii(Tile::SevenOfCharacters);
+
+	w.calculate();
+
+	CHECK(w.hasHand(Hand::ThreeClosedTriplets));
+}
+
+TEST(WiningHandCounterTest, Not_ThreeClosedTriplets_Ron)
+{
+	addPair(Tile::WestWind);	
+	addChii(Tile::SevenOfCharacters);
+	addPon(Tile::OneOfCharacters);
+	addPon(Tile::TwoOfCircles);	
+	addPon(Tile::ThreeOfBamboos);	
+
+	s.setRon();
+	w.calculate();
+
+	CHECK(!w.hasHand(Hand::ThreeClosedTriplets));
+}
+
+TEST(WiningHandCounterTest, ThreeClosedTriplets_Ron)
+{
+	addPair(Tile::WestWind);	
+	addPon(Tile::OneOfCharacters);
+	addPon(Tile::TwoOfCircles);
+	addChii(Tile::ThreeOfBamboos);
+	addPon(Tile::ThreeOfBamboos);	
+	
+	s.setRon();
+	w.calculate();
+
+	CHECK(w.hasHand(Hand::ThreeClosedTriplets));
+}
+
+TEST(WiningHandCounterTest, AllTripletHand_ThreeClosedTriplets)
+{
+	addPair(Tile::WestWind);
+	addPon(Tile::OneOfCharacters);
+	addPon(Tile::TwoOfCircles);
+	addPon(Tile::ThreeOfBamboos);
+	addPon(Tile::SevenOfCharacters);
+
+	s.setRon();
+	w.calculate();
+
+	CHECK(w.hasHand(Hand::AllTripletHand));
+	CHECK(w.hasHand(Hand::ThreeClosedTriplets));
 }
 
 TEST(WiningHandCounterTest, ThreeColourTriplets)
 {
+	addPair(Tile::WestWind);
+	addPon(Tile::ThreeOfCharacters);
+	addPon(Tile::ThreeOfCircles);
+	addPon(Tile::ThreeOfBamboos);
+	addChii(Tile::SevenOfCharacters);
+
+	w.calculate();
+
+	CHECK(w.hasHand(Hand::ThreeColourTriplets));
 }
 
 TEST(WiningHandCounterTest, ThreeKans)
 {
+	addPair(Tile::WestWind);
+	addKanAndBind(Tile::ThreeOfCharacters);
+	addKanAndBind(Tile::ThreeOfCircles);
+	addKanAndBind(Tile::ThreeOfBamboos);
+	addChii(Tile::SevenOfCharacters);
+
+	w.calculate();
+
+	CHECK(w.hasHand(Hand::ThreeKans));
 }
 
 TEST(WiningHandCounterTest, AllSimples)
