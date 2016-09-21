@@ -413,24 +413,106 @@ TEST(WiningHandCounterTest, HonorTiles_Wind)
 
 TEST(WiningHandCounterTest, TerminalOrHonorInEachSet)
 {
+	addPair(Tile::WestWind);
+	addPon(Tile::WhiteDragon);
+	addPon(Tile::OneOfCharacters);
+	addChii(Tile::OneOfCharacters);	
+	addChii(Tile::SevenOfBamboos);	
+
+	w.calculate();
+
+	CHECK(w.hasHand(Hand::TerminalOrHonorInEachSet));
+}
+
+TEST(WiningHandCounterTest, AllTerminalsAndHornors_AllTripletHand)
+{
+	addPair(Tile::WestWind);
+	addPon(Tile::NorthWind);
+	addPon(Tile::OneOfCharacters);
+	addPon(Tile::NineOfCircles);
+	addPon(Tile::NineOfBamboos);
+
+	h.bindPon({
+		Tile::NorthWind,
+		Tile::NorthWind,
+		Tile::NorthWind
+	});
+	h.bindPon({
+		Tile::OneOfCharacters,
+		Tile::OneOfCharacters,
+		Tile::OneOfCharacters
+	});
+
+	w.calculate();
+
+	CHECK(w.hasHand(Hand::AllTerminalsAndHornors));
+	CHECK(w.hasHand(Hand::AllTripletHand));
+}
+
+TEST(WiningHandCounterTest, AllTerminalsAndHornors_SevenPairs)
+{
+	addPair(Tile::OneOfCharacters);
+	addPair(Tile::NineOfCharacters);
+	addPair(Tile::OneOfCircles);	
+	addPair(Tile::NineOfCircles);
+	addPair(Tile::NineOfBamboos);
+	addPair(Tile::WhiteDragon);
+	addPair(Tile::WestWind);
+
+	w.calculate();
+
+	CHECK(w.hasHand(Hand::AllTerminalsAndHornors));
+	CHECK(w.hasHand(Hand::SevenPairs));
 }
 
 TEST(WiningHandCounterTest, TerminalInEachSet)
 {
-}
+	addPair(Tile::NineOfCharacters);
+	addChii(Tile::OneOfCharacters);
+	addPon(Tile::NineOfCircles);
+	addChii(Tile::OneOfBamboos);
+	addChii(Tile::SevenOfBamboos);	
 
-TEST(WiningHandCounterTest, AllTerminalsAndHornors)
-{
+	w.calculate();
+
+	CHECK(w.hasHand(Hand::TerminalInEachSet));
 }
 
 TEST(WiningHandCounterTest, LittleThreeDragons)
 {
+	addPair(Tile::WhiteDragon);
+	addPon(Tile::RedDragon);
+	addPon(Tile::GreenDragon);
+	addChii(Tile::TwoOfCharacters);
+	addChii(Tile::SixOfBamboos);
+
+	w.calculate();
+
+	CHECK(w.hasHand(Hand::LittleThreeDragons));
 }
 
 TEST(WiningHandCounterTest, HalfFlush)
 {
+	addPair(Tile::WestWind);
+	addPon(Tile::EastWind);
+	addChii(Tile::OneOfCharacters);
+	addPon(Tile::FiveOfCharacters);
+	addChii(Tile::SixOfCharacters);
+
+	w.calculate();
+
+	CHECK(w.hasHand(Hand::HalfFlush));
 }
 
 TEST(WiningHandCounterTest, Flush)
 {
+	addPair(Tile::OneOfCharacters);
+	addPon(Tile::TwoOfCharacters);
+	addPon(Tile::FourOfCharacters);
+	addChii(Tile::SixOfCharacters);
+	addChii(Tile::SevenOfCharacters);
+
+	w.calculate();
+
+	CHECK(w.hasHand(Hand::Flush));
 }

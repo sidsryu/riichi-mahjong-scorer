@@ -347,6 +347,124 @@ void WiningHandCounter::calculate()
 		{
 			it.hands.insert(Hand::ThreeKans);
 		}
+
+		auto is_terminal_or_honor_in_each_set = true;
+		auto is_terminal_in_each_set = true;
+		auto is_all_terminal_or_honor = true;
+		for (auto m : it.pairs)
+		{
+			if (IsSimple()(m.tiles[0]))
+			{
+				is_terminal_or_honor_in_each_set = false;
+				is_terminal_in_each_set = false;
+				is_all_terminal_or_honor = false;
+			}
+		}
+		for (auto m : it.melds)
+		{
+			if (IsSame()(m.tiles[0], m.tiles[1]))
+			{
+				if (IsSimple()(m.tiles[0]))
+				{
+					is_terminal_or_honor_in_each_set = false;
+					is_terminal_in_each_set = false;
+					is_all_terminal_or_honor = false;
+				}
+				else if (IsHornor()(m.tiles[0]))
+				{
+					is_terminal_in_each_set = false;
+				}
+			}
+			else
+			{
+				is_all_terminal_or_honor = false;
+
+				if (!IsTerminal()(m.tiles[0]) && !IsTerminal()(m.tiles[2]))
+				{
+					is_terminal_or_honor_in_each_set = false;
+					is_terminal_in_each_set = false;
+				}
+			}
+		}
+		if (is_terminal_or_honor_in_each_set)
+		{
+			it.hands.insert(Hand::TerminalOrHonorInEachSet);
+		}
+		if (is_terminal_in_each_set)
+		{
+			it.hands.insert(Hand::TerminalInEachSet);
+		}
+		if (is_all_terminal_or_honor)
+		{
+			it.hands.insert(Hand::AllTerminalsAndHornors);
+		}
+
+		auto dragon_count = 0;
+		auto is_dragon_pair = false;
+		for (auto m : it.pairs)
+		{
+			if (IsDragon()(m.tiles[0]))
+			{
+				is_dragon_pair = true;
+			}
+		}
+		for (auto m : it.melds)
+		{
+			if (IsDragon()(m.tiles[0]))
+			{
+				dragon_count++;
+			}
+		}
+		if (is_dragon_pair && dragon_count == 2)
+		{
+			it.hands.insert(Hand::LittleThreeDragons);
+		}
+
+		auto suit_number = 0;
+		auto is_flush = true;
+		auto is_honor = false;		
+		for (auto m : it.pairs)
+		{
+			if (IsHornor()(m.tiles[0]))
+			{
+				is_honor = true;
+			}
+			else 
+			{
+				auto suit = static_cast<int>(m.tiles[0]) / 100;
+				if (suit_number == 0) suit_number = suit;
+				if (suit_number != suit)
+				{
+					is_flush = false;
+				}
+			}
+		}
+		for (auto m : it.melds)
+		{
+			if (IsHornor()(m.tiles[0]))
+			{
+			}
+			else
+			{
+				auto suit = static_cast<int>(m.tiles[0]) / 100;
+				if (suit_number == 0) suit_number = suit;
+				if (suit_number != suit)
+				{
+					is_flush = false;
+				}
+			}
+		}
+		if (is_flush)			
+		{
+			if (is_honor)
+			{
+				it.hands.insert(Hand::HalfFlush);
+			}
+			else
+			{
+				it.hands.insert(Hand::Flush);
+			}
+		}
 	}
 
 	for (auto it : wining_hands)
