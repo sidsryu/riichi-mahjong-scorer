@@ -1,7 +1,7 @@
 #include "player-hand.h"
 #include "tile-functor.h"
-#include "type-define.h"
 #include "tile-holder.h"
+#include "meld.h"
 #include <cassert>
 
 using namespace std;
@@ -82,7 +82,7 @@ bool PlayerHand::isClaim() const
 {
 	for (auto it : melds)
 	{
-		if (it.is_open) return true;
+		if (it.isOpen()) return true;
 	}
 
 	return false;

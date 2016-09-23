@@ -5,7 +5,7 @@
 #include <vector>
 
 enum class Tile;
-struct Meld;
+class Meld;
 class TileHolder;
 
 class PlayerHand

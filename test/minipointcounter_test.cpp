@@ -1,9 +1,11 @@
 #include "CppUTest/TestHarness.h"
 #include "minipoint-counter.h"
 #include "wining-state.h"
-#include "type-define.h"
 #include "tile-define.h"
 #include "tile-functor.h"
+#include "wining-hand.h"
+#include "pair.h"
+#include "meld.h"
 
 using namespace std;
 

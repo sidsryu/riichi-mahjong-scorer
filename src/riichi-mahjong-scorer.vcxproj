@@ -118,7 +118,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="meld.cpp" />
     <ClCompile Include="minipoint-counter.cpp" />
+    <ClCompile Include="pair.cpp" />
     <ClCompile Include="player-hand.cpp" />
     <ClCompile Include="scoring-table.cpp" />
     <ClCompile Include="tile-functor.cpp" />
@@ -128,14 +130,16 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="hand-define.h" />
+    <ClInclude Include="meld.h" />
     <ClInclude Include="minipoint-counter.h" />
+    <ClInclude Include="pair.h" />
     <ClInclude Include="player-hand.h" />
     <ClInclude Include="scoring-table.h" />
     <ClInclude Include="tile-define.h" />
     <ClInclude Include="tile-functor.h" />
     <ClInclude Include="tile-holder.h" />
-    <ClInclude Include="type-define.h" />
     <ClInclude Include="wining-hand-counter.h" />
+    <ClInclude Include="wining-hand.h" />
     <ClInclude Include="wining-state.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -3,8 +3,8 @@
 #include <vector>
 
 enum class Tile;
-struct Meld;
-struct Pair;
+class Meld;
+class Pair;
 
 class TileHolder
 {

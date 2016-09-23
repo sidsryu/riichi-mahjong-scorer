@@ -22,7 +22,7 @@ struct IsDragon
 	bool operator()(const Tile& tile) const;
 };
 
-struct IsHornor
+struct IsHonor
 {
 	bool operator()(const Tile& tile) const;
 };

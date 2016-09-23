@@ -1,7 +1,7 @@
 #include "CppUTest/TestHarness.h"
 #include "player-hand.h"
 #include "tile-define.h"
-#include "type-define.h"
+#include "meld.h"
 
 TEST_GROUP(PlayerHandTest)
 {

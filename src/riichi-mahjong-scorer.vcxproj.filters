@@ -32,6 +32,12 @@
     <ClCompile Include="minipoint-counter.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="meld.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="pair.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="scoring-table.h">
@@ -58,10 +64,16 @@
     <ClInclude Include="wining-state.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="type-define.h">
+    <ClInclude Include="minipoint-counter.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="minipoint-counter.h">
+    <ClInclude Include="meld.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="pair.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="wining-hand.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

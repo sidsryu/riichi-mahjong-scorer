@@ -1,6 +1,7 @@
 #include "tile-holder.h"
-#include "type-define.h"
 #include "tile-functor.h"
+#include "pair.h"
+#include "meld.h"
 #include <algorithm>
 #include <cassert>
 
@@ -16,7 +17,7 @@ void TileHolder::add(Meld meld)
 {
 	melds.push_back(meld);
 	sort(melds.begin(), melds.end(), [](const auto& lhs, const auto& rhs) {
-		return lhs.tiles.front() < rhs.tiles.front();
+		return lhs.frontTile() < rhs.frontTile();
 	});
 }
 
@@ -36,7 +37,7 @@ bool TileHolder::isNextTilePonOrKan() const
 	if (tiles.empty())
 	{
 		const auto& meld = melds.front();
-		return IsSame()(meld.tiles[0], meld.tiles[1]);
+		return meld.isTripletOrQuad();
 	}
 
 	if (tiles.size() < 3) return false;
@@ -48,7 +49,7 @@ bool TileHolder::isNextTileChii()  const
 	if (tiles.empty())
 	{
 		const auto& meld = melds.front();
-		return !IsSame()(meld.tiles[0], meld.tiles[1]);
+		return meld.isSequence();
 	}
 
 	if (tiles.size() < 3) return false;
@@ -58,7 +59,7 @@ bool TileHolder::isNextTileChii()  const
 
 	for (auto it : tiles)
 	{
-		if (IsSame()(NextTile()(tile), it))
+		if (!IsHonor()(it) && IsSame()(NextTile()(tile), it))
 		{
 			tile = it;
 			count++;
@@ -94,7 +95,7 @@ Meld TileHolder::popNextPonOrKan()
 	{
 		for (auto it = melds.begin(); it != melds.end(); it++)
 		{
-			if (IsSame()(it->tiles[0], it->tiles[1]))
+			if (it->isTripletOrQuad())
 			{
 				auto meld = *it;
 				melds.erase(it);
@@ -133,7 +134,7 @@ Meld TileHolder::popNextChii()
 	{
 		for (auto it = melds.begin(); it != melds.end(); it++)
 		{
-			if (!IsSame()(it->tiles[0], it->tiles[1]))
+			if (it->isSequence())
 			{
 				auto meld = *it;
 				melds.erase(it);
@@ -152,7 +153,7 @@ Meld TileHolder::popNextChii()
 
 		for (auto it = tiles.begin(); it != tiles.end();)
 		{
-			if (count == 0 || IsSame()(NextTile()(tile), *it))
+			if (count == 0 || (!IsHonor()(*it) && IsSame()(NextTile()(tile), *it)))
 			{
 				chii.push_back(*it);
 				tile = *it;

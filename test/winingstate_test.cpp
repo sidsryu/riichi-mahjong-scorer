@@ -5,7 +5,9 @@
 #include "tile-functor.h"
 #include "hand-define.h"
 #include "tile-define.h"
-#include "type-define.h"
+#include "wining-hand.h"
+#include "pair.h"
+#include "meld.h"
 #include <cassert>
 
 TEST_GROUP(WiningStateTest)

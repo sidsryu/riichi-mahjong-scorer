@@ -1,7 +1,10 @@
 #include "minipoint-counter.h"
-#include "type-define.h"
 #include "wining-state.h"
 #include "tile-functor.h"
+#include "wining-hand.h"
+#include "pair.h"
+#include "meld.h"
+#include <algorithm>
 
 MinipointCounter::MinipointCounter(const WiningHand& hand, const WiningState& state)
 	: hand(hand)
@@ -36,14 +39,10 @@ bool MinipointCounter::isNoPointsHandSelfPick() const
 	auto is_multi_wait = false;
 	for (auto it : hand.melds)
 	{
-		if (it.is_open) return false;
-		if (IsSame()(it.tiles[0], it.tiles[1])) return false;
+		if (it.isOpen()) return false;
+		if (it.isTripletOrQuad()) return false;
 
-		if ((IsSame()(it.tiles[0], hand.last_tile) && !IsTerminal()(it.tiles[2])) ||
-			(IsSame()(it.tiles[2], hand.last_tile) && !IsTerminal()(it.tiles[0])))
-		{
-			is_multi_wait = true;
-		}
+		is_multi_wait = it.isMultiWait(hand.last_tile);
 	}
 
 	return is_multi_wait;
@@ -58,21 +57,21 @@ void MinipointCounter::calculateMelds()
 {
 	for (auto it : hand.melds)
 	{
-		if (IsSame()(it.tiles[0], it.tiles[1]))
+		if (it.isTripletOrQuad())
 		{
 			auto basic = 2;
 
-			if (IsHornor()(it.tiles[0]) || IsTerminal()(it.tiles[0]))
+			if (it.isHonors() || it.isTerminals())
 			{
 				basic *= 2;
 			}
 
-			if (!it.is_open)
+			if (!it.isOpen())
 			{
 				basic *= 2;
 			}
 
-			if (4 == it.tiles.size())
+			if (it.isQuad())			
 			{
 				basic *= 4;
 			}
@@ -86,20 +85,18 @@ void MinipointCounter::calculatePair()
 {
 	for (auto it : hand.pairs)
 	{
-		auto tile = it.tiles.front();
-
-		if (IsDragon()(tile))
+		if (it.isDragons())
 		{
 			point += 2;
 		}
 		else
 		{
-			if (IsSame()(tile, state.ownWind()))
+			if (it.isContain(state.ownWind()))
 			{
 				point += 2;
 			}
 
-			if (IsSame()(tile, state.roundWind()))
+			if (it.isContain(state.roundWind()))
 			{
 				point += 2;
 			}
@@ -112,7 +109,7 @@ void MinipointCounter::calculateWait()
 	for (auto it : hand.pairs)
 	{
 		// pair wait
-		if (IsSame()(it.tiles[0], hand.last_tile))
+		if (it.isContain(hand.last_tile))
 		{
 			point += 2;
 			return;
@@ -121,19 +118,16 @@ void MinipointCounter::calculateWait()
 
 	for (auto it : hand.melds)
 	{
-		if (it.is_open) continue;
-		if (IsSame()(it.tiles[0], it.tiles[1])) continue;
+		if (it.isOpen()) continue;
+		if (it.isTripletOrQuad()) continue;
 
-		// closed wait
-		if (IsSame()(it.tiles[1], hand.last_tile))
+		if (it.isClosedWait(hand.last_tile))
 		{
 			point += 2;
 			return;
 		}
 
-		// edge wait
-		if (IsSame()(it.tiles[0], hand.last_tile) && IsTerminal()(it.tiles[2]) ||
-			IsSame()(it.tiles[2], hand.last_tile) && IsTerminal()(it.tiles[0]))
+		if (it.isEdgeWait(hand.last_tile))
 		{
 			point += 2;
 			return;
@@ -152,7 +146,7 @@ void MinipointCounter::calculateWining()
 		// closed ron
 		for (auto it : hand.melds)
 		{
-			if (it.is_open) return;
+			if (it.isOpen()) return;
 		}
 		point += 10;
 	}

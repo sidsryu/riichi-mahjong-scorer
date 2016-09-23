@@ -3,9 +3,11 @@
 #include "hand-define.h"
 #include "wining-state.h"
 #include "tile-holder.h"
-#include "type-define.h"
+#include "wining-Hand.h"
 #include "tile-functor.h"
 #include "tile-define.h"
+#include "pair.h"
+#include "meld.h"
 #include <array>
 #include <cassert>
 
@@ -51,12 +53,11 @@ void WiningHandCounter::calculate()
 			auto is_wait_multi = false;
 			for (auto m : it.melds)
 			{
-				if (!IsSame()(m.tiles[0], m.tiles[1]))
+				if (m.isSequence())
 				{
 					chii_count++;
 
-					if ((IsSame()(m.tiles[0], it.last_tile) && !IsTerminal()(m.tiles[2])) ||
-						(IsSame()(m.tiles[2], it.last_tile) && !IsTerminal()(m.tiles[0])))
+					if (m.isMultiWait(it.last_tile))
 					{
 						is_wait_multi = true;
 					}
@@ -64,11 +65,12 @@ void WiningHandCounter::calculate()
 			}
 
 			auto is_fu_pair = false;
-			if (IsDragon()(it.pairs.front().tiles.front()) ||
-				IsSame()(it.pairs.front().tiles.front(), state.ownWind()) ||
-				IsSame()(it.pairs.front().tiles.front(), state.roundWind()))
+			for (auto m : it.pairs)
 			{
-				is_fu_pair = true;
+				if (m.isValuePair(state))
+				{
+					is_fu_pair = true;
+				}
 			}
 
 			if (chii_count == 4 && is_wait_multi && !is_fu_pair)
@@ -87,13 +89,9 @@ void WiningHandCounter::calculate()
 			auto identical_sequence_count = 0;
 			for (size_t i = 0; i < it.melds.size(); i++)
 			{
-				if (IsSame()(it.melds[i].tiles[0], it.melds[i].tiles[1])) continue;
-
 				for (auto j = i + 1; j < it.melds.size(); j++)
 				{
-					if (IsSame()(it.melds[j].tiles[0], it.melds[j].tiles[1])) continue;
-
-					if (IsSame()(it.melds[i].tiles[0], it.melds[j].tiles[0]))
+					if (it.melds[i].isSame(it.melds[j]))
 					{
 						identical_sequence_count++;
 					}
@@ -112,31 +110,31 @@ void WiningHandCounter::calculate()
 
 		for (auto m : it.melds)
 		{
-			if (IsSame()(m.tiles.front(), Tile::WhiteDragon))
+			if (m.isContain(Tile::WhiteDragon))
 			{
 				it.hands.insert(Hand::WhiteDragon);
 			}
 
-			if (IsSame()(m.tiles.front(), Tile::GreenDragon))
+			if (m.isContain(Tile::GreenDragon))
 			{
 				it.hands.insert(Hand::GreenDragon);
 			}
 
-			if (IsSame()(m.tiles.front(), Tile::RedDragon))
+			if (m.isContain(Tile::RedDragon))
 			{
 				it.hands.insert(Hand::RedDragon);
 			}
 
-			if (IsSame()(m.tiles.front(), Tile::EastWind))
+			if (m.isContain(Tile::EastWind))
 			{
 				auto wind_count = 0;
 
-				if (IsSame()(m.tiles.front(), state.roundWind()))
+				if (IsSame()(Tile::EastWind, state.roundWind()))
 				{
 					wind_count++;
 				}
 
-				if (IsSame()(m.tiles.front(), state.ownWind()))
+				if (IsSame()(Tile::EastWind, state.ownWind()))
 				{
 					wind_count++;
 				}
@@ -151,16 +149,16 @@ void WiningHandCounter::calculate()
 				}
 			}
 
-			if (IsSame()(m.tiles.front(), Tile::SouthWind))
+			if (m.isContain(Tile::SouthWind))
 			{
 				auto wind_count = 0;
 
-				if (IsSame()(m.tiles.front(), state.roundWind()))
+				if (IsSame()(Tile::SouthWind, state.roundWind()))
 				{
 					wind_count++;
 				}
 
-				if (IsSame()(m.tiles.front(), state.ownWind()))
+				if (IsSame()(Tile::SouthWind, state.ownWind()))
 				{
 					wind_count++;
 				}
@@ -175,16 +173,16 @@ void WiningHandCounter::calculate()
 				}
 			}
 
-			if (IsSame()(m.tiles.front(), Tile::WestWind))
+			if (m.isContain(Tile::WestWind))
 			{
 				auto wind_count = 0;
 
-				if (IsSame()(m.tiles.front(), state.roundWind()))
+				if (IsSame()(Tile::WestWind, state.roundWind()))
 				{
 					wind_count++;
 				}
 
-				if (IsSame()(m.tiles.front(), state.ownWind()))
+				if (IsSame()(Tile::WestWind, state.ownWind()))
 				{
 					wind_count++;
 				}
@@ -199,16 +197,16 @@ void WiningHandCounter::calculate()
 				}
 			}
 
-			if (IsSame()(m.tiles.front(), Tile::NorthWind))
+			if (m.isContain(Tile::NorthWind))
 			{
 				auto wind_count = 0;
 
-				if (IsSame()(m.tiles.front(), state.roundWind()))
+				if (IsSame()(Tile::NorthWind, state.roundWind()))
 				{
 					wind_count++;
 				}
 
-				if (IsSame()(m.tiles.front(), state.ownWind()))
+				if (IsSame()(Tile::NorthWind, state.ownWind()))
 				{
 					wind_count++;
 				}
@@ -227,14 +225,14 @@ void WiningHandCounter::calculate()
 		bool is_all_simple = true;
 		for (auto m : it.pairs)
 		{
-			if (!IsSimple()(m.tiles[0]))
+			if (!m.isSimples())
 			{
 				is_all_simple = false;
 			}
 		}
 		for (auto m : it.melds)
 		{
-			if (!IsSimple()(m.tiles[0]) || !IsSimple()(m.tiles[2]))
+			if (!m.isSimples())
 			{
 				is_all_simple = false;
 			}
@@ -247,9 +245,9 @@ void WiningHandCounter::calculate()
 		array<array<bool, 3>, 9> straight_checker {};
 		for (auto m : it.melds)
 		{
-			if (!IsSame()(m.tiles[0], m.tiles[1]))
+			if (m.isSequence())
 			{
-				auto code = static_cast<int>(m.tiles[0]);
+				auto code = static_cast<int>(m.frontTile());
 				auto suit = code / 100;
 				auto number = code / 10 % 10;
 
@@ -285,33 +283,31 @@ void WiningHandCounter::calculate()
 		auto kan_count = 0;
 		for (auto m : it.melds)
 		{
-			if (4 == m.tiles.size())
+			if (m.isQuad())
 			{
 				kan_count++;
 			}
 
-			if (IsSame()(m.tiles[0], m.tiles[1]))
+			if (m.isTripletOrQuad())
 			{
-				auto number = static_cast<int>(m.tiles[0]) / 10 % 10;
+				auto number = static_cast<int>(m.frontTile()) / 10 % 10;
 				triplets_colour_checker[number-1]++;
 
 				triplet_count++;
 
-				if (!m.is_open)
+				if (!m.isOpen())
 				{
 					closed_triplet_count++;
 
-					if (IsSame()(it.last_tile, m.tiles[0]))
+					if (m.isContain(it.last_tile))
 					{
 						closed_modify--;
 					}
-				}			
+				}
 			}
-			else if (!m.is_open)
+			else if (!m.isOpen())
 			{
-				if (IsSame()(it.last_tile, m.tiles[0]) ||
-					IsSame()(it.last_tile, m.tiles[1]) ||
-					IsSame()(it.last_tile, m.tiles[2]))
+				if (m.isContain(it.last_tile))
 				{
 					closed_modify++;
 				}
@@ -353,7 +349,7 @@ void WiningHandCounter::calculate()
 		auto is_all_terminal_or_honor = true;
 		for (auto m : it.pairs)
 		{
-			if (IsSimple()(m.tiles[0]))
+			if (m.isSimples())
 			{
 				is_terminal_or_honor_in_each_set = false;
 				is_terminal_in_each_set = false;
@@ -362,15 +358,15 @@ void WiningHandCounter::calculate()
 		}
 		for (auto m : it.melds)
 		{
-			if (IsSame()(m.tiles[0], m.tiles[1]))
+			if (m.isTripletOrQuad())
 			{
-				if (IsSimple()(m.tiles[0]))
+				if (m.isSimples())
 				{
 					is_terminal_or_honor_in_each_set = false;
 					is_terminal_in_each_set = false;
 					is_all_terminal_or_honor = false;
 				}
-				else if (IsHornor()(m.tiles[0]))
+				else if (m.isHonors())
 				{
 					is_terminal_in_each_set = false;
 				}
@@ -379,7 +375,7 @@ void WiningHandCounter::calculate()
 			{
 				is_all_terminal_or_honor = false;
 
-				if (!IsTerminal()(m.tiles[0]) && !IsTerminal()(m.tiles[2]))
+				if (!m.hasTerminal())
 				{
 					is_terminal_or_honor_in_each_set = false;
 					is_terminal_in_each_set = false;
@@ -403,14 +399,14 @@ void WiningHandCounter::calculate()
 		auto is_dragon_pair = false;
 		for (auto m : it.pairs)
 		{
-			if (IsDragon()(m.tiles[0]))
+			if (m.isDragons())
 			{
 				is_dragon_pair = true;
 			}
 		}
 		for (auto m : it.melds)
 		{
-			if (IsDragon()(m.tiles[0]))
+			if (m.isDragons())
 			{
 				dragon_count++;
 			}
@@ -425,13 +421,13 @@ void WiningHandCounter::calculate()
 		auto is_honor = false;		
 		for (auto m : it.pairs)
 		{
-			if (IsHornor()(m.tiles[0]))
+			if (m.isHonors())
 			{
 				is_honor = true;
 			}
 			else 
 			{
-				auto suit = static_cast<int>(m.tiles[0]) / 100;
+				auto suit = static_cast<int>(m.frontTile()) / 100;
 				if (suit_number == 0) suit_number = suit;
 				if (suit_number != suit)
 				{
@@ -441,12 +437,12 @@ void WiningHandCounter::calculate()
 		}
 		for (auto m : it.melds)
 		{
-			if (IsHornor()(m.tiles[0]))
+			if (m.isHonors())
 			{
 			}
 			else
 			{
-				auto suit = static_cast<int>(m.tiles[0]) / 100;
+				auto suit = static_cast<int>(m.frontTile()) / 100;
 				if (suit_number == 0) suit_number = suit;
 				if (suit_number != suit)
 				{
@@ -516,7 +512,7 @@ void WiningHandCounter::pairBt(WiningHand hand, TileHolder holder)
 	auto pair = holder.popNextPair();
 	for (auto it : hand.pairs)
 	{
-		if (IsSame()(it.tiles.front(), pair.tiles.front()))
+		if (it.isSame(pair))
 		{
 			return;
 		}
