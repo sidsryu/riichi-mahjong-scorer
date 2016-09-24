@@ -76,7 +76,7 @@ TEST(WiningHandCounterTest, SevenPairs)
 	addPair(Tile::OneOfBamboos);
 	addPair(Tile::GreenDragon);
 	addPair(Tile::OneOfCharacters);
-	w.calculate();
+	w.compute();
 
 	CHECK(w.hasHand(Hand::SevenPairs));
 }
@@ -90,7 +90,7 @@ TEST(WiningHandCounterTest, Not_SevenPairs_FourSuit)
 	addPair(Tile::OneOfBamboos);
 	addPair(Tile::GreenDragon);
 	addPair(Tile::GreenDragon);
-	w.calculate();
+	w.compute();
 
 	CHECK(!w.hasHand(Hand::SevenPairs));
 }
@@ -103,7 +103,7 @@ TEST(WiningHandCounterTest, NoPointsHand)
 	addSequence(Tile::TwoOfBamboos, false);
 	addSequence(Tile::SevenOfCharacters, false);
 
-	w.calculate();
+	w.compute();
 
 	CHECK(w.hasHand(Hand::NoPointsHand));
 }
@@ -116,7 +116,7 @@ TEST(WiningHandCounterTest, Not_NoPointsHand_Open)
 	addSequence(Tile::TwoOfBamboos, false);
 	addSequence(Tile::SevenOfCharacters, false);
 
-	w.calculate();
+	w.compute();
 
 	CHECK(w.isNoHand());
 }
@@ -132,7 +132,7 @@ TEST(WiningHandCounterTest, Not_NoPointsHand_NotMultiWait)
 	h.add(Tile::EightOfCircles);
 	h.add(Tile::SevenOfCircles);
 
-	w.calculate();
+	w.compute();
 
 	CHECK(!w.hasHand(Hand::NoPointsHand));
 }
@@ -145,7 +145,7 @@ TEST(WiningHandCounterTest, Not_NoPointsHand_DragonPair)
 	addSequence(Tile::TwoOfBamboos, false);
 	addSequence(Tile::SevenOfCharacters, false);
 
-	w.calculate();
+	w.compute();
 
 	CHECK(!w.hasHand(Hand::NoPointsHand));
 }
@@ -160,7 +160,7 @@ TEST(WiningHandCounterTest, NoPointsHand_ScoringWindPair)
 	addSequence(Tile::TwoOfBamboos, false);
 	addSequence(Tile::SevenOfCharacters, false);
 
-	w.calculate();
+	w.compute();
 
 	CHECK(!w.hasHand(Hand::NoPointsHand));
 }
@@ -173,7 +173,7 @@ TEST(WiningHandCounterTest, OneSetOfIdenticalSequences)
 	addSequence(Tile::TwoOfCircles, false);
 	addTriplet(Tile::NineOfBamboos, false);
 
-	w.calculate();
+	w.compute();
 
 	CHECK(w.hasHand(Hand::OneSetOfIdenticalSequences));
 }
@@ -186,7 +186,7 @@ TEST(WiningHandCounterTest, Not_OneSetOfIdenticalSequences_Open)
 	addSequence(Tile::TwoOfCircles, false);
 	addTriplet(Tile::NineOfBamboos, true);
 
-	w.calculate();
+	w.compute();
 
 	CHECK(w.isNoHand());
 }
@@ -199,7 +199,7 @@ TEST(WiningHandCounterTest, ThreeColourStraights)
 	addSequence(Tile::TwoOfBamboos, false);
 	addSequence(Tile::SevenOfCharacters, true);
 	
-	w.calculate();
+	w.compute();
 
 	CHECK(w.hasHand(Hand::ThreeColourStraights));
 }
@@ -212,7 +212,7 @@ TEST(WiningHandCounterTest, Straight)
 	addSequence(Tile::SevenOfCharacters, false);
 	addTriplet(Tile::OneOfBamboos, false);
 
-	w.calculate();
+	w.compute();
 
 	CHECK(w.hasHand(Hand::Straight));
 }
@@ -225,7 +225,7 @@ TEST(WiningHandCounterTest, TwoSetsOfIdenticalSequences)
 	addSequence(Tile::ThreeOfCircles, false);
 	addSequence(Tile::ThreeOfCircles, false);
 
-	w.calculate();
+	w.compute();
 
 	CHECK(w.hasHand(Hand::TwoSetsOfIdenticalSequences));
 	CHECK(!w.hasHand(Hand::SevenPairs));
@@ -245,7 +245,7 @@ TEST(WiningHandCounterTest, Not_TwoSetsOfIdenticalSequences_Open)
 		Tile::FiveOfCircles
 	});
 
-	w.calculate();
+	w.compute();
 
 	CHECK(!w.hasHand(Hand::TwoSetsOfIdenticalSequences));
 }
@@ -258,7 +258,7 @@ TEST(WiningHandCounterTest, AllTripletHand)
 	addTriplet(Tile::ThreeOfBamboos, false);
 	addTriplet(Tile::SevenOfCharacters, false);
 	
-	w.calculate();
+	w.compute();
 
 	CHECK(w.hasHand(Hand::AllTripletHand));
 }
@@ -271,7 +271,7 @@ TEST(WiningHandCounterTest, ThreeClosedTriplets)
 	addTriplet(Tile::ThreeOfBamboos, false);
 	addSequence(Tile::SevenOfCharacters, false);
 
-	w.calculate();
+	w.compute();
 
 	CHECK(w.hasHand(Hand::ThreeClosedTriplets));
 }
@@ -285,7 +285,7 @@ TEST(WiningHandCounterTest, Not_ThreeClosedTriplets_Ron)
 	addTriplet(Tile::ThreeOfBamboos, false);	
 
 	s.setRon();
-	w.calculate();
+	w.compute();
 
 	CHECK(!w.hasHand(Hand::ThreeClosedTriplets));
 }
@@ -299,7 +299,7 @@ TEST(WiningHandCounterTest, ThreeClosedTriplets_Ron)
 	addTriplet(Tile::ThreeOfBamboos, false);	
 
 	s.setRon();
-	w.calculate();
+	w.compute();
 
 	CHECK(w.hasHand(Hand::ThreeClosedTriplets));
 }
@@ -313,7 +313,7 @@ TEST(WiningHandCounterTest, AllTripletHand_ThreeClosedTriplets)
 	addTriplet(Tile::SevenOfCharacters, false);
 
 	s.setRon();
-	w.calculate();
+	w.compute();
 
 	CHECK(w.hasHand(Hand::AllTripletHand));
 	CHECK(w.hasHand(Hand::ThreeClosedTriplets));
@@ -327,7 +327,7 @@ TEST(WiningHandCounterTest, ThreeColourTriplets)
 	addTriplet(Tile::ThreeOfBamboos, false);
 	addSequence(Tile::SevenOfCharacters, false);
 
-	w.calculate();
+	w.compute();
 
 	CHECK(w.hasHand(Hand::ThreeColourTriplets));
 }
@@ -340,7 +340,7 @@ TEST(WiningHandCounterTest, ThreeQuads)
 	addQuad(Tile::ThreeOfBamboos, true);
 	addSequence(Tile::SevenOfCharacters, false);
 
-	w.calculate();
+	w.compute();
 
 	CHECK(w.hasHand(Hand::ThreeQuads));
 }
@@ -353,7 +353,7 @@ TEST(WiningHandCounterTest, AllSimples)
 	addSequence(Tile::ThreeOfBamboos, false);
 	addSequence(Tile::SixOfBamboos, false);
 
-	w.calculate();
+	w.compute();
 
 	CHECK(w.hasHand(Hand::AllSimples));
 }
@@ -366,7 +366,7 @@ TEST(WiningHandCounterTest, HonorTiles_Dragon)
 	addSequence(Tile::TwoOfBamboos, false);
 	addTriplet(Tile::WhiteDragon, false);
 
-	w.calculate();
+	w.compute();
 
 	CHECK(w.hasHand(Hand::WhiteDragon));
 }
@@ -382,17 +382,17 @@ TEST(WiningHandCounterTest, HonorTiles_Wind)
 	addSequence(Tile::TwoOfBamboos, false);
 	addTriplet(Tile::EastWind, false);
 
-	w.calculate();
+	w.compute();
 
 	CHECK(w.hasHand(Hand::EastWind));
 
 	s.setOwnWind(Tile::EastWind);
-	w.calculate();
+	w.compute();
 
 	CHECK(w.hasHand(Hand::DoubleEastWind));
 
 	s.setRountWind(Tile::SouthWind);
-	w.calculate();
+	w.compute();
 
 	CHECK(w.hasHand(Hand::EastWind));
 }
@@ -405,7 +405,7 @@ TEST(WiningHandCounterTest, TerminalOrHonorInEachSet)
 	addSequence(Tile::OneOfCharacters, false);
 	addSequence(Tile::SevenOfBamboos, false);
 
-	w.calculate();
+	w.compute();
 
 	CHECK(w.hasHand(Hand::TerminalOrHonorInEachSet));
 }
@@ -418,7 +418,7 @@ TEST(WiningHandCounterTest, AllTerminalsAndHornors_AllTripletHand)
 	addTriplet(Tile::NineOfCircles, false);
 	addTriplet(Tile::NineOfBamboos, false);
 
-	w.calculate();
+	w.compute();
 
 	CHECK(w.hasHand(Hand::AllTerminalsAndHornors));
 	CHECK(w.hasHand(Hand::AllTripletHand));
@@ -434,7 +434,7 @@ TEST(WiningHandCounterTest, AllTerminalsAndHornors_SevenPairs)
 	addPair(Tile::WhiteDragon);
 	addPair(Tile::WestWind);
 
-	w.calculate();
+	w.compute();
 
 	CHECK(w.hasHand(Hand::AllTerminalsAndHornors));
 	CHECK(w.hasHand(Hand::SevenPairs));
@@ -448,7 +448,7 @@ TEST(WiningHandCounterTest, TerminalInEachSet)
 	addSequence(Tile::OneOfBamboos, false);
 	addSequence(Tile::SevenOfBamboos, false);	
 
-	w.calculate();
+	w.compute();
 
 	CHECK(w.hasHand(Hand::TerminalInEachSet));
 }
@@ -461,7 +461,7 @@ TEST(WiningHandCounterTest, LittleThreeDragons)
 	addSequence(Tile::TwoOfCharacters, false);
 	addSequence(Tile::SixOfBamboos, false);
 
-	w.calculate();
+	w.compute();
 
 	CHECK(w.hasHand(Hand::LittleThreeDragons));
 }
@@ -474,7 +474,7 @@ TEST(WiningHandCounterTest, HalfFlush)
 	addTriplet(Tile::FiveOfCharacters, false);
 	addSequence(Tile::SixOfCharacters, false);
 
-	w.calculate();
+	w.compute();
 
 	CHECK(w.hasHand(Hand::HalfFlush));
 }
@@ -487,7 +487,7 @@ TEST(WiningHandCounterTest, Flush)
 	addSequence(Tile::SixOfCharacters, false);
 	addSequence(Tile::SevenOfCharacters, false);
 
-	w.calculate();
+	w.compute();
 
 	CHECK(w.hasHand(Hand::Flush));
 }

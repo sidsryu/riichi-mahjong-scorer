@@ -18,11 +18,11 @@ int MinipointCounter::total(bool is_round_up)
 
 	point = 20;
 
-	calculateWining();
-	calculateMelds();
-	calculatePair();
-	calculateWait();
-	calculateOpenNoPointsHand();
+	computeWining();
+	computeMelds();
+	computePair();
+	computeWait();
+	computeOpenNoPointsHand();
 
 	return is_round_up ? roundUp(point) : point;
 }
@@ -53,7 +53,7 @@ bool MinipointCounter::isSevenPairs() const
 	return 7 == hand.pairs.size();
 }
 
-void MinipointCounter::calculateMelds()
+void MinipointCounter::computeMelds()
 {
 	for (auto it : hand.melds)
 	{
@@ -81,7 +81,7 @@ void MinipointCounter::calculateMelds()
 	}
 }
 
-void MinipointCounter::calculatePair()
+void MinipointCounter::computePair()
 {
 	for (auto it : hand.pairs)
 	{
@@ -104,7 +104,7 @@ void MinipointCounter::calculatePair()
 	}
 }
 
-void MinipointCounter::calculateWait()
+void MinipointCounter::computeWait()
 {
 	for (auto it : hand.pairs)
 	{
@@ -135,7 +135,7 @@ void MinipointCounter::calculateWait()
 	}
 }
 
-void MinipointCounter::calculateWining()
+void MinipointCounter::computeWining()
 {
 	if (state.isTsumo())
 	{
@@ -152,7 +152,7 @@ void MinipointCounter::calculateWining()
 	}
 }
 
-void MinipointCounter::calculateOpenNoPointsHand()
+void MinipointCounter::computeOpenNoPointsHand()
 {
 	if (point == 20)
 	{

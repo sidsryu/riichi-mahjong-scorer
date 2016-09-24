@@ -13,7 +13,7 @@ class WiningHandCounter
 {
 public:
 	WiningHandCounter(const PlayerHand& hand, const WiningState& state);
-	void calculate();
+	void compute();
 
 	bool hasHand(Hand hand) const;
 	bool isNoHand() const;

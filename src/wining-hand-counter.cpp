@@ -18,7 +18,7 @@ WiningHandCounter::WiningHandCounter(const PlayerHand& hand, const WiningState& 
 	, state(state)
 {}
 
-void WiningHandCounter::calculate()
+void WiningHandCounter::compute()
 {
 	wining_hands.clear();
 	hands.clear();

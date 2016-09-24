@@ -13,11 +13,11 @@ private:
 	int roundUp(int point) const;
 	bool isNoPointsHandSelfPick() const;
 	bool isSevenPairs() const;	
-	void calculateMelds();
-	void calculatePair();
-	void calculateWait();	
-	void calculateWining();
-	void calculateOpenNoPointsHand();
+	void computeMelds();
+	void computePair();
+	void computeWait();	
+	void computeWining();
+	void computeOpenNoPointsHand();
 
 private:
 	const WiningHand& hand;

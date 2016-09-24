@@ -59,7 +59,7 @@ TEST(WiningStateTest, NoHandClaim)
 		Tile::EightOfCharacters,
 		Tile::NineOfCharacters
 	});
-	w.calculate();
+	w.compute();
 
 	CHECK(w.isNoHand());
 }
@@ -69,7 +69,7 @@ TEST(WiningStateTest, NoHandRon)
 	addNoWiningHand();
 
 	s.setRon();
-	w.calculate();
+	w.compute();
 
 	CHECK(w.isNoHand());
 }
@@ -79,7 +79,7 @@ TEST(WiningStateTest, SelfPick)
 	addNoWiningHand();
 
 	s.setTsumo();
-	w.calculate();
+	w.compute();
 
 	CHECK(w.hasHand(Hand::SelfPick));
 }
@@ -90,7 +90,7 @@ TEST(WiningStateTest, ReadyHand)
 
 	s.setRiichi();
 	s.setRon();
-	w.calculate();
+	w.compute();
 
 	CHECK(w.hasHand(Hand::ReadyHand));
 }
@@ -119,7 +119,7 @@ TEST(WiningStateTest, DoubleReady)
 
 	s.setDoubleRiichi();
 	s.setRon();
-	w.calculate();
+	w.compute();
 
 	CHECK(w.hasHand(Hand::DoubleReady));
 }
