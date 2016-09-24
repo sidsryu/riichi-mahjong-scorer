@@ -327,7 +327,7 @@ void WiningHandCounter::compute()
 
 			if (triplet_count == 4)
 			{
-				it.hands.insert(Hand::AllTripletHand);
+				it.hands.insert(Hand::AllTriplets);
 			}
 		}
 

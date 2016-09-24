@@ -23,7 +23,7 @@ enum class Hand
 	Straight,
 	TerminalOrHonorInEachSet,
 	SevenPairs,
-	AllTripletHand,
+	AllTriplets,
 	ThreeClosedTriplets,
 	ThreeColourTriplets,
 	ThreeQuads,
