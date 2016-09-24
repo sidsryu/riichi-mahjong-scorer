@@ -3,11 +3,12 @@
 #include "hand-define.h"
 #include "wining-state.h"
 #include "tile-holder.h"
-#include "wining-Hand.h"
+#include "wining-hand.h"
 #include "tile-functor.h"
 #include "tile-define.h"
 #include "pair.h"
 #include "meld.h"
+#include "hand-computer.h"
 #include <array>
 #include <cassert>
 
@@ -21,7 +22,7 @@ WiningHandCounter::WiningHandCounter(const PlayerHand& hand, const WiningState& 
 void WiningHandCounter::compute()
 {
 	wining_hands.clear();
-	hands.clear();
+	patterns.clear();
 
 	auto tile_holder = hand.makeHandHolder();
 
@@ -30,21 +31,30 @@ void WiningHandCounter::compute()
 
 	bt(wining_hand, tile_holder);
 
+
+	HandComputer computer(*this, state, wining_hands);
+	computer.compute();
+
+	computer.each([this](auto pattern) {
+		patterns.insert(pattern);
+	});
+
+
 	for (auto& it : wining_hands)
-	{		
+	{
 		if (state.isDoubleRiichi())
 		{
-			it.hands.insert(Hand::DoubleReady);
+			it.patterns.insert(Pattern::DoubleReady);
 		}
 
 		if (state.isRiichi())
 		{
-			it.hands.insert(Hand::ReadyHand);
+			it.patterns.insert(Pattern::ReadyHand);
 		}
 
 		if (!hand.isClaim() && !state.isRon())
 		{
-			it.hands.insert(Hand::SelfPick);
+			it.patterns.insert(Pattern::SelfPick);
 		}
 
 		if (!hand.isClaim())
@@ -75,13 +85,13 @@ void WiningHandCounter::compute()
 
 			if (sequence_count == 4 && is_wait_multi && !is_fu_pair)
 			{
-				it.hands.insert(Hand::NoPointsHand);
+				it.patterns.insert(Pattern::NoPointsHand);
 			}
 		}
 
 		if (7 == it.pairs.size())
 		{
-			it.hands.insert(Hand::SevenPairs);
+			it.patterns.insert(Pattern::SevenPairs);
 		}
 
 		if (!hand.isClaim())
@@ -100,11 +110,11 @@ void WiningHandCounter::compute()
 
 			if (1 == identical_sequence_count)
 			{
-				it.hands.insert(Hand::OneSetOfIdenticalSequences);
+				it.patterns.insert(Pattern::OneSetOfIdenticalSequences);
 			}
 			else if (2 == identical_sequence_count)
 			{
-				it.hands.insert(Hand::TwoSetsOfIdenticalSequences);
+				it.patterns.insert(Pattern::TwoSetsOfIdenticalSequences);
 			}
 		}
 
@@ -112,17 +122,17 @@ void WiningHandCounter::compute()
 		{
 			if (m.isContain(Tile::WhiteDragon))
 			{
-				it.hands.insert(Hand::WhiteDragon);
+				it.patterns.insert(Pattern::WhiteDragon);
 			}
 
 			if (m.isContain(Tile::GreenDragon))
 			{
-				it.hands.insert(Hand::GreenDragon);
+				it.patterns.insert(Pattern::GreenDragon);
 			}
 
 			if (m.isContain(Tile::RedDragon))
 			{
-				it.hands.insert(Hand::RedDragon);
+				it.patterns.insert(Pattern::RedDragon);
 			}
 
 			if (m.isContain(Tile::EastWind))
@@ -141,11 +151,11 @@ void WiningHandCounter::compute()
 
 				if (1 == wind_count)
 				{
-					it.hands.insert(Hand::EastWind);
+					it.patterns.insert(Pattern::EastWind);
 				}
 				else if (2 == wind_count)
 				{
-					it.hands.insert(Hand::DoubleEastWind);
+					it.patterns.insert(Pattern::DoubleEastWind);
 				}
 			}
 
@@ -165,11 +175,11 @@ void WiningHandCounter::compute()
 
 				if (1 == wind_count)
 				{
-					it.hands.insert(Hand::SouthWind);
+					it.patterns.insert(Pattern::SouthWind);
 				}
 				else if (2 == wind_count)
 				{
-					it.hands.insert(Hand::DoubleSouthWind);
+					it.patterns.insert(Pattern::DoubleSouthWind);
 				}
 			}
 
@@ -189,11 +199,11 @@ void WiningHandCounter::compute()
 
 				if (1 == wind_count)
 				{
-					it.hands.insert(Hand::WestWind);
+					it.patterns.insert(Pattern::WestWind);
 				}
 				else if (2 == wind_count)
 				{
-					it.hands.insert(Hand::DoubleWestWind);
+					it.patterns.insert(Pattern::DoubleWestWind);
 				}
 			}
 
@@ -213,11 +223,11 @@ void WiningHandCounter::compute()
 
 				if (1 == wind_count)
 				{
-					it.hands.insert(Hand::NorthWind);
+					it.patterns.insert(Pattern::NorthWind);
 				}
 				else if (2 == wind_count)
 				{
-					it.hands.insert(Hand::DoubleNorthWind);
+					it.patterns.insert(Pattern::DoubleNorthWind);
 				}
 			}
 		}
@@ -239,7 +249,7 @@ void WiningHandCounter::compute()
 		}
 		if (is_all_simple)
 		{
-			it.hands.insert(Hand::AllSimples);
+			it.patterns.insert(Pattern::AllSimples);
 		}
 
 		array<array<bool, 3>, 9> straight_checker {};
@@ -251,29 +261,29 @@ void WiningHandCounter::compute()
 				auto suit = code / 100;
 				auto number = code / 10 % 10;
 
-				straight_checker[number-1][suit-1] = true;
+				straight_checker[number - 1][suit - 1] = true;
 			}
 		}
 		for (auto c : straight_checker)
 		{
-			if (c[0] && c[1] && c[2])			
+			if (c[0] && c[1] && c[2])
 			{
-				it.hands.insert(Hand::ThreeColourStraights);
+				it.patterns.insert(Pattern::ThreeColourStraights);
 				break;
 			}
 		}
 
 		if ((straight_checker[0][0] &&
-				straight_checker[3][0] &&
-				straight_checker[6][0]) ||
+			straight_checker[3][0] &&
+			straight_checker[6][0]) ||
 			(straight_checker[0][1] &&
 				straight_checker[3][1] &&
 				straight_checker[6][1]) ||
-			(straight_checker[0][2] &&
-				straight_checker[3][2] &&
-				straight_checker[6][2]))
+				(straight_checker[0][2] &&
+					straight_checker[3][2] &&
+					straight_checker[6][2]))
 		{
-			it.hands.insert(Hand::Straight);
+			it.patterns.insert(Pattern::Straight);
 		}
 
 		auto triplet_count = 0;
@@ -291,7 +301,7 @@ void WiningHandCounter::compute()
 			if (m.isTripletOrQuad())
 			{
 				auto number = static_cast<int>(m.frontTile()) / 10 % 10;
-				triplets_colour_checker[number-1]++;
+				triplets_colour_checker[number - 1]++;
 
 				triplet_count++;
 
@@ -322,12 +332,12 @@ void WiningHandCounter::compute()
 		{
 			if (closed_triplet_count == 3)
 			{
-				it.hands.insert(Hand::ThreeClosedTriplets);
+				it.patterns.insert(Pattern::ThreeClosedTriplets);
 			}
 
 			if (triplet_count == 4)
 			{
-				it.hands.insert(Hand::AllTriplets);
+				it.patterns.insert(Pattern::AllTriplets);
 			}
 		}
 
@@ -335,13 +345,13 @@ void WiningHandCounter::compute()
 		{
 			if (c == 3)
 			{
-				it.hands.insert(Hand::ThreeColourTriplets);
+				it.patterns.insert(Pattern::ThreeColourTriplets);
 			}
 		}
 
 		if (quad_count == 3)
 		{
-			it.hands.insert(Hand::ThreeQuads);
+			it.patterns.insert(Pattern::ThreeQuads);
 		}
 
 		auto is_terminal_or_honor_in_each_set = true;
@@ -384,15 +394,15 @@ void WiningHandCounter::compute()
 		}
 		if (is_terminal_or_honor_in_each_set)
 		{
-			it.hands.insert(Hand::TerminalOrHonorInEachSet);
+			it.patterns.insert(Pattern::TerminalOrHonorInEachSet);
 		}
 		if (is_terminal_in_each_set)
 		{
-			it.hands.insert(Hand::TerminalInEachSet);
+			it.patterns.insert(Pattern::TerminalInEachSet);
 		}
 		if (is_all_terminal_or_honor)
 		{
-			it.hands.insert(Hand::AllTerminalsAndHornors);
+			it.patterns.insert(Pattern::AllTerminalsAndHornors);
 		}
 
 		auto dragon_count = 0;
@@ -413,19 +423,19 @@ void WiningHandCounter::compute()
 		}
 		if (is_dragon_pair && dragon_count == 2)
 		{
-			it.hands.insert(Hand::LittleThreeDragons);
+			it.patterns.insert(Pattern::LittleThreeDragons);
 		}
 
 		auto suit_number = 0;
 		auto is_flush = true;
-		auto is_honor = false;		
+		auto is_honor = false;
 		for (auto m : it.pairs)
 		{
 			if (m.isHonors())
 			{
 				is_honor = true;
 			}
-			else 
+			else
 			{
 				auto suit = static_cast<int>(m.frontTile()) / 100;
 				if (suit_number == 0) suit_number = suit;
@@ -450,31 +460,31 @@ void WiningHandCounter::compute()
 				}
 			}
 		}
-		if (is_flush)			
+		if (is_flush)
 		{
 			if (is_honor)
 			{
-				it.hands.insert(Hand::HalfFlush);
+				it.patterns.insert(Pattern::HalfFlush);
 			}
 			else
 			{
-				it.hands.insert(Hand::Flush);
+				it.patterns.insert(Pattern::Flush);
 			}
 		}
 	}
 
 	for (auto it : wining_hands)
 	{
-		if (wining_hands.front().hands.empty()) continue;
+		if (wining_hands.front().patterns.empty()) continue;
 
-		if (hands.empty())
+		if (patterns.empty())
 		{
-			hands = it.hands;
+			patterns = it.patterns;
 		}
-		else if ((int)*hands.rbegin() < (int)*it.hands.rbegin())
+		else if ((int)*patterns.rbegin() < (int)*it.patterns.rbegin())
 		{
-			hands = it.hands;
-		}		
+			patterns = it.patterns;
+		}
 	}
 }
 
@@ -532,7 +542,7 @@ void WiningHandCounter::tripletOrQuadBt(WiningHand hand, TileHolder holder)
 
 void WiningHandCounter::sequenceBt(WiningHand hand, TileHolder holder)
 {
-	auto meld = holder.popNextSequence();	
+	auto meld = holder.popNextSequence();
 	hand.melds.push_back(meld);
 
 	bt(hand, holder);
@@ -543,13 +553,13 @@ void WiningHandCounter::addWiningHand(WiningHand hand)
 	wining_hands.push_back(hand);
 }
 
-bool WiningHandCounter::hasHand(Hand hand) const
+bool WiningHandCounter::hasPattern(Pattern hand) const
 {
-	auto it = hands.find(hand);
-	return it != hands.end();
+	auto it = patterns.find(hand);
+	return it != patterns.end();
 }
 
-bool WiningHandCounter::isNoHand() const
+bool WiningHandCounter::isPattenEmpty() const
 {
-	return 0 == hands.size();
+	return 0 == patterns.size();
 }

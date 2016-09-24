@@ -1,6 +1,6 @@
 #pragma once
 
-enum class Hand
+enum class Pattern
 {
 	ReadyHand,
 	DoubleReady,

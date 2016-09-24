@@ -118,6 +118,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="hand-computer.cpp" />
     <ClCompile Include="meld.cpp" />
     <ClCompile Include="minipoint-counter.cpp" />
     <ClCompile Include="pair.cpp" />
@@ -129,7 +130,9 @@
     <ClCompile Include="wining-state.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="hand-computer.h" />
     <ClInclude Include="hand-define.h" />
+    <ClInclude Include="hand-recognizer.h" />
     <ClInclude Include="meld.h" />
     <ClInclude Include="minipoint-counter.h" />
     <ClInclude Include="pair.h" />

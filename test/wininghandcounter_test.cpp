@@ -78,7 +78,7 @@ TEST(WiningHandCounterTest, SevenPairs)
 	addPair(Tile::OneOfCharacters);
 	w.compute();
 
-	CHECK(w.hasHand(Hand::SevenPairs));
+	CHECK(w.hasPattern(Pattern::SevenPairs));
 }
 
 TEST(WiningHandCounterTest, Not_SevenPairs_FourSuit)
@@ -92,7 +92,7 @@ TEST(WiningHandCounterTest, Not_SevenPairs_FourSuit)
 	addPair(Tile::GreenDragon);
 	w.compute();
 
-	CHECK(!w.hasHand(Hand::SevenPairs));
+	CHECK(!w.hasPattern(Pattern::SevenPairs));
 }
 
 TEST(WiningHandCounterTest, NoPointsHand)
@@ -105,7 +105,7 @@ TEST(WiningHandCounterTest, NoPointsHand)
 
 	w.compute();
 
-	CHECK(w.hasHand(Hand::NoPointsHand));
+	CHECK(w.hasPattern(Pattern::NoPointsHand));
 }
 
 TEST(WiningHandCounterTest, Not_NoPointsHand_Open)
@@ -118,7 +118,7 @@ TEST(WiningHandCounterTest, Not_NoPointsHand_Open)
 
 	w.compute();
 
-	CHECK(w.isNoHand());
+	CHECK(w.isPattenEmpty());
 }
 
 TEST(WiningHandCounterTest, Not_NoPointsHand_NotMultiWait)
@@ -134,7 +134,7 @@ TEST(WiningHandCounterTest, Not_NoPointsHand_NotMultiWait)
 
 	w.compute();
 
-	CHECK(!w.hasHand(Hand::NoPointsHand));
+	CHECK(!w.hasPattern(Pattern::NoPointsHand));
 }
 
 TEST(WiningHandCounterTest, Not_NoPointsHand_DragonPair)
@@ -147,7 +147,7 @@ TEST(WiningHandCounterTest, Not_NoPointsHand_DragonPair)
 
 	w.compute();
 
-	CHECK(!w.hasHand(Hand::NoPointsHand));
+	CHECK(!w.hasPattern(Pattern::NoPointsHand));
 }
 
 TEST(WiningHandCounterTest, NoPointsHand_ScoringWindPair)
@@ -162,7 +162,7 @@ TEST(WiningHandCounterTest, NoPointsHand_ScoringWindPair)
 
 	w.compute();
 
-	CHECK(!w.hasHand(Hand::NoPointsHand));
+	CHECK(!w.hasPattern(Pattern::NoPointsHand));
 }
 
 TEST(WiningHandCounterTest, OneSetOfIdenticalSequences)
@@ -175,7 +175,7 @@ TEST(WiningHandCounterTest, OneSetOfIdenticalSequences)
 
 	w.compute();
 
-	CHECK(w.hasHand(Hand::OneSetOfIdenticalSequences));
+	CHECK(w.hasPattern(Pattern::OneSetOfIdenticalSequences));
 }
 
 TEST(WiningHandCounterTest, Not_OneSetOfIdenticalSequences_Open)
@@ -188,7 +188,7 @@ TEST(WiningHandCounterTest, Not_OneSetOfIdenticalSequences_Open)
 
 	w.compute();
 
-	CHECK(w.isNoHand());
+	CHECK(w.isPattenEmpty());
 }
 
 TEST(WiningHandCounterTest, ThreeColourStraights)
@@ -201,7 +201,7 @@ TEST(WiningHandCounterTest, ThreeColourStraights)
 
 	w.compute();
 
-	CHECK(w.hasHand(Hand::ThreeColourStraights));
+	CHECK(w.hasPattern(Pattern::ThreeColourStraights));
 }
 
 TEST(WiningHandCounterTest, Straight)
@@ -214,7 +214,7 @@ TEST(WiningHandCounterTest, Straight)
 
 	w.compute();
 
-	CHECK(w.hasHand(Hand::Straight));
+	CHECK(w.hasPattern(Pattern::Straight));
 }
 
 TEST(WiningHandCounterTest, TwoSetsOfIdenticalSequences)
@@ -227,8 +227,8 @@ TEST(WiningHandCounterTest, TwoSetsOfIdenticalSequences)
 
 	w.compute();
 
-	CHECK(w.hasHand(Hand::TwoSetsOfIdenticalSequences));
-	CHECK(!w.hasHand(Hand::SevenPairs));
+	CHECK(w.hasPattern(Pattern::TwoSetsOfIdenticalSequences));
+	CHECK(!w.hasPattern(Pattern::SevenPairs));
 }
 
 TEST(WiningHandCounterTest, Not_TwoSetsOfIdenticalSequences_Open)
@@ -247,7 +247,7 @@ TEST(WiningHandCounterTest, Not_TwoSetsOfIdenticalSequences_Open)
 
 	w.compute();
 
-	CHECK(!w.hasHand(Hand::TwoSetsOfIdenticalSequences));
+	CHECK(!w.hasPattern(Pattern::TwoSetsOfIdenticalSequences));
 }
 
 TEST(WiningHandCounterTest, AllTriplets)
@@ -260,7 +260,7 @@ TEST(WiningHandCounterTest, AllTriplets)
 
 	w.compute();
 
-	CHECK(w.hasHand(Hand::AllTriplets));
+	CHECK(w.hasPattern(Pattern::AllTriplets));
 }
 
 TEST(WiningHandCounterTest, ThreeClosedTriplets)
@@ -273,7 +273,7 @@ TEST(WiningHandCounterTest, ThreeClosedTriplets)
 
 	w.compute();
 
-	CHECK(w.hasHand(Hand::ThreeClosedTriplets));
+	CHECK(w.hasPattern(Pattern::ThreeClosedTriplets));
 }
 
 TEST(WiningHandCounterTest, Not_ThreeClosedTriplets_Ron)
@@ -287,7 +287,7 @@ TEST(WiningHandCounterTest, Not_ThreeClosedTriplets_Ron)
 	s.setRon();
 	w.compute();
 
-	CHECK(!w.hasHand(Hand::ThreeClosedTriplets));
+	CHECK(!w.hasPattern(Pattern::ThreeClosedTriplets));
 }
 
 TEST(WiningHandCounterTest, ThreeClosedTriplets_Ron)
@@ -301,7 +301,7 @@ TEST(WiningHandCounterTest, ThreeClosedTriplets_Ron)
 	s.setRon();
 	w.compute();
 
-	CHECK(w.hasHand(Hand::ThreeClosedTriplets));
+	CHECK(w.hasPattern(Pattern::ThreeClosedTriplets));
 }
 
 TEST(WiningHandCounterTest, AllTriplets_ThreeClosedTriplets)
@@ -315,8 +315,8 @@ TEST(WiningHandCounterTest, AllTriplets_ThreeClosedTriplets)
 	s.setRon();
 	w.compute();
 
-	CHECK(w.hasHand(Hand::AllTriplets));
-	CHECK(w.hasHand(Hand::ThreeClosedTriplets));
+	CHECK(w.hasPattern(Pattern::AllTriplets));
+	CHECK(w.hasPattern(Pattern::ThreeClosedTriplets));
 }
 
 TEST(WiningHandCounterTest, ThreeColourTriplets)
@@ -329,7 +329,7 @@ TEST(WiningHandCounterTest, ThreeColourTriplets)
 
 	w.compute();
 
-	CHECK(w.hasHand(Hand::ThreeColourTriplets));
+	CHECK(w.hasPattern(Pattern::ThreeColourTriplets));
 }
 
 TEST(WiningHandCounterTest, ThreeQuads)
@@ -342,7 +342,7 @@ TEST(WiningHandCounterTest, ThreeQuads)
 
 	w.compute();
 
-	CHECK(w.hasHand(Hand::ThreeQuads));
+	CHECK(w.hasPattern(Pattern::ThreeQuads));
 }
 
 TEST(WiningHandCounterTest, ThreeQuads_ThreeClosedTriplets_AllTriplets)
@@ -355,9 +355,9 @@ TEST(WiningHandCounterTest, ThreeQuads_ThreeClosedTriplets_AllTriplets)
 
 	w.compute();
 
-	CHECK(w.hasHand(Hand::ThreeQuads));
-	CHECK(w.hasHand(Hand::ThreeClosedTriplets));
-	CHECK(w.hasHand(Hand::AllTriplets));
+	CHECK(w.hasPattern(Pattern::ThreeQuads));
+	CHECK(w.hasPattern(Pattern::ThreeClosedTriplets));
+	CHECK(w.hasPattern(Pattern::AllTriplets));
 }
 
 TEST(WiningHandCounterTest, AllSimples)
@@ -370,7 +370,7 @@ TEST(WiningHandCounterTest, AllSimples)
 
 	w.compute();
 
-	CHECK(w.hasHand(Hand::AllSimples));
+	CHECK(w.hasPattern(Pattern::AllSimples));
 }
 
 TEST(WiningHandCounterTest, HonorTiles_Dragon)
@@ -383,7 +383,7 @@ TEST(WiningHandCounterTest, HonorTiles_Dragon)
 
 	w.compute();
 
-	CHECK(w.hasHand(Hand::WhiteDragon));
+	CHECK(w.hasPattern(Pattern::WhiteDragon));
 }
 
 TEST(WiningHandCounterTest, HonorTiles_Wind)
@@ -399,17 +399,17 @@ TEST(WiningHandCounterTest, HonorTiles_Wind)
 
 	w.compute();
 
-	CHECK(w.hasHand(Hand::EastWind));
+	CHECK(w.hasPattern(Pattern::EastWind));
 
 	s.setOwnWind(Tile::EastWind);
 	w.compute();
 
-	CHECK(w.hasHand(Hand::DoubleEastWind));
+	CHECK(w.hasPattern(Pattern::DoubleEastWind));
 
 	s.setRountWind(Tile::SouthWind);
 	w.compute();
 
-	CHECK(w.hasHand(Hand::EastWind));
+	CHECK(w.hasPattern(Pattern::EastWind));
 }
 
 TEST(WiningHandCounterTest, TerminalOrHonorInEachSet)
@@ -422,7 +422,7 @@ TEST(WiningHandCounterTest, TerminalOrHonorInEachSet)
 
 	w.compute();
 
-	CHECK(w.hasHand(Hand::TerminalOrHonorInEachSet));
+	CHECK(w.hasPattern(Pattern::TerminalOrHonorInEachSet));
 }
 
 TEST(WiningHandCounterTest, AllTerminalsAndHornors_AllTriplets)
@@ -435,8 +435,8 @@ TEST(WiningHandCounterTest, AllTerminalsAndHornors_AllTriplets)
 
 	w.compute();
 
-	CHECK(w.hasHand(Hand::AllTerminalsAndHornors));
-	CHECK(w.hasHand(Hand::AllTriplets));
+	CHECK(w.hasPattern(Pattern::AllTerminalsAndHornors));
+	CHECK(w.hasPattern(Pattern::AllTriplets));
 }
 
 TEST(WiningHandCounterTest, AllTerminalsAndHornors_SevenPairs)
@@ -451,8 +451,8 @@ TEST(WiningHandCounterTest, AllTerminalsAndHornors_SevenPairs)
 
 	w.compute();
 
-	CHECK(w.hasHand(Hand::AllTerminalsAndHornors));
-	CHECK(w.hasHand(Hand::SevenPairs));
+	CHECK(w.hasPattern(Pattern::AllTerminalsAndHornors));
+	CHECK(w.hasPattern(Pattern::SevenPairs));
 }
 
 TEST(WiningHandCounterTest, TerminalInEachSet)
@@ -465,7 +465,7 @@ TEST(WiningHandCounterTest, TerminalInEachSet)
 
 	w.compute();
 
-	CHECK(w.hasHand(Hand::TerminalInEachSet));
+	CHECK(w.hasPattern(Pattern::TerminalInEachSet));
 }
 
 TEST(WiningHandCounterTest, LittleThreeDragons)
@@ -478,7 +478,7 @@ TEST(WiningHandCounterTest, LittleThreeDragons)
 
 	w.compute();
 
-	CHECK(w.hasHand(Hand::LittleThreeDragons));
+	CHECK(w.hasPattern(Pattern::LittleThreeDragons));
 }
 
 TEST(WiningHandCounterTest, HalfFlush)
@@ -491,7 +491,7 @@ TEST(WiningHandCounterTest, HalfFlush)
 
 	w.compute();
 
-	CHECK(w.hasHand(Hand::HalfFlush));
+	CHECK(w.hasPattern(Pattern::HalfFlush));
 }
 
 TEST(WiningHandCounterTest, Flush)
@@ -504,5 +504,5 @@ TEST(WiningHandCounterTest, Flush)
 
 	w.compute();
 
-	CHECK(w.hasHand(Hand::Flush));
+	CHECK(w.hasPattern(Pattern::Flush));
 }

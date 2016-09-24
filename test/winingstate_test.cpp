@@ -61,7 +61,7 @@ TEST(WiningStateTest, NoHandClaim)
 	});
 	w.compute();
 
-	CHECK(w.isNoHand());
+	CHECK(w.isPattenEmpty());
 }
 
 TEST(WiningStateTest, NoHandRon)
@@ -71,7 +71,7 @@ TEST(WiningStateTest, NoHandRon)
 	s.setRon();
 	w.compute();
 
-	CHECK(w.isNoHand());
+	CHECK(w.isPattenEmpty());
 }
 
 TEST(WiningStateTest, SelfPick)
@@ -81,7 +81,7 @@ TEST(WiningStateTest, SelfPick)
 	s.setTsumo();
 	w.compute();
 
-	CHECK(w.hasHand(Hand::SelfPick));
+	CHECK(w.hasPattern(Pattern::SelfPick));
 }
 
 TEST(WiningStateTest, ReadyHand)
@@ -92,7 +92,7 @@ TEST(WiningStateTest, ReadyHand)
 	s.setRon();
 	w.compute();
 
-	CHECK(w.hasHand(Hand::ReadyHand));
+	CHECK(w.hasPattern(Pattern::ReadyHand));
 }
 
 TEST(WiningStateTest, OneShot)
@@ -121,5 +121,5 @@ TEST(WiningStateTest, DoubleReady)
 	s.setRon();
 	w.compute();
 
-	CHECK(w.hasHand(Hand::DoubleReady));
+	CHECK(w.hasPattern(Pattern::DoubleReady));
 }

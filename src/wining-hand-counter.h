@@ -3,7 +3,7 @@
 #include <set>
 #include <vector>
 
-enum class Hand;
+enum class Pattern;
 struct WiningHand;
 class PlayerHand;
 class TileHolder;
@@ -15,8 +15,8 @@ public:
 	WiningHandCounter(const PlayerHand& hand, const WiningState& state);
 	void compute();
 
-	bool hasHand(Hand hand) const;
-	bool isNoHand() const;
+	bool hasPattern(Pattern pattern) const;
+	bool isPattenEmpty() const;	
 
 private:
 	void addWiningHand(WiningHand hand);
@@ -28,6 +28,6 @@ private:
 private:
 	const PlayerHand& hand;
 	const WiningState& state;
-	std::set<Hand> hands;
+	std::set<Pattern> patterns;
 	std::vector<WiningHand> wining_hands;
 };
