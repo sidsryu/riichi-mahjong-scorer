@@ -33,21 +33,6 @@ set<Pattern> KitchenSinkRecognizer::recognize()
 {
 	auto it = wining_hand;
 
-	if (state.isDoubleRiichi())
-	{
-		it.patterns.insert(Pattern::DoubleReady);
-	}
-
-	if (state.isRiichi())
-	{
-		it.patterns.insert(Pattern::ReadyHand);
-	}
-
-	if (state.isClosedHand() && !state.isWinByDiscard())
-	{
-		it.patterns.insert(Pattern::SelfDrawn);
-	}
-
 	if (state.isClosedHand())
 	{
 		auto sequence_count = 0;

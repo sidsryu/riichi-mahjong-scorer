@@ -47,6 +47,9 @@
     <ClCompile Include="hand-recognizer.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="state-recognizer.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="scoring-table.h">
@@ -92,6 +95,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="kitchen-sink-recognizer.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="state-recognizer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

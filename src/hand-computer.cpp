@@ -6,6 +6,7 @@
 #include "pair.h"
 #include "meld.h"
 #include "kitchen-sink-recognizer.h"
+#include "state-recognizer.h"
 
 using namespace std;
 
@@ -14,6 +15,7 @@ HandComputer::HandComputer(const WiningState& state, const WiningHands& hands)
 	, hands(hands)
 {
 	recognizers.emplace_back(make_unique<KitchenSinkRecognizer>(state));
+	recognizers.emplace_back(make_unique<StateRecognizer>(state));
 }
 
 HandComputer::~HandComputer() = default;

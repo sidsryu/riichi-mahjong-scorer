@@ -22,3 +22,5 @@ public:
 protected:
 	const WiningState& state;
 };
+
+#define RECOGNIZER_CONSTRUCTOR(class_name) class_name(const WiningState& state) : HandRecognizer(state) {}
