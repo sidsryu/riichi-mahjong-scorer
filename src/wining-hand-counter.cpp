@@ -1,6 +1,6 @@
 #include "wining-hand-counter.h"
 #include "player-hand.h"
-#include "hand-define.h"
+#include "pattern-define.h"
 #include "wining-state.h"
 #include "tile-holder.h"
 #include "wining-hand.h"

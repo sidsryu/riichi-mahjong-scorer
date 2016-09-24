@@ -64,9 +64,6 @@
     <ClInclude Include="wining-hand-counter.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="hand-define.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="tile-holder.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -98,6 +95,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="state-recognizer.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="pattern-define.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

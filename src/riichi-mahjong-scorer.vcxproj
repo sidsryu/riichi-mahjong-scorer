@@ -134,7 +134,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="hand-computer.h" />
-    <ClInclude Include="hand-define.h" />
+    <ClInclude Include="pattern-define.h" />
     <ClInclude Include="hand-recognizer.h" />
     <ClInclude Include="kitchen-sink-recognizer.h" />
     <ClInclude Include="meld.h" />

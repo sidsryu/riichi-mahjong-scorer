@@ -1,6 +1,6 @@
 #include "kitchen-sink-recognizer.h"
 #include "wining-state.h"
-#include "hand-define.h"
+#include "pattern-define.h"
 #include "tile-define.h"
 #include "tile-functor.h"
 #include "player-hand.h"

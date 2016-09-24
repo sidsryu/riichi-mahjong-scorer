@@ -1,6 +1,6 @@
 #include "state-recognizer.h"
 #include "wining-state.h"
-#include "hand-define.h"
+#include "pattern-define.h"
 
 using namespace std;
 
