@@ -22,8 +22,8 @@ private:
 	void addWiningHand(WiningHand hand);
 	void bt(WiningHand hand, TileHolder holder);
 	void pairBt(WiningHand hand, TileHolder holder);
-	void ponBt(WiningHand hand, TileHolder holder);
-	void chiiBt(WiningHand hand, TileHolder holder);
+	void tripletOrQuadBt(WiningHand hand, TileHolder holder);
+	void sequenceBt(WiningHand hand, TileHolder holder);
 
 private:
 	const PlayerHand& hand;

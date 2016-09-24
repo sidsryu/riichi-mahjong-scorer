@@ -15,10 +15,10 @@ class PlayerHand
 public:
 	void add(Tile tile);
 	void remove(Tile tile);
-	void bindPon(BindTiles tiles);
-	void bindKan(BindTiles tiles);
-	void bindCloseKan(BindTiles tiles);
-	void bindChii(BindTiles tiles);
+	void bindSequence(BindTiles tiles);
+	void bindTriplet(BindTiles tiles);
+	void bindOpenQuad(BindTiles tiles);
+	void bindClosedQuad(BindTiles tiles);
 
 	bool isClaim() const;
 	Tile lastTile() const;

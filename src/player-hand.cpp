@@ -20,7 +20,21 @@ void PlayerHand::remove(Tile tile)
 	tiles.erase(it);
 }
 
-void PlayerHand::bindPon(BindTiles tiles)
+void PlayerHand::bindSequence(BindTiles tiles)
+{
+	assert(3 == tiles.size());
+	assert(IsSame()(NextTile()(tiles[0]), tiles[1]));
+	assert(IsSame()(NextTile()(tiles[1]), tiles[2]));
+
+	for (auto it : tiles)
+	{
+		remove(it);
+	}
+
+	melds.push_back({ tiles, true });
+}
+
+void PlayerHand::bindTriplet(BindTiles tiles)
 {
 	assert(3 == tiles.size());
 	assert(IsSame()(tiles[0], tiles[1]));
@@ -34,7 +48,7 @@ void PlayerHand::bindPon(BindTiles tiles)
 	melds.push_back({ tiles, true });
 }
 
-void PlayerHand::bindKan(BindTiles tiles)
+void PlayerHand::bindOpenQuad(BindTiles tiles)
 {
 	assert(4 == tiles.size());
 	assert(IsSame()(tiles[0], tiles[1]));
@@ -49,7 +63,7 @@ void PlayerHand::bindKan(BindTiles tiles)
 	melds.push_back({ tiles, true });
 }
 
-void PlayerHand::bindCloseKan(BindTiles tiles)
+void PlayerHand::bindClosedQuad(BindTiles tiles)
 {
 	assert(4 == tiles.size());
 	assert(IsSame()(tiles[0], tiles[1]));
@@ -62,20 +76,6 @@ void PlayerHand::bindCloseKan(BindTiles tiles)
 	}
 
 	melds.push_back({ tiles, false });
-}
-
-void PlayerHand::bindChii(BindTiles tiles)
-{
-	assert(3 == tiles.size());
-	assert(IsSame()(NextTile()(tiles[0]), tiles[1]));
-	assert(IsSame()(NextTile()(tiles[1]), tiles[2]));
-
-	for (auto it : tiles)
-	{
-		remove(it);
-	}
-
-	melds.push_back({ tiles, true });
 }
 
 bool PlayerHand::isClaim() const
@@ -106,6 +106,6 @@ TileHolder PlayerHand::makeHandHolder() const
 	{
 		h.add(it);
 	}
-	
+
 	return h;
 }

@@ -10,7 +10,7 @@ using namespace std;
 void TileHolder::add(Tile tile)
 {
 	tiles.push_back(tile);
-	sort(tiles.begin(), tiles.end());	
+	sort(tiles.begin(), tiles.end());
 }
 
 void TileHolder::add(Meld meld)
@@ -32,7 +32,7 @@ bool TileHolder::isNextTilePair()  const
 	return IsSame()(tiles.front(), tiles.at(1));
 }
 
-bool TileHolder::isNextTilePonOrKan() const
+bool TileHolder::isNextTileTripletOrQuad() const
 {
 	if (tiles.empty())
 	{
@@ -44,7 +44,7 @@ bool TileHolder::isNextTilePonOrKan() const
 	return IsSame()(tiles.front(), tiles.at(1)) && IsSame()(tiles.front(), tiles.at(2));
 }
 
-bool TileHolder::isNextTileChii()  const
+bool TileHolder::isNextTileSequence()  const
 {
 	if (tiles.empty())
 	{
@@ -89,7 +89,7 @@ Pair TileHolder::popNextPair()
 	return pair;
 }
 
-Meld TileHolder::popNextPonOrKan()
+Meld TileHolder::popNextTripletOrQuad()
 {
 	if (tiles.empty())
 	{
@@ -109,18 +109,18 @@ Meld TileHolder::popNextPonOrKan()
 	{
 		if (IsSame()(tiles.front(), tiles.at(1)) && IsSame()(tiles.front(), tiles.at(2)))
 		{
-			vector<Tile> pon;
+			vector<Tile> triplet;
 
-			pon.push_back(tiles.front());
+			triplet.push_back(tiles.front());
 			tiles.erase(tiles.begin());
 
-			pon.push_back(tiles.front());
+			triplet.push_back(tiles.front());
 			tiles.erase(tiles.begin());
 
-			pon.push_back(tiles.front());
+			triplet.push_back(tiles.front());
 			tiles.erase(tiles.begin());
 
-			return { pon, false };
+			return { triplet, false };
 		}
 	}
 
@@ -128,7 +128,7 @@ Meld TileHolder::popNextPonOrKan()
 	return { {}, false };
 }
 
-Meld TileHolder::popNextChii()
+Meld TileHolder::popNextSequence()
 {
 	if (tiles.empty())
 	{
@@ -146,7 +146,7 @@ Meld TileHolder::popNextChii()
 
 	if (3 <= tiles.size())
 	{
-		vector<Tile> chii;
+		vector<Tile> sequence;
 
 		auto tile = tiles.front();
 		auto count = 0;
@@ -155,7 +155,7 @@ Meld TileHolder::popNextChii()
 		{
 			if (count == 0 || (!IsHonor()(*it) && IsSame()(NextTile()(tile), *it)))
 			{
-				chii.push_back(*it);
+				sequence.push_back(*it);
 				tile = *it;
 				it = tiles.erase(it);
 				count++;
@@ -168,9 +168,9 @@ Meld TileHolder::popNextChii()
 			}
 		}
 
-		if (3 == chii.size())
+		if (3 == sequence.size())
 		{
-			return { chii, false };
+			return { sequence, false };
 		}
 	}
 

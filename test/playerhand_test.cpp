@@ -17,13 +17,13 @@ TEST(PlayerHandTest, LastDrawTile)
 	CHECK(Tile::TwoOfCircles == h.lastTile());
 }
 
-TEST(PlayerHandTest, Pon)
+TEST(PlayerHandTest, Triplet)
 {
 	h.add(Tile::OneOfCircles);
 	h.add(Tile::OneOfCircles);
 	h.add(Tile::OneOfCircles);
 
-	h.bindPon({
+	h.bindTriplet({
 		Tile::OneOfCircles,
 		Tile::OneOfCircles,
 		Tile::OneOfCircles
@@ -39,7 +39,7 @@ TEST(PlayerHandTest, Kon)
 	h.add(Tile::OneOfCircles);
 	h.add(Tile::OneOfCircles);
 
-	h.bindKan({
+	h.bindOpenQuad({
 		Tile::OneOfCircles,
 		Tile::OneOfCircles,
 		Tile::OneOfCircles,
@@ -56,7 +56,7 @@ TEST(PlayerHandTest, CloseKon)
 	h.add(Tile::OneOfCircles);
 	h.add(Tile::OneOfCircles);
 
-	h.bindCloseKan({
+	h.bindClosedQuad({
 		Tile::OneOfCircles,
 		Tile::OneOfCircles,
 		Tile::OneOfCircles,
@@ -66,13 +66,13 @@ TEST(PlayerHandTest, CloseKon)
 	CHECK(!h.isClaim());
 }
 
-TEST(PlayerHandTest, Chii)
+TEST(PlayerHandTest, Sequence)
 {
 	h.add(Tile::OneOfCircles);
 	h.add(Tile::TwoOfCircles);
 	h.add(Tile::ThreeOfCircles);
 
-	h.bindChii({
+	h.bindSequence({
 		Tile::OneOfCircles,
 		Tile::TwoOfCircles,
 		Tile::ThreeOfCircles

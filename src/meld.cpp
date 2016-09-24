@@ -7,16 +7,16 @@ Meld::Meld(std::vector<Tile> tiles, bool is_open)
 	, is_open(is_open)
 {
 	assert(
-		// pon
+		// sequence
 		(3 == tiles.size() &&
-			IsSame()(tiles[0], tiles[1]) &&
-			IsSame()(tiles[0], tiles[2])) ||
-		// chii
-		(3 == tiles.size() && 
 			IsSimple()(tiles[1]) &&
 			IsSame()(NextTile()(tiles[0]), tiles[1]) &&
 			IsSame()(NextTile()(tiles[1]), tiles[2])) ||
-		// kan
+		// triplet
+		(3 == tiles.size() &&
+			IsSame()(tiles[0], tiles[1]) &&
+			IsSame()(tiles[0], tiles[2])) ||
+		// quad
 		(4 == tiles.size() && 
 			IsSame()(tiles[0], tiles[1]) &&
 			IsSame()(tiles[0], tiles[2]) &&

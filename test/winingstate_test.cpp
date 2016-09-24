@@ -22,14 +22,14 @@ TEST_GROUP(WiningStateTest)
 		h.add(tile);
 	}
 
-	void addPon(Tile tile)
+	void addTriplet(Tile tile)
 	{
 		h.add(tile);
 		h.add(tile);
 		h.add(tile);
 	}
 
-	void addChii(Tile tile)
+	void addSequence(Tile tile)
 	{
 		assert(int(tile) % 10 <= 7);
 
@@ -42,11 +42,11 @@ TEST_GROUP(WiningStateTest)
 	{
 		addPair(Tile::OneOfBamboos);
 
-		addChii(Tile::TwoOfBamboos);
-		addChii(Tile::ThreeOfCharacters);
-		addPon(Tile::SixOfCircles);
+		addSequence(Tile::TwoOfBamboos);
+		addSequence(Tile::ThreeOfCharacters);
+		addTriplet(Tile::SixOfCircles);
 
-		addChii(Tile::SevenOfCharacters);
+		addSequence(Tile::SevenOfCharacters);
 	}
 };
 
@@ -54,7 +54,7 @@ TEST(WiningStateTest, NoHandClaim)
 {
 	addNoWiningHand();
 
-	h.bindChii({
+	h.bindSequence({
 		Tile::SevenOfCharacters,
 		Tile::EightOfCharacters,
 		Tile::NineOfCharacters

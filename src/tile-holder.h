@@ -14,12 +14,12 @@ public:
 	bool empty() const;
 
 	bool isNextTilePair() const;
-	bool isNextTilePonOrKan() const;
-	bool isNextTileChii() const;
+	bool isNextTileTripletOrQuad() const;
+	bool isNextTileSequence() const;
 
 	Pair popNextPair();
-	Meld popNextPonOrKan();
-	Meld popNextChii();
+	Meld popNextTripletOrQuad();
+	Meld popNextSequence();
 
 private:
 	std::vector<Tile> tiles;

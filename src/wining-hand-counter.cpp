@@ -49,13 +49,13 @@ void WiningHandCounter::calculate()
 
 		if (!hand.isClaim())
 		{
-			auto chii_count = 0;
+			auto sequence_count = 0;
 			auto is_wait_multi = false;
 			for (auto m : it.melds)
 			{
 				if (m.isSequence())
 				{
-					chii_count++;
+					sequence_count++;
 
 					if (m.isMultiWait(it.last_tile))
 					{
@@ -73,7 +73,7 @@ void WiningHandCounter::calculate()
 				}
 			}
 
-			if (chii_count == 4 && is_wait_multi && !is_fu_pair)
+			if (sequence_count == 4 && is_wait_multi && !is_fu_pair)
 			{
 				it.hands.insert(Hand::NoPointsHand);
 			}
@@ -280,12 +280,12 @@ void WiningHandCounter::calculate()
 		auto closed_triplet_count = 0;
 		auto closed_modify = 0;
 		array<int, 9> triplets_colour_checker {};
-		auto kan_count = 0;
+		auto quad_count = 0;
 		for (auto m : it.melds)
 		{
 			if (m.isQuad())
 			{
-				kan_count++;
+				quad_count++;
 			}
 
 			if (m.isTripletOrQuad())
@@ -339,9 +339,9 @@ void WiningHandCounter::calculate()
 			}
 		}
 
-		if (kan_count == 3)
+		if (quad_count == 3)
 		{
-			it.hands.insert(Hand::ThreeKans);
+			it.hands.insert(Hand::ThreeQuads);
 		}
 
 		auto is_terminal_or_honor_in_each_set = true;
@@ -491,14 +491,14 @@ void WiningHandCounter::bt(WiningHand hand, TileHolder holder)
 		pairBt(hand, holder);
 	}
 
-	if (holder.isNextTilePonOrKan())
+	if (holder.isNextTileTripletOrQuad())
 	{
-		ponBt(hand, holder);
+		tripletOrQuadBt(hand, holder);
 	}
 
-	if (holder.isNextTileChii())
+	if (holder.isNextTileSequence())
 	{
-		chiiBt(hand, holder);
+		sequenceBt(hand, holder);
 	}
 }
 
@@ -522,17 +522,17 @@ void WiningHandCounter::pairBt(WiningHand hand, TileHolder holder)
 	bt(hand, holder);
 }
 
-void WiningHandCounter::ponBt(WiningHand hand, TileHolder holder)
+void WiningHandCounter::tripletOrQuadBt(WiningHand hand, TileHolder holder)
 {
-	auto meld = holder.popNextPonOrKan();
+	auto meld = holder.popNextTripletOrQuad();
 	hand.melds.push_back(meld);
 
 	bt(hand, holder);
 }
 
-void WiningHandCounter::chiiBt(WiningHand hand, TileHolder holder)
+void WiningHandCounter::sequenceBt(WiningHand hand, TileHolder holder)
 {
-	auto meld = holder.popNextChii();	
+	auto meld = holder.popNextSequence();	
 	hand.melds.push_back(meld);
 
 	bt(hand, holder);

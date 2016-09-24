@@ -26,7 +26,7 @@ enum class Hand
 	AllTripletHand,
 	ThreeClosedTriplets,
 	ThreeColourTriplets,
-	ThreeKans,
+	ThreeQuads,
 	LittleThreeDragons,
 	AllTerminalsAndHornors,
 	HalfFlush,
