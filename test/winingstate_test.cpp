@@ -48,6 +48,18 @@ TEST_GROUP(WiningStateTest)
 
 		addSequence(Tile::SevenOfCharacters);
 	}
+
+	void selfDraw()
+	{
+		auto tile = h.lastTile();
+		s.setTsumo(tile);
+	}
+
+	void winByDiscard()
+	{
+		auto tile = h.lastTile();
+		s.setRon(tile);
+	}
 };
 
 TEST(WiningStateTest, NoHandClaim)
@@ -59,6 +71,9 @@ TEST(WiningStateTest, NoHandClaim)
 		Tile::EightOfCharacters,
 		Tile::NineOfCharacters
 	});
+	s.setClaim();
+
+	selfDraw();
 	w.compute();
 
 	CHECK(w.isPattenEmpty());
@@ -67,8 +82,8 @@ TEST(WiningStateTest, NoHandClaim)
 TEST(WiningStateTest, NoHandRon)
 {
 	addNoWiningHand();
-
-	s.setRon();
+		
+	winByDiscard();
 	w.compute();
 
 	CHECK(w.isPattenEmpty());
@@ -78,7 +93,7 @@ TEST(WiningStateTest, SelfPick)
 {
 	addNoWiningHand();
 
-	s.setTsumo();
+	selfDraw();
 	w.compute();
 
 	CHECK(w.hasPattern(Pattern::SelfPick));
@@ -89,7 +104,7 @@ TEST(WiningStateTest, ReadyHand)
 	addNoWiningHand();
 
 	s.setRiichi();
-	s.setRon();
+	winByDiscard();
 	w.compute();
 
 	CHECK(w.hasPattern(Pattern::ReadyHand));
@@ -117,8 +132,8 @@ TEST(WiningStateTest, DoubleReady)
 {
 	addNoWiningHand();
 
-	s.setDoubleRiichi();
-	s.setRon();
+	s.setDoubleRiichi();	
+	winByDiscard();
 	w.compute();
 
 	CHECK(w.hasPattern(Pattern::DoubleReady));

@@ -13,7 +13,6 @@ struct WiningHand
 {
 	std::vector<Pair> pairs;
 	std::vector<Meld> melds;
-	Tile last_tile;
 
 	std::set<Pattern> patterns;
 };

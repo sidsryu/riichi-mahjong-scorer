@@ -42,7 +42,7 @@ bool MinipointCounter::isNoPointsHandSelfPick() const
 		if (it.isOpen()) return false;
 		if (it.isTripletOrQuad()) return false;
 
-		is_multi_wait = it.isMultiWait(hand.last_tile);
+		is_multi_wait = it.isMultiWait(state.lastTile());
 	}
 
 	return is_multi_wait;
@@ -109,7 +109,7 @@ void MinipointCounter::computeWait()
 	for (auto it : hand.pairs)
 	{
 		// pair wait
-		if (it.isContain(hand.last_tile))
+		if (it.isContain(state.lastTile()))
 		{
 			point += 2;
 			return;
@@ -121,13 +121,13 @@ void MinipointCounter::computeWait()
 		if (it.isOpen()) continue;
 		if (it.isTripletOrQuad()) continue;
 
-		if (it.isClosedWait(hand.last_tile))
+		if (it.isClosedWait(state.lastTile()))
 		{
 			point += 2;
 			return;
 		}
 
-		if (it.isEdgeWait(hand.last_tile))
+		if (it.isEdgeWait(state.lastTile()))
 		{
 			point += 2;
 			return;

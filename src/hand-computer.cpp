@@ -1,16 +1,20 @@
 #include "hand-computer.h"
 #include "wining-hand-counter.h"
 #include "wining-hand.h"
+#include "player-hand.h"
 #include "hand-recognizer.h"
 #include "pair.h"
 #include "meld.h"
+#include "kitchen-sink-recognizer.h"
 
-HandComputer::HandComputer(const WiningHandCounter& counter, 
-	const WiningState& state, const WiningHands& hands)
-	: counter(counter)
-	, state(state)
+using namespace std;
+
+HandComputer::HandComputer(const WiningState& state, const WiningHands& hands)
+	: state(state)
 	, hands(hands)
-{}
+{
+	recognizers.emplace_back(make_unique<KitchenSinkRecognizer>(state));
+}
 
 HandComputer::~HandComputer() = default;
 
@@ -66,13 +70,23 @@ void HandComputer::recognize()
 {
 	for (auto& it : recognizers)
 	{
-		it->recognize();
+		auto patterns = it->recognize();
+		if (patterns.empty()) continue;
+
+		if (highest_patterns.empty())
+		{
+			highest_patterns = patterns;
+		}
+		else if ((int)*highest_patterns.rbegin() < (int)*patterns.rbegin())
+		{
+			highest_patterns = patterns;
+		}
 	}
 }
 
 void HandComputer::each(std::function<void(Pattern)> fn) const
 {
-	for (auto it : patterns)
+	for (auto it : highest_patterns)
 	{
 		fn(it);
 	}

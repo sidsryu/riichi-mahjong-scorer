@@ -4,8 +4,13 @@
 
 WiningState::WiningState()
 	: round_wind(Tile::EastWind)
-	, own_wind(Tile::EastWind)
+	, own_wind(Tile::EastWind)	
 {}
+
+void WiningState::setClaim()
+{
+	is_claim = true;
+}
 
 void WiningState::setRiichi()
 {
@@ -19,14 +24,16 @@ void WiningState::setDoubleRiichi()
 	is_double_riichi = true;
 }
 
-void WiningState::setRon()
+void WiningState::setRon(Tile tile)
 {
 	is_ron = true;
+	last_tile = tile;
 }
 
-void WiningState::setTsumo()
+void WiningState::setTsumo(Tile tile)
 {
 	is_ron = false;
+	last_tile = tile;
 }
 
 void WiningState::setRountWind(Tile tile)
@@ -37,6 +44,11 @@ void WiningState::setRountWind(Tile tile)
 void WiningState::setOwnWind(Tile tile)
 {
 	own_wind = tile;
+}
+
+bool WiningState::isClaim() const
+{
+	return is_claim;
 }
 
 bool WiningState::isRiichi() const
@@ -67,4 +79,9 @@ Tile WiningState::roundWind() const
 Tile WiningState::ownWind() const
 {
 	return own_wind;
+}
+
+Tile WiningState::lastTile() const
+{
+	return last_tile;
 }

@@ -7,7 +7,6 @@
 
 enum class Pattern;
 struct WiningHand;
-class WiningHandCounter;
 class WiningState;
 class HandRecognizer;
 class Pair;
@@ -19,7 +18,7 @@ class HandComputer
 	using HandRecognizerPtr = std::unique_ptr<HandRecognizer>;
 
 public:
-	HandComputer(const WiningHandCounter& counter, const WiningState& state, const WiningHands& hands);
+	HandComputer(const WiningState& state, const WiningHands& hands);
 	virtual ~HandComputer();
 
 	void compute();
@@ -33,10 +32,9 @@ private:
 	void recognize();
 
 private:
-	const WiningHandCounter& counter;
 	const WiningState& state;
 	const WiningHands& hands;
 
 	std::vector<HandRecognizerPtr> recognizers;
-	std::set<Pattern> patterns;
+	std::set<Pattern> highest_patterns;
 };
