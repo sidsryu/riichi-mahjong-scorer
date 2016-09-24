@@ -5,16 +5,13 @@
 using namespace std;
 
 void StateRecognizer::reset()
-{
-}
+{}
 
 void StateRecognizer::check(const Pair& pair)
-{
-}
+{}
 
 void StateRecognizer::check(const Meld& meld)
-{
-}
+{}
 
 set<Pattern> StateRecognizer::recognize()
 {

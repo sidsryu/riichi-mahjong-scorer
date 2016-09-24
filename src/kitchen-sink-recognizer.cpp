@@ -65,11 +65,6 @@ set<Pattern> KitchenSinkRecognizer::recognize()
 		}
 	}
 
-	if (7 == it.pairs.size())
-	{
-		it.patterns.insert(Pattern::SevenPairs);
-	}
-
 	if (state.isClosedHand())
 	{
 		auto identical_sequence_count = 0;

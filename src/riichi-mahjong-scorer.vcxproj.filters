@@ -50,6 +50,9 @@
     <ClCompile Include="state-recognizer.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="seven-pairs-recognizer.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="scoring-table.h">
@@ -98,6 +101,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="pattern-define.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="seven-pairs-recognizer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

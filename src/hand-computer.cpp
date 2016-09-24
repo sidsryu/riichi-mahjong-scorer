@@ -7,6 +7,7 @@
 #include "meld.h"
 #include "kitchen-sink-recognizer.h"
 #include "state-recognizer.h"
+#include "seven-pairs-recognizer.h"
 
 using namespace std;
 
@@ -16,6 +17,7 @@ HandComputer::HandComputer(const WiningState& state, const WiningHands& hands)
 {
 	recognizers.emplace_back(make_unique<KitchenSinkRecognizer>(state));
 	recognizers.emplace_back(make_unique<StateRecognizer>(state));
+	recognizers.emplace_back(make_unique<SevenPairsRecognizer>(state));
 }
 
 HandComputer::~HandComputer() = default;
@@ -70,19 +72,21 @@ void HandComputer::check(const Meld& meld)
 
 void HandComputer::recognize()
 {
+	set<Pattern> patterns;
+
 	for (auto& it : recognizers)
 	{
-		auto patterns = it->recognize();
-		if (patterns.empty()) continue;
+		auto p = it->recognize();
+		patterns.insert(p.begin(), p.end());
+	}
 
-		if (highest_patterns.empty())
-		{
-			highest_patterns = patterns;
-		}
-		else if ((int)*highest_patterns.rbegin() < (int)*patterns.rbegin())
-		{
-			highest_patterns = patterns;
-		}
+	if (highest_patterns.empty())
+	{
+		highest_patterns = patterns;
+	}
+	else if ((int)*highest_patterns.rbegin() < (int)*patterns.rbegin())
+	{
+		highest_patterns = patterns;
 	}
 }
 
