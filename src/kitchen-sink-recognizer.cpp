@@ -35,38 +35,6 @@ set<Pattern> KitchenSinkRecognizer::recognize()
 
 	if (state.isClosedHand())
 	{
-		auto sequence_count = 0;
-		auto is_wait_multi = false;
-		for (auto m : it.melds)
-		{
-			if (m.isSequence())
-			{
-				sequence_count++;
-
-				if (m.isMultiWait(state.lastTile()))
-				{
-					is_wait_multi = true;
-				}
-			}
-		}
-
-		auto is_fu_pair = false;
-		for (auto m : it.pairs)
-		{
-			if (m.isValuePair(state))
-			{
-				is_fu_pair = true;
-			}
-		}
-
-		if (sequence_count == 4 && is_wait_multi && !is_fu_pair)
-		{
-			it.patterns.insert(Pattern::NoPointsHand);
-		}
-	}
-
-	if (state.isClosedHand())
-	{
 		auto identical_sequence_count = 0;
 		for (size_t i = 0; i < it.melds.size(); i++)
 		{

@@ -8,6 +8,7 @@
 #include "kitchen-sink-recognizer.h"
 #include "state-recognizer.h"
 #include "seven-pairs-recognizer.h"
+#include "no-points-hand-recognizer.h"
 
 using namespace std;
 
@@ -16,8 +17,10 @@ HandComputer::HandComputer(const WiningState& state, const WiningHands& hands)
 	, hands(hands)
 {
 	recognizers.emplace_back(make_unique<KitchenSinkRecognizer>(state));
+
 	recognizers.emplace_back(make_unique<StateRecognizer>(state));
 	recognizers.emplace_back(make_unique<SevenPairsRecognizer>(state));
+	recognizers.emplace_back(make_unique<NoPointsHandRecognizer>(state));
 }
 
 HandComputer::~HandComputer() = default;

@@ -19,12 +19,10 @@ void SevenPairsRecognizer::check(const Meld& meld)
 
 set<Pattern> SevenPairsRecognizer::recognize()
 {
-	set<Pattern> patterns;
-
 	if (pair_count == 7)
 	{
-		patterns.insert(Pattern::SevenPairs);
+		return { Pattern::SevenPairs };		
 	}
 
-	return patterns;
+	return {};
 }
