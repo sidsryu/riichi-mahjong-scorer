@@ -31,7 +31,7 @@ TEST_GROUP(WiningHandCounterTest)
 		if (is_open)
 		{
 			h.bindTriplet({ tile, tile, tile });
-			s.setClaim();
+			s.claim();
 		}
 	}
 
@@ -47,7 +47,7 @@ TEST_GROUP(WiningHandCounterTest)
 		if (is_open)
 		{
 			h.bindSequence({ tile, next_tile, last_tile });
-			s.setClaim();
+			s.claim();
 		}
 	}
 
@@ -61,7 +61,7 @@ TEST_GROUP(WiningHandCounterTest)
 		if (is_open)
 		{
 			h.bindOpenQuad({ tile,tile,tile,tile });
-			s.setClaim();
+			s.claim();
 		}
 		else
 		{
@@ -69,16 +69,16 @@ TEST_GROUP(WiningHandCounterTest)
 		}
 	}
 
-	void selfDraw()
+	void selfDrawn()
 	{
 		auto tile = h.lastTile();
-		s.setTsumo(tile);
+		s.selfDrawn(tile);
 	}
 
 	void winByDiscard()
 	{
 		auto tile = h.lastTile();
-		s.setRon(tile);
+		s.winByDiscard(tile);
 	}
 };
 
@@ -92,7 +92,7 @@ TEST(WiningHandCounterTest, SevenPairs)
 	addPair(Tile::GreenDragon);
 	addPair(Tile::OneOfCharacters);
 
-	selfDraw();
+	selfDrawn();
 	w.compute();
 
 	CHECK(w.hasPattern(Pattern::SevenPairs));
@@ -108,7 +108,7 @@ TEST(WiningHandCounterTest, Not_SevenPairs_FourSuit)
 	addPair(Tile::GreenDragon);
 	addPair(Tile::GreenDragon);
 
-	selfDraw();
+	selfDrawn();
 	w.compute();
 
 	CHECK(!w.hasPattern(Pattern::SevenPairs));
@@ -122,7 +122,7 @@ TEST(WiningHandCounterTest, NoPointsHand)
 	addSequence(Tile::TwoOfBamboos, false);
 	addSequence(Tile::SevenOfCharacters, false);
 
-	selfDraw();
+	selfDrawn();
 	w.compute();
 
 	CHECK(w.hasPattern(Pattern::NoPointsHand));
@@ -136,7 +136,7 @@ TEST(WiningHandCounterTest, Not_NoPointsHand_Open)
 	addSequence(Tile::TwoOfBamboos, false);
 	addSequence(Tile::SevenOfCharacters, false);
 
-	selfDraw();
+	selfDrawn();
 	w.compute();
 
 	CHECK(w.isPattenEmpty());
@@ -153,7 +153,7 @@ TEST(WiningHandCounterTest, Not_NoPointsHand_NotMultiWait)
 	h.add(Tile::EightOfCircles);
 	h.add(Tile::SevenOfCircles);
 
-	selfDraw();
+	selfDrawn();
 	w.compute();
 
 	CHECK(!w.hasPattern(Pattern::NoPointsHand));
@@ -167,7 +167,7 @@ TEST(WiningHandCounterTest, Not_NoPointsHand_DragonPair)
 	addSequence(Tile::TwoOfBamboos, false);
 	addSequence(Tile::SevenOfCharacters, false);
 
-	selfDraw();
+	selfDrawn();
 	w.compute();
 
 	CHECK(!w.hasPattern(Pattern::NoPointsHand));
@@ -183,7 +183,7 @@ TEST(WiningHandCounterTest, NoPointsHand_ScoringWindPair)
 	addSequence(Tile::TwoOfBamboos, false);
 	addSequence(Tile::SevenOfCharacters, false);
 
-	selfDraw();
+	selfDrawn();
 	w.compute();
 
 	CHECK(!w.hasPattern(Pattern::NoPointsHand));
@@ -197,7 +197,7 @@ TEST(WiningHandCounterTest, OneSetOfIdenticalSequences)
 	addSequence(Tile::TwoOfCircles, false);
 	addTriplet(Tile::NineOfBamboos, false);
 
-	selfDraw();
+	selfDrawn();
 	w.compute();
 
 	CHECK(w.hasPattern(Pattern::OneSetOfIdenticalSequences));
@@ -211,7 +211,7 @@ TEST(WiningHandCounterTest, Not_OneSetOfIdenticalSequences_Open)
 	addSequence(Tile::TwoOfCircles, false);
 	addTriplet(Tile::NineOfBamboos, true);
 
-	selfDraw();
+	selfDrawn();
 	w.compute();
 
 	CHECK(w.isPattenEmpty());
@@ -225,7 +225,7 @@ TEST(WiningHandCounterTest, ThreeColourStraights)
 	addSequence(Tile::TwoOfBamboos, false);
 	addSequence(Tile::SevenOfCharacters, true);
 
-	selfDraw();
+	selfDrawn();
 	w.compute();
 
 	CHECK(w.hasPattern(Pattern::ThreeColourStraights));
@@ -239,7 +239,7 @@ TEST(WiningHandCounterTest, Straight)
 	addSequence(Tile::SevenOfCharacters, false);
 	addTriplet(Tile::OneOfBamboos, false);
 
-	selfDraw();
+	selfDrawn();
 	w.compute();
 
 	CHECK(w.hasPattern(Pattern::Straight));
@@ -253,7 +253,7 @@ TEST(WiningHandCounterTest, TwoSetsOfIdenticalSequences)
 	addSequence(Tile::ThreeOfCircles, false);
 	addSequence(Tile::ThreeOfCircles, false);
 
-	selfDraw();
+	selfDrawn();
 	w.compute();
 
 	CHECK(w.hasPattern(Pattern::TwoSetsOfIdenticalSequences));
@@ -273,9 +273,9 @@ TEST(WiningHandCounterTest, Not_TwoSetsOfIdenticalSequences_Open)
 		Tile::FourOfCircles,
 		Tile::FiveOfCircles
 	});
-	s.setClaim();
+	s.claim();
 
-	selfDraw();
+	selfDrawn();
 	w.compute();
 
 	CHECK(!w.hasPattern(Pattern::TwoSetsOfIdenticalSequences));
@@ -289,7 +289,7 @@ TEST(WiningHandCounterTest, AllTriplets)
 	addTriplet(Tile::ThreeOfBamboos, false);
 	addTriplet(Tile::SevenOfCharacters, false);
 
-	selfDraw();
+	selfDrawn();
 	w.compute();
 
 	CHECK(w.hasPattern(Pattern::AllTriplets));
@@ -303,13 +303,13 @@ TEST(WiningHandCounterTest, ThreeClosedTriplets)
 	addQuad(Tile::ThreeOfBamboos, false);
 	addSequence(Tile::SevenOfCharacters, false);
 
-	selfDraw();
+	selfDrawn();
 	w.compute();
 
 	CHECK(w.hasPattern(Pattern::ThreeClosedTriplets));
 }
 
-TEST(WiningHandCounterTest, Not_ThreeClosedTriplets_Ron)
+TEST(WiningHandCounterTest, Not_ThreeClosedTriplets_WinByDiscard)
 {
 	addPair(Tile::WestWind);
 	addSequence(Tile::SevenOfCharacters, false);
@@ -323,7 +323,7 @@ TEST(WiningHandCounterTest, Not_ThreeClosedTriplets_Ron)
 	CHECK(!w.hasPattern(Pattern::ThreeClosedTriplets));
 }
 
-TEST(WiningHandCounterTest, ThreeClosedTriplets_Ron)
+TEST(WiningHandCounterTest, ThreeClosedTriplets_WinByDiscard)
 {
 	addPair(Tile::WestWind);
 	addTriplet(Tile::OneOfCharacters, false);
@@ -360,7 +360,7 @@ TEST(WiningHandCounterTest, ThreeColourTriplets)
 	addQuad(Tile::ThreeOfBamboos, false);
 	addSequence(Tile::SevenOfCharacters, false);
 
-	selfDraw();
+	selfDrawn();
 	w.compute();
 
 	CHECK(w.hasPattern(Pattern::ThreeColourTriplets));
@@ -374,7 +374,7 @@ TEST(WiningHandCounterTest, ThreeQuads)
 	addQuad(Tile::FiveOfBamboos, true);
 	addSequence(Tile::SevenOfCharacters, false);
 
-	selfDraw();
+	selfDrawn();
 	w.compute();
 
 	CHECK(w.hasPattern(Pattern::ThreeQuads));
@@ -388,7 +388,7 @@ TEST(WiningHandCounterTest, ThreeQuads_ThreeClosedTriplets_AllTriplets)
 	addQuad(Tile::FiveOfBamboos, false);
 	addTriplet(Tile::SevenOfCharacters, true);
 
-	selfDraw();
+	selfDrawn();
 	w.compute();
 
 	CHECK(w.hasPattern(Pattern::ThreeQuads));
@@ -404,7 +404,7 @@ TEST(WiningHandCounterTest, AllSimples)
 	addSequence(Tile::ThreeOfBamboos, false);
 	addSequence(Tile::SixOfBamboos, false);
 
-	selfDraw();
+	selfDrawn();
 	w.compute();
 
 	CHECK(w.hasPattern(Pattern::AllSimples));
@@ -418,7 +418,7 @@ TEST(WiningHandCounterTest, HonorTiles_Dragon)
 	addSequence(Tile::TwoOfBamboos, false);
 	addTriplet(Tile::WhiteDragon, false);
 
-	selfDraw();
+	selfDrawn();
 	w.compute();
 
 	CHECK(w.hasPattern(Pattern::WhiteDragon));
@@ -427,7 +427,7 @@ TEST(WiningHandCounterTest, HonorTiles_Dragon)
 TEST(WiningHandCounterTest, HonorTiles_Wind)
 {
 	s.setRountWind(Tile::EastWind);
-	s.setOwnWind(Tile::SouthWind);
+	s.setSeatWind(Tile::SouthWind);
 
 	addPair(Tile::WhiteDragon);
 	addSequence(Tile::OneOfCharacters, false);
@@ -435,12 +435,12 @@ TEST(WiningHandCounterTest, HonorTiles_Wind)
 	addSequence(Tile::TwoOfBamboos, false);
 	addTriplet(Tile::EastWind, false);
 
-	selfDraw();
+	selfDrawn();
 	w.compute();
 
 	CHECK(w.hasPattern(Pattern::EastWind));
 
-	s.setOwnWind(Tile::EastWind);	
+	s.setSeatWind(Tile::EastWind);	
 	w.compute();
 
 	CHECK(w.hasPattern(Pattern::DoubleEastWind));
@@ -459,7 +459,7 @@ TEST(WiningHandCounterTest, TerminalOrHonorInEachSet)
 	addSequence(Tile::OneOfCharacters, false);
 	addSequence(Tile::SevenOfBamboos, false);
 
-	selfDraw();
+	selfDrawn();
 	w.compute();
 
 	CHECK(w.hasPattern(Pattern::TerminalOrHonorInEachSet));
@@ -473,7 +473,7 @@ TEST(WiningHandCounterTest, AllTerminalsAndHornors_AllTriplets)
 	addTriplet(Tile::NineOfCircles, false);
 	addTriplet(Tile::NineOfBamboos, false);
 
-	selfDraw();
+	selfDrawn();
 	w.compute();
 
 	CHECK(w.hasPattern(Pattern::AllTerminalsAndHornors));
@@ -490,7 +490,7 @@ TEST(WiningHandCounterTest, AllTerminalsAndHornors_SevenPairs)
 	addPair(Tile::WhiteDragon);
 	addPair(Tile::WestWind);
 
-	selfDraw();
+	selfDrawn();
 	w.compute();
 
 	CHECK(w.hasPattern(Pattern::AllTerminalsAndHornors));
@@ -505,7 +505,7 @@ TEST(WiningHandCounterTest, TerminalInEachSet)
 	addSequence(Tile::OneOfBamboos, false);
 	addSequence(Tile::SevenOfBamboos, false);
 
-	selfDraw();
+	selfDrawn();
 	w.compute();
 
 	CHECK(w.hasPattern(Pattern::TerminalInEachSet));
@@ -519,7 +519,7 @@ TEST(WiningHandCounterTest, LittleThreeDragons)
 	addSequence(Tile::TwoOfCharacters, false);
 	addSequence(Tile::SixOfBamboos, false);
 
-	selfDraw();
+	selfDrawn();
 	w.compute();
 
 	CHECK(w.hasPattern(Pattern::LittleThreeDragons));
@@ -533,7 +533,7 @@ TEST(WiningHandCounterTest, HalfFlush)
 	addTriplet(Tile::FiveOfCharacters, false);
 	addSequence(Tile::SixOfCharacters, false);
 
-	selfDraw();
+	selfDrawn();
 	w.compute();
 
 	CHECK(w.hasPattern(Pattern::HalfFlush));
@@ -547,7 +547,7 @@ TEST(WiningHandCounterTest, Flush)
 	addSequence(Tile::SixOfCharacters, false);
 	addSequence(Tile::SevenOfCharacters, false);
 
-	selfDraw();
+	selfDrawn();
 	w.compute();
 
 	CHECK(w.hasPattern(Pattern::Flush));

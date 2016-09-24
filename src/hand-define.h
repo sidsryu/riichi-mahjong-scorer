@@ -4,7 +4,7 @@ enum class Pattern
 {
 	ReadyHand,
 	DoubleReady,
-	SelfPick,
+	SelfDrawn,
 	OneSetOfIdenticalSequences,
 	NoPointsHand,
 	WhiteDragon,

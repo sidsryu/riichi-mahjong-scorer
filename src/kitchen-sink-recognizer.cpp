@@ -43,12 +43,12 @@ set<Pattern> KitchenSinkRecognizer::recognize()
 		it.patterns.insert(Pattern::ReadyHand);
 	}
 
-	if (!state.isClaim() && !state.isRon())
+	if (state.isClosedHand() && !state.isWinByDiscard())
 	{
-		it.patterns.insert(Pattern::SelfPick);
+		it.patterns.insert(Pattern::SelfDrawn);
 	}
 
-	if (!state.isClaim())
+	if (state.isClosedHand())
 	{
 		auto sequence_count = 0;
 		auto is_wait_multi = false;
@@ -85,7 +85,7 @@ set<Pattern> KitchenSinkRecognizer::recognize()
 		it.patterns.insert(Pattern::SevenPairs);
 	}
 
-	if (!state.isClaim())
+	if (state.isClosedHand())
 	{
 		auto identical_sequence_count = 0;
 		for (size_t i = 0; i < it.melds.size(); i++)
@@ -135,7 +135,7 @@ set<Pattern> KitchenSinkRecognizer::recognize()
 				wind_count++;
 			}
 
-			if (IsSame()(Tile::EastWind, state.ownWind()))
+			if (IsSame()(Tile::EastWind, state.seatWind()))
 			{
 				wind_count++;
 			}
@@ -159,7 +159,7 @@ set<Pattern> KitchenSinkRecognizer::recognize()
 				wind_count++;
 			}
 
-			if (IsSame()(Tile::SouthWind, state.ownWind()))
+			if (IsSame()(Tile::SouthWind, state.seatWind()))
 			{
 				wind_count++;
 			}
@@ -183,7 +183,7 @@ set<Pattern> KitchenSinkRecognizer::recognize()
 				wind_count++;
 			}
 
-			if (IsSame()(Tile::WestWind, state.ownWind()))
+			if (IsSame()(Tile::WestWind, state.seatWind()))
 			{
 				wind_count++;
 			}
@@ -207,7 +207,7 @@ set<Pattern> KitchenSinkRecognizer::recognize()
 				wind_count++;
 			}
 
-			if (IsSame()(Tile::NorthWind, state.ownWind()))
+			if (IsSame()(Tile::NorthWind, state.seatWind()))
 			{
 				wind_count++;
 			}

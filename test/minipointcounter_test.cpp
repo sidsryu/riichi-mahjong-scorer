@@ -83,14 +83,14 @@ TEST_GROUP(MinipointCounterTest)
 		addSequence(Tile::TwoOfCharacters, false);
 	}
 
-	void selfDraw()
+	void selfDrawn()
 	{
-		s.setTsumo(last_tile);
+		s.selfDrawn(last_tile);
 	}
 
 	void winByDiscard()
 	{
-		s.setRon(last_tile);
+		s.winByDiscard(last_tile);
 	}
 };
 
@@ -103,7 +103,7 @@ TEST(MinipointCounterTest, BasicPoints_OpenNoPointsHand)
 	CHECK_EQUAL(30, m.total());
 }
 
-TEST(MinipointCounterTest, ClosedRon)
+TEST(MinipointCounterTest, ClosedWinByDiscard)
 {
 	addNoPointHand();
 	winByDiscard();
@@ -112,19 +112,19 @@ TEST(MinipointCounterTest, ClosedRon)
 	CHECK_EQUAL(30, m.total());
 }
 
-TEST(MinipointCounterTest, SelfPick)
+TEST(MinipointCounterTest, SelfDrawn)
 {
 	addOpenNoPointHand();
-	selfDraw();
+	selfDrawn();
 
 	CHECK_EQUAL(22, m.total(false));
 	CHECK_EQUAL(30, m.total());
 }
 
-TEST(MinipointCounterTest, NoPointsHandSelfPick)
+TEST(MinipointCounterTest, NoPointsHandSelfDrawn)
 {
 	addNoPointHand();
-	selfDraw();
+	selfDrawn();
 
 	CHECK_EQUAL(20, m.total(false));
 	CHECK_EQUAL(20, m.total());
@@ -139,7 +139,7 @@ TEST(MinipointCounterTest, SevenPairs)
 	addPair(Tile::OneOfBamboos);
 	addPair(Tile::GreenDragon);
 	addPair(Tile::OneOfCharacters);
-	selfDraw();
+	selfDrawn();
 
 	CHECK_EQUAL(25, m.total(false));
 	CHECK_EQUAL(25, m.total());
@@ -214,7 +214,7 @@ TEST(MinipointCounterTest, DragonPair)
 TEST(MinipointCounterTest, OwnWindPair)
 {
 	s.setRountWind(Tile::EastWind);
-	s.setOwnWind(Tile::SouthWind);
+	s.setSeatWind(Tile::SouthWind);
 
 	addPair(Tile::SouthWind);
 	addOpenNoPointsHandWithoutPair();
@@ -226,7 +226,7 @@ TEST(MinipointCounterTest, OwnWindPair)
 TEST(MinipointCounterTest, RoundWindPair)
 {
 	s.setRountWind(Tile::EastWind);
-	s.setOwnWind(Tile::SouthWind);
+	s.setSeatWind(Tile::SouthWind);
 	
 	addPair(Tile::EastWind);
 	addOpenNoPointsHandWithoutPair();
@@ -238,7 +238,7 @@ TEST(MinipointCounterTest, RoundWindPair)
 TEST(MinipointCounterTest, OwnAndRoundWindPair)
 {
 	s.setRountWind(Tile::EastWind);
-	s.setOwnWind(Tile::EastWind);
+	s.setSeatWind(Tile::EastWind);
 
 	addPair(Tile::EastWind);
 	addOpenNoPointsHandWithoutPair();
@@ -322,7 +322,7 @@ TEST(MinipointCounterTest, HornorOrTerminalClosedQuad)
 TEST(MinipointCounterTest, HighestPoints)
 {
 	s.setRountWind(Tile::EastWind);
-	s.setOwnWind(Tile::EastWind);
+	s.setSeatWind(Tile::EastWind);
 
 	addQuad(Tile::OneOfCharacters, false);
 	addQuad(Tile::RedDragon, false);
@@ -330,7 +330,7 @@ TEST(MinipointCounterTest, HighestPoints)
 	addSequence(Tile::SevenOfCircles, false);
 	addPair(Tile::EastWind);
 
-	selfDraw();
+	selfDrawn();
 
 	CHECK_EQUAL(108, m.total(false));
 	CHECK_EQUAL(110, m.total());

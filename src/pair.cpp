@@ -28,7 +28,7 @@ bool Pair::isValuePair(const WiningState& state) const
 {
 	if (IsDragon()(tiles.front())) return true;
 	if (IsSame()(tiles.front(), state.roundWind())) return true;
-	if (IsSame()(tiles.front(), state.ownWind())) return true;
+	if (IsSame()(tiles.front(), state.seatWind())) return true;
 
 	return false;
 }

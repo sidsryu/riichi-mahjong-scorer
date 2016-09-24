@@ -11,7 +11,7 @@ public:
 
 private:
 	int roundUp(int point) const;
-	bool isNoPointsHandSelfPick() const;
+	bool isNoPointsHandSelfDrawn() const;
 	bool isSevenPairs() const;	
 	void computeMelds();
 	void computePair();

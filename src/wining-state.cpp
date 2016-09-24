@@ -4,35 +4,35 @@
 
 WiningState::WiningState()
 	: round_wind(Tile::EastWind)
-	, own_wind(Tile::EastWind)	
+	, seat_wind(Tile::EastWind)	
 {}
 
-void WiningState::setClaim()
+void WiningState::claim()
 {
 	is_claim = true;
 }
 
-void WiningState::setRiichi()
+void WiningState::riichi()
 {
 	assert(!is_double_riichi);
 	is_riichi = true;
 }
 
-void WiningState::setDoubleRiichi()
+void WiningState::doubleRiichi()
 {
 	assert(!is_riichi);
 	is_double_riichi = true;
 }
 
-void WiningState::setRon(Tile tile)
+void WiningState::winByDiscard(Tile tile)
 {
-	is_ron = true;
+	is_win_by_discard = true;
 	last_tile = tile;
 }
 
-void WiningState::setTsumo(Tile tile)
+void WiningState::selfDrawn(Tile tile)
 {
-	is_ron = false;
+	is_win_by_discard = false;
 	last_tile = tile;
 }
 
@@ -41,14 +41,14 @@ void WiningState::setRountWind(Tile tile)
 	round_wind = tile;
 }
 
-void WiningState::setOwnWind(Tile tile)
+void WiningState::setSeatWind(Tile tile)
 {
-	own_wind = tile;
+	seat_wind = tile;
 }
 
-bool WiningState::isClaim() const
+bool WiningState::isClosedHand() const
 {
-	return is_claim;
+	return !is_claim;
 }
 
 bool WiningState::isRiichi() const
@@ -61,14 +61,14 @@ bool WiningState::isDoubleRiichi() const
 	return is_double_riichi;
 }
 
-bool WiningState::isRon() const
+bool WiningState::isWinByDiscard() const
 {
-	return is_ron;
+	return is_win_by_discard;
 }
 
-bool WiningState::isTsumo() const
+bool WiningState::isSelfDrawn() const
 {
-	return !is_ron;
+	return !is_win_by_discard;
 }
 
 Tile WiningState::roundWind() const
@@ -76,9 +76,9 @@ Tile WiningState::roundWind() const
 	return round_wind;
 }
 
-Tile WiningState::ownWind() const
+Tile WiningState::seatWind() const
 {
-	return own_wind;
+	return seat_wind;
 }
 
 Tile WiningState::lastTile() const

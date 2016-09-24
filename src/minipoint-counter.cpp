@@ -13,7 +13,7 @@ MinipointCounter::MinipointCounter(const WiningHand& hand, const WiningState& st
 
 int MinipointCounter::total(bool is_round_up)
 {
-	if (isNoPointsHandSelfPick()) return 20;
+	if (isNoPointsHandSelfDrawn()) return 20;
 	if (isSevenPairs()) return 25;
 
 	point = 20;
@@ -32,9 +32,9 @@ int MinipointCounter::roundUp(int point) const
 	return static_cast<int>(std::ceil(point / 10.0) * 10);
 }
 
-bool MinipointCounter::isNoPointsHandSelfPick() const
+bool MinipointCounter::isNoPointsHandSelfDrawn() const
 {
-	if (state.isRon()) return false;
+	if (state.isWinByDiscard()) return false;
 
 	auto is_multi_wait = false;
 	for (auto it : hand.melds)
@@ -91,7 +91,7 @@ void MinipointCounter::computePair()
 		}
 		else
 		{
-			if (it.isContain(state.ownWind()))
+			if (it.isContain(state.seatWind()))
 			{
 				point += 2;
 			}
@@ -137,13 +137,13 @@ void MinipointCounter::computeWait()
 
 void MinipointCounter::computeWining()
 {
-	if (state.isTsumo())
+	if (state.isSelfDrawn())
 	{
 		point += 2;
 	}
 	else
 	{
-		// closed ron
+		// closed win by discard
 		for (auto it : hand.melds)
 		{
 			if (it.isOpen()) return;

@@ -4,22 +4,22 @@
 
 using namespace std;
 
-int ScoringTable::dealerRon(int han, int fu) const
+int ScoringTable::dealerWinByDiscard(int han, int fu) const
 {
 	return roundUp(6 * basicPoints(han, fu));
 }
 
-int ScoringTable::dealerTsumo(int han, int fu) const
+int ScoringTable::dealerSelfDrawn(int han, int fu) const
 {
 	return roundUp(2 * basicPoints(han, fu));
 }
 
-int ScoringTable::nonDealerRon(int han, int fu) const
+int ScoringTable::nonDealerWinByDiscard(int han, int fu) const
 {
 	return roundUp(4 * basicPoints(han, fu));
 }
 
-std::pair<int, int> ScoringTable::nonDealerTsumo(int han, int fu) const
+std::pair<int, int> ScoringTable::nonDealerSelfDrawn(int han, int fu) const
 {
 	auto basic = basicPoints(han, fu);
 	return make_pair(roundUp(basic), roundUp(2 * basic));
