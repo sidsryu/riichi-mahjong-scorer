@@ -15,7 +15,7 @@ void NoPointsHandRecognizer::reset()
 
 void NoPointsHandRecognizer::check(const Pair& pair)
 {
-	if (pair.isValuePair(state))
+	if (pair.isValueTiles(state))
 	{
 		has_value_pair = true;
 	}

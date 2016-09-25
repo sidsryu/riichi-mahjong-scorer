@@ -59,6 +59,9 @@
     <ClCompile Include="identical-sequences-recognizer.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="value-tiles-recognizer.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="scoring-table.h">
@@ -116,6 +119,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="identical-sequences-recognizer.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="value-tiles-recognizer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,5 +1,6 @@
 #include "meld.h"
 #include "tile-functor.h"
+#include "wining-state.h"
 #include <cassert>
 
 Meld::Meld(std::vector<Tile> tiles, bool is_open)
@@ -132,6 +133,15 @@ bool Meld::hasTerminal() const
 	{
 		if (IsTerminal()(it)) return true;
 	}
+
+	return false;
+}
+
+bool Meld::isValueTiles(const WiningState& state) const
+{
+	if (IsDragon()(tiles.front())) return true;
+	if (IsSame()(tiles.front(), state.roundWind())) return true;
+	if (IsSame()(tiles.front(), state.seatWind())) return true;
 
 	return false;
 }

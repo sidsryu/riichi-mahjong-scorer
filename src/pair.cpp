@@ -24,7 +24,7 @@ bool Pair::isDragons() const
 	return IsDragon()(tiles.front());
 }
 
-bool Pair::isValuePair(const WiningState& state) const
+bool Pair::isValueTiles(const WiningState& state) const
 {
 	if (IsDragon()(tiles.front())) return true;
 	if (IsSame()(tiles.front(), state.roundWind())) return true;

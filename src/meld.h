@@ -3,6 +3,7 @@
 #include <vector>
 
 enum class Tile;
+class WiningState;
 
 class Meld
 {
@@ -24,6 +25,7 @@ public:
 	bool isDragons() const;
 	bool isTerminals() const;
 	bool hasTerminal() const;
+	bool isValueTiles(const WiningState& state) const;
 	Tile frontTile() const;
 
 private:

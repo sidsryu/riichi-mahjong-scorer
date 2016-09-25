@@ -132,6 +132,7 @@
     <ClCompile Include="state-recognizer.cpp" />
     <ClCompile Include="tile-functor.cpp" />
     <ClCompile Include="tile-holder.cpp" />
+    <ClCompile Include="value-tiles-recognizer.cpp" />
     <ClCompile Include="wining-hand-counter.cpp" />
     <ClCompile Include="wining-state.cpp" />
   </ItemGroup>
@@ -152,6 +153,7 @@
     <ClInclude Include="tile-define.h" />
     <ClInclude Include="tile-functor.h" />
     <ClInclude Include="tile-holder.h" />
+    <ClInclude Include="value-tiles-recognizer.h" />
     <ClInclude Include="wining-hand-counter.h" />
     <ClInclude Include="wining-hand.h" />
     <ClInclude Include="wining-state.h" />
