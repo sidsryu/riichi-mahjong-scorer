@@ -29,7 +29,7 @@ TEST(PlayerHandTest, Triplet)
 		Tile::OneOfCircles
 	});
 
-	CHECK(h.isClaim());
+	CHECK(!h.isClosedHand());
 }
 
 TEST(PlayerHandTest, Kon)
@@ -46,7 +46,7 @@ TEST(PlayerHandTest, Kon)
 		Tile::OneOfCircles
 	});
 
-	CHECK(h.isClaim());
+	CHECK(!h.isClosedHand());
 }
 
 TEST(PlayerHandTest, CloseKon)
@@ -63,7 +63,7 @@ TEST(PlayerHandTest, CloseKon)
 		Tile::OneOfCircles
 	});
 
-	CHECK(!h.isClaim());
+	CHECK(h.isClosedHand());
 }
 
 TEST(PlayerHandTest, Sequence)
@@ -78,5 +78,5 @@ TEST(PlayerHandTest, Sequence)
 		Tile::ThreeOfCircles
 	});
 
-	CHECK(h.isClaim());
+	CHECK(!h.isClosedHand());
 }

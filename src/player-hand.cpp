@@ -78,14 +78,14 @@ void PlayerHand::bindClosedQuad(BindTiles tiles)
 	melds.push_back({ tiles, false });
 }
 
-bool PlayerHand::isClaim() const
+bool PlayerHand::isClosedHand() const
 {
 	for (auto it : melds)
 	{
-		if (it.isOpen()) return true;
+		if (it.isOpen()) return false;
 	}
 
-	return false;
+	return true;
 }
 
 Tile PlayerHand::lastTile() const

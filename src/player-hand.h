@@ -20,7 +20,7 @@ public:
 	void bindOpenQuad(BindTiles tiles);
 	void bindClosedQuad(BindTiles tiles);
 
-	bool isClaim() const;
+	bool isClosedHand() const;
 	Tile lastTile() const;
 	TileHolder makeHandHolder() const;
 
