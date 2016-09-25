@@ -48,19 +48,7 @@ void WiningHandCollator::backtrack(const WiningHand& extended_hand, const TileHo
 
 void WiningHandCollator::backtrackPair(WiningHand extended_hand, TileHolder extended_holder)
 {
-	if (1 <= extended_hand.pairs.size() && 1 <= extended_hand.melds.size())
-	{
-		return;
-	}
-
 	auto pair = extended_holder.popNextPair();
-	for (auto it : extended_hand.pairs)
-	{
-		if (it.isSame(pair))
-		{
-			return;
-		}
-	}
 	extended_hand.pairs.push_back(pair);
 
 	backtrack(extended_hand, extended_holder);

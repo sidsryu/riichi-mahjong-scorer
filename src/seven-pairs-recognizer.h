@@ -1,6 +1,9 @@
 #pragma once
 
 #include "hand-recognizer.h"
+#include <vector>
+
+enum class Tile;
 
 class SevenPairsRecognizer: public HandRecognizer
 {
@@ -13,5 +16,5 @@ public:
 	virtual std::set<Pattern> recognize() override;
 
 private:
-	int pair_count { 0 };
+	std::vector<Tile> front_tiles_of_pair;
 };
