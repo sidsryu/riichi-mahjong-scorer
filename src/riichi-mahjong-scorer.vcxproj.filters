@@ -71,6 +71,9 @@
     <ClCompile Include="three-colour-triplets-recognizer.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="terminal-or-honor-recognizer.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="scoring-table.h">
@@ -140,6 +143,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="three-colour-triplets-recognizer.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="terminal-or-honor-recognizer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

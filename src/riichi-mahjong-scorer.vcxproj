@@ -131,6 +131,7 @@
     <ClCompile Include="seven-pairs-recognizer.cpp" />
     <ClCompile Include="state-recognizer.cpp" />
     <ClCompile Include="straight-recognizer.cpp" />
+    <ClCompile Include="terminal-or-honor-recognizer.cpp" />
     <ClCompile Include="three-colour-triplets-recognizer.cpp" />
     <ClCompile Include="tile-functor.cpp" />
     <ClCompile Include="tile-holder.cpp" />
@@ -154,6 +155,7 @@
     <ClInclude Include="seven-pairs-recognizer.h" />
     <ClInclude Include="state-recognizer.h" />
     <ClInclude Include="straight-recognizer.h" />
+    <ClInclude Include="terminal-or-honor-recognizer.h" />
     <ClInclude Include="three-colour-triplets-recognizer.h" />
     <ClInclude Include="tile-define.h" />
     <ClInclude Include="tile-functor.h" />

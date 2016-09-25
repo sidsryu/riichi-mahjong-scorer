@@ -499,6 +499,7 @@ TEST(WiningHandCounterTest, AllTerminalsAndHornors_AllTriplets)
 
 	CHECK(w.hasPattern(Pattern::AllTerminalsAndHornors));
 	CHECK(w.hasPattern(Pattern::AllTriplets));
+	CHECK(!w.hasPattern(Pattern::TerminalOrHonorInEachSet));
 }
 
 TEST(WiningHandCounterTest, AllTerminalsAndHornors_SevenPairs)
@@ -516,6 +517,7 @@ TEST(WiningHandCounterTest, AllTerminalsAndHornors_SevenPairs)
 
 	CHECK(w.hasPattern(Pattern::AllTerminalsAndHornors));
 	CHECK(w.hasPattern(Pattern::SevenPairs));
+	CHECK(!w.hasPattern(Pattern::TerminalOrHonorInEachSet));
 }
 
 TEST(WiningHandCounterTest, TerminalInEachSet)
@@ -530,6 +532,21 @@ TEST(WiningHandCounterTest, TerminalInEachSet)
 	w.compute();
 
 	CHECK(w.hasPattern(Pattern::TerminalInEachSet));
+	CHECK(!w.hasPattern(Pattern::TerminalOrHonorInEachSet));
+}
+
+TEST(WiningHandCounterTest, Not_TerminalInEachSet_NotTerminalPair)
+{
+	addPair(Tile::WestWind);
+	addSequence(Tile::OneOfCharacters, false);
+	addTriplet(Tile::NineOfCircles, false);
+	addSequence(Tile::OneOfBamboos, false);
+	addSequence(Tile::SevenOfBamboos, false);
+
+	selfDrawn();
+	w.compute();
+
+	CHECK(!w.hasPattern(Pattern::TerminalInEachSet));
 }
 
 TEST(WiningHandCounterTest, LittleThreeDragons)

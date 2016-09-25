@@ -14,6 +14,7 @@
 #include "straight-recognizer.h"
 #include "triplets-or-quads-recognizer.h"
 #include "three-colour-triplets-recognizer.h"
+#include "terminal-or-honor-recognizer.h"
 
 using namespace std;
 
@@ -31,6 +32,7 @@ HandComputer::HandComputer(const WiningState& state, const WiningHands& hands)
 	recognizers.emplace_back(make_unique<StraightRecognizer>(state));
 	recognizers.emplace_back(make_unique<TripletsOrQuadsRecognizer>(state));
 	recognizers.emplace_back(make_unique<ThreeColourTripletsRecognizer>(state));
+	recognizers.emplace_back(make_unique<TerminalOrHonorRecognizer>(state));
 }
 
 HandComputer::~HandComputer() = default;
