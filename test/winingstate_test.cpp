@@ -49,16 +49,16 @@ TEST_GROUP(WiningStateTest)
 		addSequence(Tile::SevenOfCharacters);
 	}
 
-	void selfDrawn()
+	void selfDrawn(SelfDrawnSituation situation = {})
 	{
 		auto tile = h.lastTile();
-		s.selfDrawn(tile);
+		s.selfDrawn(tile, situation);
 	}
 
-	void winByDiscard()
+	void winByDiscard(WinByDiscardSituation situation = {})
 	{
 		auto tile = h.lastTile();
-		s.winByDiscard(tile);
+		s.winByDiscard(tile, situation);
 	}
 };
 
@@ -115,8 +115,10 @@ TEST(WiningStateTest, OneShot)
 	addNoWiningHand();
 	s.readyHand();
 
-	s.setOneShot();
-	winByDiscard();
+	WinByDiscardSituation situation;
+	situation.is_one_shot = true;
+
+	winByDiscard(situation);
 	w.compute();
 
 	CHECK(w.hasPattern(Pattern::OneShot));
@@ -126,8 +128,10 @@ TEST(WiningStateTest, Not_OneShot_ReadyOnly)
 {
 	addNoWiningHand();
 	
-	s.setOneShot();
-	selfDrawn();
+	SelfDrawnSituation situation;
+	situation.is_one_shot = true;
+
+	selfDrawn(situation);
 	w.compute();
 
 	CHECK(!w.hasPattern(Pattern::OneShot));
@@ -137,8 +141,10 @@ TEST(WiningStateTest, DeadWallDraw)
 {
 	addNoWiningHand();
 
-	s.setDeadWallDraw();
-	selfDrawn();
+	SelfDrawnSituation situation;
+	situation.is_dead_wall = true;
+
+	selfDrawn(situation);
 	w.compute();
 
 	CHECK(w.hasPattern(Pattern::DeadWallDraw));
@@ -148,8 +154,10 @@ TEST(WiningStateTest, RobbingQuad)
 {
 	addNoWiningHand();
 
-	s.setRobbingQuad();
-	winByDiscard();
+	WinByDiscardSituation situation;
+	situation.is_robbing_quad = true;
+
+	winByDiscard(situation);
 	w.compute();
 
 	CHECK(w.hasPattern(Pattern::RobbingQuad));
@@ -159,8 +167,10 @@ TEST(WiningStateTest, LastTileFromTheWall)
 {
 	addNoWiningHand();
 	
-	s.setLastTileFromTheWall();
-	selfDrawn();
+	SelfDrawnSituation situation;
+	situation.is_last_wall = true;
+
+	selfDrawn(situation);
 	w.compute();
 
 	CHECK(w.hasPattern(Pattern::LastTileFromTheWall));
@@ -170,8 +180,10 @@ TEST(WiningStateTest, LastDiscard)
 {
 	addNoWiningHand();
 
-	s.setLastDiscard();
-	winByDiscard();
+	WinByDiscardSituation situation;
+	situation.is_last_discard = true;
+
+	winByDiscard(situation);
 	w.compute();
 
 	CHECK(w.hasPattern(Pattern::LastDiscard));

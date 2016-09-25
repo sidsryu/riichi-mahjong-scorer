@@ -2,6 +2,20 @@
 
 enum class Tile;
 
+struct WinByDiscardSituation
+{
+	bool is_one_shot { false };
+	bool is_last_discard { false };
+	bool is_robbing_quad { false };
+};
+
+struct SelfDrawnSituation
+{
+	bool is_one_shot { false };
+	bool is_dead_wall { false };
+	bool is_last_wall { false };
+};
+
 class WiningState
 {
 public:
@@ -10,15 +24,10 @@ public:
 	void readyHand();
 	void doubleReady();
 	void claim();
-	void winByDiscard(Tile tile);
-	void selfDrawn(Tile tile);
+	void winByDiscard(Tile tile, WinByDiscardSituation situation = {});
+	void selfDrawn(Tile tile, SelfDrawnSituation situation = {});
 	void setRountWind(Tile tile);
 	void setSeatWind(Tile tile);
-	void setOneShot();
-	void setLastDiscard();
-	void setLastTileFromTheWall();
-	void setDeadWallDraw();
-	void setRobbingQuad();
 
 	bool isReadyHand() const;
 	bool isDoubleReady() const;
@@ -33,7 +42,7 @@ public:
 	bool isLastTileFromTheWall() const;
 	bool isDeadWallDraw() const;
 	bool isRobbinQuad() const;
-	
+
 private:
 	bool is_ready_hand { false };
 	bool is_double_ready { false };
@@ -44,7 +53,7 @@ private:
 	Tile last_tile;
 	bool is_one_shot { false };
 	bool is_last_discard { false };
-	bool is_last_tile_from_the_wall { false };
-	bool is_dead_wall_draw { false };
 	bool is_robbing_quad { false };
+	bool is_last_tile_from_the_wall { false };
+	bool is_dead_wall_draw { false };	
 };

@@ -24,16 +24,26 @@ void WiningState::doubleReady()
 	is_double_ready = true;
 }
 
-void WiningState::winByDiscard(Tile tile)
+void WiningState::winByDiscard(Tile tile, WinByDiscardSituation situation) 
 {
 	is_win_by_discard = true;
 	last_tile = tile;
+
+	is_one_shot = situation.is_one_shot;
+	is_last_discard = situation.is_last_discard;
+	is_robbing_quad = situation.is_robbing_quad;
+	assert(!is_last_discard || !is_robbing_quad);
 }
 
-void WiningState::selfDrawn(Tile tile)
+void WiningState::selfDrawn(Tile tile, SelfDrawnSituation situation)
 {
 	is_win_by_discard = false;
 	last_tile = tile;
+
+	is_one_shot = situation.is_one_shot;
+	is_last_tile_from_the_wall = situation.is_last_wall;
+	is_dead_wall_draw = situation.is_dead_wall;
+	assert(!is_last_tile_from_the_wall || !is_dead_wall_draw);
 }
 
 void WiningState::setRountWind(Tile tile)
@@ -44,31 +54,6 @@ void WiningState::setRountWind(Tile tile)
 void WiningState::setSeatWind(Tile tile)
 {
 	seat_wind = tile;
-}
-
-void WiningState::setOneShot()
-{
-	is_one_shot = true;
-}
-
-void WiningState::setLastDiscard()
-{
-	is_last_discard = true;
-}
-
-void WiningState::setLastTileFromTheWall()
-{
-	is_last_tile_from_the_wall = true;
-}
-
-void WiningState::setDeadWallDraw()
-{
-	is_dead_wall_draw = true;
-}
-
-void WiningState::setRobbingQuad()
-{
-	is_robbing_quad = true;
 }
 
 bool WiningState::isClosedHand() const
