@@ -53,40 +53,6 @@ set<Pattern> KitchenSinkRecognizer::recognize()
 		it.patterns.insert(Pattern::AllSimples);
 	}
 
-	array<array<bool, 3>, 9> straight_checker {};
-	for (auto m : it.melds)
-	{
-		if (m.isSequence())
-		{
-			auto code = static_cast<int>(m.frontTile());
-			auto suit = code / 100;
-			auto number = code / 10 % 10;
-
-			straight_checker[number - 1][suit - 1] = true;
-		}
-	}
-	for (auto c : straight_checker)
-	{
-		if (c[0] && c[1] && c[2])
-		{
-			it.patterns.insert(Pattern::ThreeColourStraights);
-			break;
-		}
-	}
-
-	if ((straight_checker[0][0] &&
-		straight_checker[3][0] &&
-		straight_checker[6][0]) ||
-		(straight_checker[0][1] &&
-			straight_checker[3][1] &&
-			straight_checker[6][1]) ||
-			(straight_checker[0][2] &&
-				straight_checker[3][2] &&
-				straight_checker[6][2]))
-	{
-		it.patterns.insert(Pattern::Straight);
-	}
-
 	auto triplet_count = 0;
 	auto closed_triplet_count = 0;
 	auto closed_modify = 0;

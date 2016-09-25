@@ -11,6 +11,7 @@
 #include "no-points-hand-recognizer.h"
 #include "identical-sequences-recognizer.h"
 #include "value-tiles-recognizer.h"
+#include "straight-recognizer.h"
 
 using namespace std;
 
@@ -25,6 +26,7 @@ HandComputer::HandComputer(const WiningState& state, const WiningHands& hands)
 	recognizers.emplace_back(make_unique<NoPointsHandRecognizer>(state));
 	recognizers.emplace_back(make_unique<IdenticalSequencesRecognizer>(state));
 	recognizers.emplace_back(make_unique<ValueTilesRecognizer>(state));
+	recognizers.emplace_back(make_unique<StraightRecognizer>(state));
 }
 
 HandComputer::~HandComputer() = default;

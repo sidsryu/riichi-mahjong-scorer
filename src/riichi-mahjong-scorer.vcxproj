@@ -130,6 +130,7 @@
     <ClCompile Include="scoring-table.cpp" />
     <ClCompile Include="seven-pairs-recognizer.cpp" />
     <ClCompile Include="state-recognizer.cpp" />
+    <ClCompile Include="straight-recognizer.cpp" />
     <ClCompile Include="tile-functor.cpp" />
     <ClCompile Include="tile-holder.cpp" />
     <ClCompile Include="value-tiles-recognizer.cpp" />
@@ -150,6 +151,7 @@
     <ClInclude Include="scoring-table.h" />
     <ClInclude Include="seven-pairs-recognizer.h" />
     <ClInclude Include="state-recognizer.h" />
+    <ClInclude Include="straight-recognizer.h" />
     <ClInclude Include="tile-define.h" />
     <ClInclude Include="tile-functor.h" />
     <ClInclude Include="tile-holder.h" />
