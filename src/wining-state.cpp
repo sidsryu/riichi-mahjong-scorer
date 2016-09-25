@@ -12,16 +12,16 @@ void WiningState::claim()
 	is_claim = true;
 }
 
-void WiningState::riichi()
+void WiningState::ready()
 {
-	assert(!is_double_riichi);
-	is_riichi = true;
+	assert(!is_double_ready);
+	is_ready = true;
 }
 
-void WiningState::doubleRiichi()
+void WiningState::doubleReady()
 {
-	assert(!is_riichi);
-	is_double_riichi = true;
+	assert(!is_ready);
+	is_double_ready = true;
 }
 
 void WiningState::winByDiscard(Tile tile)
@@ -51,14 +51,14 @@ bool WiningState::isClosedHand() const
 	return !is_claim;
 }
 
-bool WiningState::isRiichi() const
+bool WiningState::isReady() const
 {
-	return is_riichi;
+	return is_ready;
 }
 
-bool WiningState::isDoubleRiichi() const
+bool WiningState::isDoubleReady() const
 {
-	return is_double_riichi;
+	return is_double_ready;
 }
 
 bool WiningState::isWinByDiscard() const

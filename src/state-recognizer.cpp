@@ -17,12 +17,12 @@ set<Pattern> StateRecognizer::recognize()
 {
 	set<Pattern> patterns;
 
-	if (state.isDoubleRiichi())
+	if (state.isDoubleReady())
 	{
 		patterns.insert(Pattern::DoubleReady);
 	}
 
-	if (state.isRiichi())
+	if (state.isReady())
 	{
 		patterns.insert(Pattern::ReadyHand);
 	}

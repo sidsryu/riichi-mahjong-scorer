@@ -7,16 +7,16 @@ class WiningState
 public:
 	WiningState();
 
-	void riichi();
-	void doubleRiichi();
+	void ready();
+	void doubleReady();
 	void claim();
 	void winByDiscard(Tile tile);
 	void selfDrawn(Tile tile);
 	void setRountWind(Tile tile);
 	void setSeatWind(Tile tile);
 
-	bool isRiichi() const;
-	bool isDoubleRiichi() const;
+	bool isReady() const;
+	bool isDoubleReady() const;
 	bool isClosedHand() const;
 	bool isWinByDiscard() const;
 	bool isSelfDrawn() const;
@@ -25,8 +25,8 @@ public:
 	Tile lastTile() const;
 
 private:
-	bool is_riichi { false };
-	bool is_double_riichi { false };
+	bool is_ready { false };
+	bool is_double_ready { false };
 	bool is_claim { false };
 	bool is_win_by_discard { false };
 	Tile round_wind;

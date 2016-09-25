@@ -103,7 +103,7 @@ TEST(WiningStateTest, ReadyHand)
 {
 	addNoWiningHand();
 
-	s.riichi();
+	s.ready();
 	winByDiscard();
 	w.compute();
 
@@ -132,7 +132,7 @@ TEST(WiningStateTest, DoubleReady)
 {
 	addNoWiningHand();
 
-	s.doubleRiichi();	
+	s.doubleReady();	
 	winByDiscard();
 	w.compute();
 
