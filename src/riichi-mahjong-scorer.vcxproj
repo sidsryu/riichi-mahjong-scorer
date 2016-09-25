@@ -131,8 +131,10 @@
     <ClCompile Include="seven-pairs-recognizer.cpp" />
     <ClCompile Include="state-recognizer.cpp" />
     <ClCompile Include="straight-recognizer.cpp" />
+    <ClCompile Include="three-colour-triplets-recognizer.cpp" />
     <ClCompile Include="tile-functor.cpp" />
     <ClCompile Include="tile-holder.cpp" />
+    <ClCompile Include="triplets-or-quads-recognizer.cpp" />
     <ClCompile Include="value-tiles-recognizer.cpp" />
     <ClCompile Include="wining-hand-counter.cpp" />
     <ClCompile Include="wining-state.cpp" />
@@ -152,9 +154,11 @@
     <ClInclude Include="seven-pairs-recognizer.h" />
     <ClInclude Include="state-recognizer.h" />
     <ClInclude Include="straight-recognizer.h" />
+    <ClInclude Include="three-colour-triplets-recognizer.h" />
     <ClInclude Include="tile-define.h" />
     <ClInclude Include="tile-functor.h" />
     <ClInclude Include="tile-holder.h" />
+    <ClInclude Include="triplets-or-quads-recognizer.h" />
     <ClInclude Include="value-tiles-recognizer.h" />
     <ClInclude Include="wining-hand-counter.h" />
     <ClInclude Include="wining-hand.h" />

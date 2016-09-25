@@ -3,13 +3,10 @@
 #include "hand-recognizer.h"
 #include <array>
 
-class StraightRecognizer: public HandRecognizer
+class ThreeColourTripletsRecognizer: public HandRecognizer
 {
-	using SuitFlag = std::array<bool, 3>;
-	using NumberFlag = std::array<SuitFlag, 9>;
-
 public:
-	RECOGNIZER_CONSTRUCTOR(StraightRecognizer);
+	RECOGNIZER_CONSTRUCTOR(ThreeColourTripletsRecognizer);
 
 	virtual void reset() override;
 	virtual void check(const Pair& pair) override;
@@ -17,5 +14,5 @@ public:
 	virtual std::set<Pattern> recognize() override;
 
 private:
-	NumberFlag has_front_tile_of_sequences {};
+	std::array<int, 9> front_tile_count_of_triplets_or_quads {};
 };

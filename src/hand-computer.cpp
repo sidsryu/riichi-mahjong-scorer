@@ -12,6 +12,8 @@
 #include "identical-sequences-recognizer.h"
 #include "value-tiles-recognizer.h"
 #include "straight-recognizer.h"
+#include "triplets-or-quads-recognizer.h"
+#include "three-colour-triplets-recognizer.h"
 
 using namespace std;
 
@@ -27,6 +29,8 @@ HandComputer::HandComputer(const WiningState& state, const WiningHands& hands)
 	recognizers.emplace_back(make_unique<IdenticalSequencesRecognizer>(state));
 	recognizers.emplace_back(make_unique<ValueTilesRecognizer>(state));
 	recognizers.emplace_back(make_unique<StraightRecognizer>(state));
+	recognizers.emplace_back(make_unique<TripletsOrQuadsRecognizer>(state));
+	recognizers.emplace_back(make_unique<ThreeColourTripletsRecognizer>(state));
 }
 
 HandComputer::~HandComputer() = default;

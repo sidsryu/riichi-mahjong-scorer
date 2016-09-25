@@ -1,15 +1,11 @@
 #pragma once
 
 #include "hand-recognizer.h"
-#include <array>
 
-class StraightRecognizer: public HandRecognizer
+class TripletsOrQuadsRecognizer: public HandRecognizer
 {
-	using SuitFlag = std::array<bool, 3>;
-	using NumberFlag = std::array<SuitFlag, 9>;
-
 public:
-	RECOGNIZER_CONSTRUCTOR(StraightRecognizer);
+	RECOGNIZER_CONSTRUCTOR(TripletsOrQuadsRecognizer);
 
 	virtual void reset() override;
 	virtual void check(const Pair& pair) override;
@@ -17,5 +13,8 @@ public:
 	virtual std::set<Pattern> recognize() override;
 
 private:
-	NumberFlag has_front_tile_of_sequences {};
+	int quad_count { 0 };
+	int triplet_count { 0 };
+	int closed_triplet_or_quad_count { 0 };	
+	int closed_count_modifier { 0 };
 };
