@@ -12,15 +12,15 @@ void WiningState::claim()
 	is_claim = true;
 }
 
-void WiningState::ready()
+void WiningState::readyHand()
 {
 	assert(!is_double_ready);
-	is_ready = true;
+	is_ready_hand = true;
 }
 
 void WiningState::doubleReady()
 {
-	assert(!is_ready);
+	assert(!is_ready_hand);
 	is_double_ready = true;
 }
 
@@ -46,14 +46,39 @@ void WiningState::setSeatWind(Tile tile)
 	seat_wind = tile;
 }
 
+void WiningState::setOneShot()
+{
+	is_one_shot = true;
+}
+
+void WiningState::setLastDiscard()
+{
+	is_last_discard = true;
+}
+
+void WiningState::setLastTileFromTheWall()
+{
+	is_last_tile_from_the_wall = true;
+}
+
+void WiningState::setDeadWallDraw()
+{
+	is_dead_wall_draw = true;
+}
+
+void WiningState::setRobbingQuad()
+{
+	is_robbing_quad = true;
+}
+
 bool WiningState::isClosedHand() const
 {
 	return !is_claim;
 }
 
-bool WiningState::isReady() const
+bool WiningState::isReadyHand() const
 {
-	return is_ready;
+	return is_ready_hand;
 }
 
 bool WiningState::isDoubleReady() const
@@ -84,4 +109,29 @@ Tile WiningState::seatWind() const
 Tile WiningState::lastTile() const
 {
 	return last_tile;
+}
+
+bool WiningState::isOneShot() const
+{
+	return is_one_shot;
+}
+
+bool WiningState::isLastDiscard() const
+{
+	return is_last_discard;
+}
+
+bool WiningState::isLastTileFromTheWall() const
+{
+	return is_last_tile_from_the_wall;
+}
+
+bool WiningState::isDeadWallDraw() const
+{
+	return is_dead_wall_draw;
+}
+
+bool WiningState::isRobbinQuad() const
+{
+	return is_robbing_quad;
 }

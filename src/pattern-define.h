@@ -1,9 +1,14 @@
 #pragma once
 
 enum class Pattern
-{
+{	
 	ReadyHand,
 	DoubleReady,
+	OneShot,	
+	LastTileFromTheWall,
+	LastDiscard,
+	DeadWallDraw,
+	RobbingQuad,
 	SelfDrawn,
 	OneSetOfIdenticalSequences,
 	NoPointsHand,

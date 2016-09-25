@@ -17,14 +17,48 @@ set<Pattern> StateRecognizer::recognize()
 {
 	set<Pattern> patterns;
 
-	if (state.isDoubleReady())
+	if (state.isReadyHand() || state.isDoubleReady())
 	{
-		patterns.insert(Pattern::DoubleReady);
+		if (state.isReadyHand())
+		{
+			patterns.insert(Pattern::ReadyHand);
+		}
+
+		if (state.isDoubleReady())
+		{
+			patterns.insert(Pattern::DoubleReady);
+		}
+
+		if (state.isOneShot())
+		{
+			patterns.insert(Pattern::OneShot);
+		}
 	}
 
-	if (state.isReady())
+	if (state.isWinByDiscard())
 	{
-		patterns.insert(Pattern::ReadyHand);
+		if (state.isLastDiscard())
+		{
+			patterns.insert(Pattern::LastDiscard);
+		}
+
+		if (state.isRobbinQuad())
+		{
+			patterns.insert(Pattern::RobbingQuad);
+		}
+	}
+
+	if (state.isSelfDrawn())
+	{
+		if (state.isLastTileFromTheWall())
+		{
+			patterns.insert(Pattern::LastTileFromTheWall);
+		}
+
+		if (state.isDeadWallDraw())
+		{
+			patterns.insert(Pattern::DeadWallDraw);
+		}
 	}
 
 	if (state.isClosedHand() && state.isSelfDrawn())

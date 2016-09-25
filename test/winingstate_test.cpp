@@ -103,7 +103,7 @@ TEST(WiningStateTest, ReadyHand)
 {
 	addNoWiningHand();
 
-	s.ready();
+	s.readyHand();
 	winByDiscard();
 	w.compute();
 
@@ -111,19 +111,71 @@ TEST(WiningStateTest, ReadyHand)
 }
 
 TEST(WiningStateTest, OneShot)
-{}
+{
+	addNoWiningHand();
+	s.readyHand();
+
+	s.setOneShot();
+	winByDiscard();
+	w.compute();
+
+	CHECK(w.hasPattern(Pattern::OneShot));
+}
+
+TEST(WiningStateTest, Not_OneShot_ReadyOnly)
+{
+	addNoWiningHand();
+	
+	s.setOneShot();
+	selfDrawn();
+	w.compute();
+
+	CHECK(!w.hasPattern(Pattern::OneShot));
+}
 
 TEST(WiningStateTest, DeadWallDraw)
-{}
+{
+	addNoWiningHand();
 
-TEST(WiningStateTest, RobblingAQuad)
-{}
+	s.setDeadWallDraw();
+	selfDrawn();
+	w.compute();
+
+	CHECK(w.hasPattern(Pattern::DeadWallDraw));
+}
+
+TEST(WiningStateTest, RobbingQuad)
+{
+	addNoWiningHand();
+
+	s.setRobbingQuad();
+	winByDiscard();
+	w.compute();
+
+	CHECK(w.hasPattern(Pattern::RobbingQuad));
+}
 
 TEST(WiningStateTest, LastTileFromTheWall)
-{}
+{
+	addNoWiningHand();
+	
+	s.setLastTileFromTheWall();
+	selfDrawn();
+	w.compute();
+
+	CHECK(w.hasPattern(Pattern::LastTileFromTheWall));
+}
 
 TEST(WiningStateTest, LastDiscard)
-{}
+{
+	addNoWiningHand();
+
+	s.setLastDiscard();
+	winByDiscard();
+	w.compute();
+
+	CHECK(w.hasPattern(Pattern::LastDiscard));
+}
 
 TEST(WiningStateTest, Dora)
 {}
