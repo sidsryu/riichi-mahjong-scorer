@@ -123,7 +123,6 @@
     <ClCompile Include="hand-computer.cpp" />
     <ClCompile Include="hand-recognizer.cpp" />
     <ClCompile Include="identical-sequences-recognizer.cpp" />
-    <ClCompile Include="kitchen-sink-recognizer.cpp" />
     <ClCompile Include="meld.cpp" />
     <ClCompile Include="minipoint-counter.cpp" />
     <ClCompile Include="no-points-hand-recognizer.cpp" />
@@ -150,7 +149,6 @@
     <ClInclude Include="no-points-hand-recognizer.h" />
     <ClInclude Include="pattern-define.h" />
     <ClInclude Include="hand-recognizer.h" />
-    <ClInclude Include="kitchen-sink-recognizer.h" />
     <ClInclude Include="meld.h" />
     <ClInclude Include="minipoint-counter.h" />
     <ClInclude Include="pair.h" />

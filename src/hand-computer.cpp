@@ -5,7 +5,6 @@
 #include "hand-recognizer.h"
 #include "pair.h"
 #include "meld.h"
-#include "kitchen-sink-recognizer.h"
 #include "state-recognizer.h"
 #include "seven-pairs-recognizer.h"
 #include "no-points-hand-recognizer.h"
@@ -24,8 +23,6 @@ HandComputer::HandComputer(const WiningState& state, const WiningHands& hands)
 	: state(state)
 	, hands(hands)
 {
-	recognizers.emplace_back(make_unique<KitchenSinkRecognizer>(state));
-
 	recognizers.emplace_back(make_unique<StateRecognizer>(state));
 	recognizers.emplace_back(make_unique<SevenPairsRecognizer>(state));
 	recognizers.emplace_back(make_unique<NoPointsHandRecognizer>(state));
