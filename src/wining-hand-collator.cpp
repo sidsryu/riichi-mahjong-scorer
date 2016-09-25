@@ -30,42 +30,37 @@ void WiningHandCollator::backtrack(const WiningHand& extended_hand, const TileHo
 		return;
 	}
 
-	if (extended_holder.isNextTilePair())
-	{
-		backtrackPair(extended_hand, extended_holder);
-	}
-
-	if (extended_holder.isNextTileTripletOrQuad())
-	{
-		backtrackTripletOrQuad(extended_hand, extended_holder);
-	}
-
-	if (extended_holder.isNextTileSequence())
-	{
-		backtrackSequence(extended_hand, extended_holder);
-	}
+	backtrackPair(extended_hand, extended_holder);
+	backtrackTripletOrQuad(extended_hand, extended_holder);
+	backtrackSequence(extended_hand, extended_holder);
 }
 
 void WiningHandCollator::backtrackPair(WiningHand extended_hand, TileHolder extended_holder)
 {
-	auto pair = extended_holder.popNextPair();
-	extended_hand.pairs.push_back(pair);
-
-	backtrack(extended_hand, extended_holder);
+	auto pair = extended_holder.popPairWithFrontTile();
+	if (pair.isValid())
+	{
+		extended_hand.pairs.push_back(pair);
+		backtrack(extended_hand, extended_holder);
+	}
 }
 
 void WiningHandCollator::backtrackTripletOrQuad(WiningHand extended_hand, TileHolder extended_holder)
 {
-	auto meld = extended_holder.popNextTripletOrQuad();
-	extended_hand.melds.push_back(meld);
-
-	backtrack(extended_hand, extended_holder);
+	auto meld = extended_holder.popTripletOrQuadWithFrontTile();
+	if (meld.isValid())
+	{
+		extended_hand.melds.push_back(meld);
+		backtrack(extended_hand, extended_holder);
+	}
 }
 
 void WiningHandCollator::backtrackSequence(WiningHand extended_hand, TileHolder extended_holder)
 {
-	auto meld = extended_holder.popNextSequence();
-	extended_hand.melds.push_back(meld);
-
-	backtrack(extended_hand, extended_holder);
+	auto meld = extended_holder.popSequenceWithFrontTile();
+	if (meld.isValid())
+	{
+		extended_hand.melds.push_back(meld);
+		backtrack(extended_hand, extended_holder);
+	}
 }

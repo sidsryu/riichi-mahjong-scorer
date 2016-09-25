@@ -8,6 +8,7 @@ class WiningState;
 class Meld
 {
 public:
+	Meld();
 	Meld(std::vector<Tile> tiles, bool is_open);
 
 	bool isOpen() const;
@@ -27,6 +28,7 @@ public:
 	bool hasTerminal() const;
 	bool isValueTiles(const WiningState& state) const;
 	Tile frontTile() const;
+	bool isValid() const;
 
 private:
 	std::vector<Tile> tiles;

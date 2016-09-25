@@ -3,6 +3,9 @@
 #include "tile-functor.h"
 #include <cassert>
 
+Pair::Pair() 
+{}
+
 Pair::Pair(std::vector<Tile> tiles)
 	: tiles(tiles)
 {
@@ -46,4 +49,9 @@ Tile Pair::frontTile() const
 bool Pair::isSame(const Pair& pair) const
 {
 	return IsSame()(tiles.front(), pair.tiles.front());
+}
+
+bool Pair::isValid() const
+{
+	return !tiles.empty();
 }

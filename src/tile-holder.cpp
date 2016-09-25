@@ -26,154 +26,123 @@ bool TileHolder::empty() const
 	return tiles.empty() && melds.empty();
 }
 
-bool TileHolder::isNextTilePair()  const
+Pair TileHolder::popPairWithFrontTile()
 {
-	if (tiles.size() < 2) return false;
-	return IsSame()(tiles.front(), tiles.at(1));
-}
-
-bool TileHolder::isNextTileTripletOrQuad() const
-{
-	if (tiles.empty())
+	if (2 <= tiles.size())
 	{
-		const auto& meld = melds.front();
-		return meld.isTripletOrQuad();
-	}
-
-	if (tiles.size() < 3) return false;
-	return IsSame()(tiles.front(), tiles.at(1)) && IsSame()(tiles.front(), tiles.at(2));
-}
-
-bool TileHolder::isNextTileSequence()  const
-{
-	if (tiles.empty())
-	{
-		const auto& meld = melds.front();
-		return meld.isSequence();
-	}
-
-	if (tiles.size() < 3) return false;
-
-	auto tile = tiles.front();
-	auto count = 1;
-
-	for (auto it : tiles)
-	{
-		if (!IsHonor()(it) && IsSame()(NextTile()(tile), it))
+		if (IsSame()(tiles[0], tiles[1]))
 		{
-			tile = it;
-			count++;
-		}
-
-		if (count == 3)
-		{
-			return true;
+			return popTiles({ 0, 1 });
 		}
 	}
 
-	return false;
+	return {};
 }
 
-Pair TileHolder::popNextPair()
+Meld TileHolder::popTripletOrQuadWithFrontTile()
 {
-	assert(2 <= tiles.size());
-
-	vector<Tile> pair;
-
-	pair.push_back(tiles.front());
-	tiles.erase(tiles.begin());
-
-	pair.push_back(tiles.front());
-	tiles.erase(tiles.begin());
-
-	return pair;
-}
-
-Meld TileHolder::popNextTripletOrQuad()
-{
-	if (tiles.empty())
-	{
-		for (auto it = melds.begin(); it != melds.end(); it++)
-		{
-			if (it->isTripletOrQuad())
-			{
-				auto meld = *it;
-				melds.erase(it);
-
-				return meld;
-			}
-		}
-	}
-
 	if (3 <= tiles.size())
 	{
-		if (IsSame()(tiles.front(), tiles.at(1)) && IsSame()(tiles.front(), tiles.at(2)))
+		if (IsSame()(tiles[0], tiles[1]) && IsSame()(tiles[0], tiles[2]))
 		{
-			vector<Tile> triplet;
-
-			triplet.push_back(tiles.front());
-			tiles.erase(tiles.begin());
-
-			triplet.push_back(tiles.front());
-			tiles.erase(tiles.begin());
-
-			triplet.push_back(tiles.front());
-			tiles.erase(tiles.begin());
-
-			return { triplet, false };
+			return { popTiles({ 0, 1, 2 }), false };
 		}
 	}
 
-	assert(false);
-	return { {}, false };
-}
-
-Meld TileHolder::popNextSequence()
-{
 	if (tiles.empty())
 	{
-		for (auto it = melds.begin(); it != melds.end(); it++)
-		{
-			if (it->isSequence())
-			{
-				auto meld = *it;
-				melds.erase(it);
-
-				return meld;
-			}
-		}
+		return popTripletOrQuadMeld();
 	}
 
+	return {};
+}
+
+Meld TileHolder::popSequenceWithFrontTile()
+{
 	if (3 <= tiles.size())
 	{
-		vector<Tile> sequence;
-
-		auto tile = tiles.front();
-		auto count = 0;
-
-		for (auto it = tiles.begin(); it != tiles.end();)
+		if (!IsHonor()(tiles[0]))
 		{
-			if (count == 0 || (!IsHonor()(*it) && IsSame()(NextTile()(tile), *it)))
-			{
-				sequence.push_back(*it);
-				tile = *it;
-				it = tiles.erase(it);
-				count++;
+			set<int> pop_indices { 0 };
+			Tile next_tile = NextTile()(tiles[0]);
 
-				if (count == 3) break;
-			}
-			else
+			for (size_t i = 0; i < tiles.size(); i++)
 			{
-				it++;
-			}
-		}
+				if (IsSame()(next_tile, tiles[i]))
+				{
+					next_tile = NextTile()(next_tile);
+					pop_indices.insert(i);
+				}
 
-		if (3 == sequence.size())
-		{
-			return { sequence, false };
+				if (3 == pop_indices.size())
+				{
+					return { popTiles(pop_indices), false };
+				}
+			}
 		}
 	}
 
-	assert(false);
-	return { {}, false };
+	if (tiles.empty())
+	{
+		return popSequenceMeld();
+	}
+
+	return {};
+}
+
+vector<Tile> TileHolder::popTiles(set<int> indices)
+{
+	vector<Tile> poped_tiles;
+
+	auto index = 0;
+	auto it = tiles.begin();
+	while (it != tiles.end())
+	{
+		auto will_pop = indices.find(index);
+		if (will_pop != indices.end())
+		{
+			poped_tiles.push_back(*it);
+			it = tiles.erase(it);
+		}
+		else
+		{
+			it++;
+		}
+
+		index++;
+	}
+
+	return poped_tiles;
+}
+
+Meld TileHolder::popTripletOrQuadMeld()
+{
+	for (auto it = melds.begin(); it != melds.end(); it++)
+	{
+		if (it->isTripletOrQuad())
+		{
+			auto meld = *it;
+			melds.erase(it);
+
+			return meld;
+		}
+	}
+
+	return {};
+}
+
+Meld TileHolder::popSequenceMeld()
+{
+	for (auto it = melds.begin(); it != melds.end(); it++)
+	{
+		if (it->isSequence())
+		{
+			auto meld = *it;
+			melds.erase(it);
+
+			return meld;
+		}
+	}
+
+	return {};
 }

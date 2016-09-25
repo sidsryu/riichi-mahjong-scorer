@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <set>
 
 enum class Tile;
 class Meld;
@@ -13,15 +14,16 @@ public:
 	void add(Meld meld);
 	bool empty() const;
 
-	bool isNextTilePair() const;
-	bool isNextTileTripletOrQuad() const;
-	bool isNextTileSequence() const;
-
-	Pair popNextPair();
-	Meld popNextTripletOrQuad();
-	Meld popNextSequence();
+	Pair popPairWithFrontTile();
+	Meld popTripletOrQuadWithFrontTile();
+	Meld popSequenceWithFrontTile();
 
 private:
-	std::vector<Tile> tiles;
+	std::vector<Tile> popTiles(std::set<int> indices);
+	Meld popTripletOrQuadMeld();
+	Meld popSequenceMeld();
+
+private:
+	std::vector<Tile> tiles;	
 	std::vector<Meld> melds;
 };

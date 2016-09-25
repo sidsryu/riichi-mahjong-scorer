@@ -3,6 +3,9 @@
 #include "wining-state.h"
 #include <cassert>
 
+Meld::Meld()
+{}
+
 Meld::Meld(std::vector<Tile> tiles, bool is_open)
 	: tiles(tiles)
 	, is_open(is_open)
@@ -149,4 +152,9 @@ bool Meld::isValueTiles(const WiningState& state) const
 Tile Meld::frontTile() const
 {
 	return tiles.front();
+}
+
+bool Meld::isValid() const
+{
+	return !tiles.empty();
 }

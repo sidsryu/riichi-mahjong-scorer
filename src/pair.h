@@ -8,6 +8,7 @@ class WiningState;
 class Pair
 {
 public:
+	Pair();
 	Pair(std::vector<Tile> tiles);
 
 	bool isSimples() const;
@@ -17,6 +18,7 @@ public:
 	bool isContain(Tile tile) const;
 	Tile frontTile() const;
 	bool isSame(const Pair& pair) const;
+	bool isValid() const;
 
 private:
 	std::vector<Tile> tiles;
