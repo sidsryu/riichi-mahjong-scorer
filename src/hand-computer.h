@@ -3,7 +3,6 @@
 #include <vector>
 #include <memory>
 #include <set>
-#include <functional>
 
 enum class Pattern;
 struct WiningHand;
@@ -21,9 +20,8 @@ public:
 	HandComputer(const WiningState& state, const WiningHands& hands);
 	virtual ~HandComputer();
 
-	void compute();
-	void each(std::function<void(Pattern)> fn) const;
-	
+	std::set<Pattern> compute();
+
 private:
 	void resetRecognizer();
 	void check(const WiningHand& hand);
@@ -33,8 +31,7 @@ private:
 
 private:
 	const WiningState& state;
-	const WiningHands& hands;
-
-	std::vector<HandRecognizerPtr> recognizers;
+	const WiningHands& hands;	
+	std::vector<HandRecognizerPtr> recognizers;	
 	std::set<Pattern> highest_patterns;
 };

@@ -138,6 +138,7 @@
     <ClCompile Include="tile-holder.cpp" />
     <ClCompile Include="triplets-or-quads-recognizer.cpp" />
     <ClCompile Include="value-tiles-recognizer.cpp" />
+    <ClCompile Include="wining-hand-collator.cpp" />
     <ClCompile Include="wining-hand-counter.cpp" />
     <ClCompile Include="wining-state.cpp" />
   </ItemGroup>
@@ -164,6 +165,7 @@
     <ClInclude Include="tile-holder.h" />
     <ClInclude Include="triplets-or-quads-recognizer.h" />
     <ClInclude Include="value-tiles-recognizer.h" />
+    <ClInclude Include="wining-hand-collator.h" />
     <ClInclude Include="wining-hand-counter.h" />
     <ClInclude Include="wining-hand.h" />
     <ClInclude Include="wining-state.h" />

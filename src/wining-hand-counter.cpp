@@ -8,6 +8,7 @@
 #include "tile-define.h"
 #include "pair.h"
 #include "meld.h"
+#include "wining-hand-collator.h"
 #include "hand-computer.h"
 #include <array>
 #include <cassert>
@@ -23,19 +24,15 @@ void WiningHandCounter::compute()
 {
 	wining_hands.clear();
 	patterns.clear();
-
 	auto tile_holder = hand.makeHandHolder();
-
 	WiningHand seed_hand;
 	bt(seed_hand, tile_holder);
 
+	//WiningHandCollator collator(hand);
+	//auto wining_hands = collator.collate();
 
 	HandComputer computer(state, wining_hands);
-	computer.compute();
-
-	computer.each([this](auto pattern) {
-		patterns.insert(pattern);
-	});
+	patterns = computer.compute();
 }
 
 void WiningHandCounter::bt(WiningHand hand, TileHolder holder)

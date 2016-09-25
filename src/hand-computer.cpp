@@ -38,8 +38,10 @@ HandComputer::HandComputer(const WiningState& state, const WiningHands& hands)
 
 HandComputer::~HandComputer() = default;
 
-void HandComputer::compute()
+set<Pattern> HandComputer::compute()
 {
+	highest_patterns.clear();
+
 	for (const auto& h : hands)
 	{
 		resetRecognizer();
@@ -47,6 +49,8 @@ void HandComputer::compute()
 		check(h);
 		recognize();
 	}
+
+	return highest_patterns;
 }
 
 void HandComputer::resetRecognizer()
@@ -97,6 +101,7 @@ void HandComputer::recognize()
 	}
 	if (patterns.empty()) return;
 
+
 	if (highest_patterns.empty())
 	{
 		highest_patterns = patterns;
@@ -104,13 +109,5 @@ void HandComputer::recognize()
 	else if ((int)*highest_patterns.rbegin() < (int)*patterns.rbegin())
 	{
 		highest_patterns = patterns;
-	}
-}
-
-void HandComputer::each(std::function<void(Pattern)> fn) const
-{
-	for (auto it : highest_patterns)
-	{
-		fn(it);
 	}
 }
