@@ -217,6 +217,20 @@ TEST(WiningHandCounterTest, Not_OneSetOfIdenticalSequences_Open)
 	CHECK(w.isPattenEmpty());
 }
 
+TEST(WiningHandCounterTest, Not_OneSetOfIdenticalSequences_ThreeClosedTriplets)
+{
+	addPair(Tile::SouthWind);
+	addSequence(Tile::TwoOfCircles, false);
+	addSequence(Tile::TwoOfCircles, false);
+	addSequence(Tile::TwoOfCircles, false);
+	addTriplet(Tile::NineOfBamboos, false);
+
+	selfDrawn();
+	w.compute();
+
+	CHECK(w.hasPattern(Pattern::ThreeClosedTriplets));
+}
+
 TEST(WiningHandCounterTest, ThreeColourStraights)
 {
 	addPair(Tile::WestWind);
@@ -260,20 +274,27 @@ TEST(WiningHandCounterTest, TwoSetsOfIdenticalSequences)
 	CHECK(!w.hasPattern(Pattern::SevenPairs));
 }
 
+TEST(WiningHandCounterTest, TwoSetsOfIdenticalSequences_SameFourSequences)
+{
+	addPair(Tile::SouthWind);
+	addSequence(Tile::TwoOfCircles, false);
+	addSequence(Tile::TwoOfCircles, false);
+	addSequence(Tile::TwoOfCircles, false);
+	addSequence(Tile::TwoOfCircles, false);
+
+	selfDrawn();
+	w.compute();
+
+	CHECK(w.hasPattern(Pattern::TwoSetsOfIdenticalSequences));
+}
+
 TEST(WiningHandCounterTest, Not_TwoSetsOfIdenticalSequences_Open)
 {
 	addPair(Tile::WestWind);
 	addSequence(Tile::TwoOfCharacters, false);
 	addSequence(Tile::TwoOfCharacters, false);
 	addSequence(Tile::ThreeOfCircles, false);
-	addSequence(Tile::ThreeOfCircles, false);
-
-	h.bindSequence({
-		Tile::ThreeOfCircles,
-		Tile::FourOfCircles,
-		Tile::FiveOfCircles
-	});
-	s.claim();
+	addSequence(Tile::ThreeOfCircles, true);
 
 	selfDrawn();
 	w.compute();

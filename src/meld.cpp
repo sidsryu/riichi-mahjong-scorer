@@ -97,7 +97,8 @@ bool Meld::isEdgeWait(Tile last_tile) const
 
 bool Meld::isSame(const Meld& meld) const
 {
-	return IsSame()(tiles.front(), meld.tiles.front());
+	return IsSame()(tiles.front(), meld.tiles.front()) &&
+		IsSame()(tiles.back(), meld.tiles.back());
 }
 
 bool Meld::isSimples() const

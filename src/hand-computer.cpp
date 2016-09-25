@@ -9,6 +9,7 @@
 #include "state-recognizer.h"
 #include "seven-pairs-recognizer.h"
 #include "no-points-hand-recognizer.h"
+#include "identical-sequences-recognizer.h"
 
 using namespace std;
 
@@ -21,6 +22,7 @@ HandComputer::HandComputer(const WiningState& state, const WiningHands& hands)
 	recognizers.emplace_back(make_unique<StateRecognizer>(state));
 	recognizers.emplace_back(make_unique<SevenPairsRecognizer>(state));
 	recognizers.emplace_back(make_unique<NoPointsHandRecognizer>(state));
+	recognizers.emplace_back(make_unique<IdenticalSequencesRecognizer>(state));
 }
 
 HandComputer::~HandComputer() = default;
@@ -82,6 +84,7 @@ void HandComputer::recognize()
 		auto p = it->recognize();
 		patterns.insert(p.begin(), p.end());
 	}
+	if (patterns.empty()) return;
 
 	if (highest_patterns.empty())
 	{

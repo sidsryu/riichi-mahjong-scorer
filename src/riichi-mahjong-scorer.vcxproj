@@ -120,6 +120,7 @@
   <ItemGroup>
     <ClCompile Include="hand-computer.cpp" />
     <ClCompile Include="hand-recognizer.cpp" />
+    <ClCompile Include="identical-sequences-recognizer.cpp" />
     <ClCompile Include="kitchen-sink-recognizer.cpp" />
     <ClCompile Include="meld.cpp" />
     <ClCompile Include="minipoint-counter.cpp" />
@@ -136,6 +137,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="hand-computer.h" />
+    <ClInclude Include="identical-sequences-recognizer.h" />
     <ClInclude Include="no-points-hand-recognizer.h" />
     <ClInclude Include="pattern-define.h" />
     <ClInclude Include="hand-recognizer.h" />

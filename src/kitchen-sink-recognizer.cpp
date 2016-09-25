@@ -33,30 +33,6 @@ set<Pattern> KitchenSinkRecognizer::recognize()
 {
 	auto it = wining_hand;
 
-	if (state.isClosedHand())
-	{
-		auto identical_sequence_count = 0;
-		for (size_t i = 0; i < it.melds.size(); i++)
-		{
-			for (auto j = i + 1; j < it.melds.size(); j++)
-			{
-				if (it.melds[i].isSame(it.melds[j]))
-				{
-					identical_sequence_count++;
-				}
-			}
-		}
-
-		if (1 == identical_sequence_count)
-		{
-			it.patterns.insert(Pattern::OneSetOfIdenticalSequences);
-		}
-		else if (2 == identical_sequence_count)
-		{
-			it.patterns.insert(Pattern::TwoSetsOfIdenticalSequences);
-		}
-	}
-
 	for (auto m : it.melds)
 	{
 		if (m.isContain(Tile::WhiteDragon))
