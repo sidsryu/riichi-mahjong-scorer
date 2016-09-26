@@ -149,6 +149,26 @@ bool Meld::isValueTiles(const WiningState& state) const
 	return false;
 }
 
+int Meld::bonusTileCount(const WiningState& state) const
+{
+	auto bonus_tile_count { 0 };
+
+	for (auto it : tiles)
+	{
+		if (IsRedFive()(it))
+		{
+			bonus_tile_count++;
+		}
+
+		if (state.isBonusTile(it))
+		{
+			bonus_tile_count++;
+		}
+	}
+
+	return bonus_tile_count;
+}
+
 Tile Meld::frontTile() const
 {
 	return tiles.front();

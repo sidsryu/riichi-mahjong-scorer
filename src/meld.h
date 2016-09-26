@@ -27,8 +27,9 @@ public:
 	bool isTerminals() const;
 	bool hasTerminal() const;
 	bool isValueTiles(const WiningState& state) const;
+	int bonusTileCount(const WiningState& state) const;
 	Tile frontTile() const;
-	bool isValid() const;
+	bool isValid() const;	
 
 private:
 	std::vector<Tile> tiles;

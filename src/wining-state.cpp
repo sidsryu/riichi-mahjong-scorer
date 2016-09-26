@@ -1,5 +1,6 @@
 #include "wining-state.h"
 #include "tile-define.h"
+#include "tile-functor.h"
 #include <cassert>
 
 WiningState::WiningState()
@@ -54,6 +55,11 @@ void WiningState::setRountWind(Tile tile)
 void WiningState::setSeatWind(Tile tile)
 {
 	seat_wind = tile;
+}
+
+void WiningState::addBonusTile(Tile tile)
+{
+	bonus_tiles.insert(tile);
 }
 
 bool WiningState::isClosedHand() const
@@ -119,4 +125,14 @@ bool WiningState::isDeadWallDraw() const
 bool WiningState::isRobbinQuad() const
 {
 	return is_robbing_quad;
+}
+
+bool WiningState::isBonusTile(Tile tile) const
+{
+	for (auto it : bonus_tiles)
+	{
+		if (IsSame()(it, tile)) return true;		
+	}
+
+	return false;
 }

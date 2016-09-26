@@ -8,6 +8,7 @@
 #include "wining-hand.h"
 #include "pair.h"
 #include "meld.h"
+#include "doubling-factor-report.h"
 #include <cassert>
 
 TEST_GROUP(WiningStateTest)
@@ -82,7 +83,7 @@ TEST(WiningStateTest, NoHandClaim)
 TEST(WiningStateTest, NoHandWinByDiscard)
 {
 	addNoWiningHand();
-		
+
 	winByDiscard();
 	w.compute();
 
@@ -127,7 +128,7 @@ TEST(WiningStateTest, OneShot)
 TEST(WiningStateTest, Not_OneShot_ReadyOnly)
 {
 	addNoWiningHand();
-	
+
 	SelfDrawnSituation situation;
 	situation.is_one_shot = true;
 
@@ -166,7 +167,7 @@ TEST(WiningStateTest, RobbingQuad)
 TEST(WiningStateTest, LastTileFromTheWall)
 {
 	addNoWiningHand();
-	
+
 	SelfDrawnSituation situation;
 	situation.is_last_wall = true;
 
@@ -189,16 +190,51 @@ TEST(WiningStateTest, LastDiscard)
 	CHECK(w.hasPattern(Pattern::LastDiscard));
 }
 
-TEST(WiningStateTest, Dora)
-{}
-
 TEST(WiningStateTest, DoubleReady)
 {
 	addNoWiningHand();
 
-	s.doubleReady();	
+	s.doubleReady();
 	winByDiscard();
 	w.compute();
 
 	CHECK(w.hasPattern(Pattern::DoubleReady));
+}
+
+TEST(WiningStateTest, BonusTiles)
+{
+	addPair(Tile::OneOfBamboos);
+	addSequence(Tile::TwoOfBamboos);
+	addSequence(Tile::ThreeOfCharacters);
+	addTriplet(Tile::SixOfCircles);
+	addSequence(Tile::SevenOfCharacters);
+
+	s.addBonusTile(Tile::OneOfBamboos);
+	s.addBonusTile(Tile::SixOfCircles);
+	s.addBonusTile(Tile::NineOfCharacters);
+
+	s.readyHand();
+	selfDrawn();
+	auto r = w.compute();
+
+	CHECK(w.hasPattern(Pattern::SelfDrawn));
+	CHECK_EQUAL(6, r.bonus_tile_count);
+}
+
+TEST(WiningStateTest, BonusTiles_RedFives)
+{
+	addPair(Tile::RedFiveOfBamboos);
+	addSequence(Tile::FiveOfBamboos);
+	addSequence(Tile::ThreeOfCharacters);
+	addTriplet(Tile::SixOfCircles);
+	addSequence(Tile::SevenOfCharacters);
+
+	s.addBonusTile(Tile::FiveOfBamboos);
+
+	s.readyHand();
+	selfDrawn();
+	auto r = w.compute();
+
+	CHECK(w.hasPattern(Pattern::SelfDrawn));
+	CHECK_EQUAL(5, r.bonus_tile_count);
 }

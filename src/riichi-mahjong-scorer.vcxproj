@@ -167,6 +167,7 @@
     <ClInclude Include="value-tiles-recognizer.h" />
     <ClInclude Include="wining-hand-collator.h" />
     <ClInclude Include="wining-hand-counter.h" />
+    <ClInclude Include="doubling-factor-report.h" />
     <ClInclude Include="wining-hand.h" />
     <ClInclude Include="wining-state.h" />
   </ItemGroup>

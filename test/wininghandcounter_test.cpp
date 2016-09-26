@@ -8,6 +8,7 @@
 #include "wining-hand.h"
 #include "pair.h"
 #include "meld.h"
+#include "doubling-factor-report.h"
 #include <cassert>
 
 TEST_GROUP(WiningHandCounterTest)

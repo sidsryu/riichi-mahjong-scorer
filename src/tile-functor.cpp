@@ -38,6 +38,12 @@ bool IsHonor::operator()(const Tile& tile) const
 	return suit == 4 || suit == 5;
 }
 
+bool IsRedFive::operator()(const Tile& tile) const
+{
+	auto red = static_cast<int>(tile) % 10;	
+	return red == 1;
+}
+
 Tile NextTile::operator()(const Tile& tile) const
 {
 	auto code = static_cast<int>(tile);

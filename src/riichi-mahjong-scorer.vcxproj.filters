@@ -160,5 +160,8 @@
     <ClInclude Include="wining-hand-collator.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="doubling-factor-report.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

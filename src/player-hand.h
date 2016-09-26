@@ -7,6 +7,7 @@
 enum class Tile;
 class Meld;
 class TileHolder;
+class WiningState;
 
 class PlayerHand
 {
@@ -22,7 +23,8 @@ public:
 
 	bool isClosedHand() const;
 	Tile lastTile() const;
-	TileHolder makeHandHolder() const;
+	int bonusTileCount(const WiningState& state) const;
+	TileHolder makeHandHolder() const;	
 
 private:
 	Tile last_tile;

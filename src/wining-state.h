@@ -1,5 +1,7 @@
 #pragma once
 
+#include <set>
+
 enum class Tile;
 
 struct WinByDiscardSituation
@@ -28,6 +30,7 @@ public:
 	void selfDrawn(Tile tile, SelfDrawnSituation situation = {});
 	void setRountWind(Tile tile);
 	void setSeatWind(Tile tile);
+	void addBonusTile(Tile tile);
 
 	bool isReadyHand() const;
 	bool isDoubleReady() const;
@@ -42,6 +45,7 @@ public:
 	bool isLastTileFromTheWall() const;
 	bool isDeadWallDraw() const;
 	bool isRobbinQuad() const;
+	bool isBonusTile(Tile tile) const;
 
 private:
 	bool is_ready_hand { false };
@@ -55,5 +59,6 @@ private:
 	bool is_last_discard { false };
 	bool is_robbing_quad { false };
 	bool is_last_tile_from_the_wall { false };
-	bool is_dead_wall_draw { false };	
+	bool is_dead_wall_draw { false };
+	std::set<Tile> bonus_tiles;
 };

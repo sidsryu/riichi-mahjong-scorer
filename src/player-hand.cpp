@@ -2,6 +2,7 @@
 #include "tile-functor.h"
 #include "tile-holder.h"
 #include "meld.h"
+#include "wining-state.h"
 #include <cassert>
 
 using namespace std;
@@ -91,6 +92,31 @@ bool PlayerHand::isClosedHand() const
 Tile PlayerHand::lastTile() const
 {
 	return last_tile;
+}
+
+int PlayerHand::bonusTileCount(const WiningState& state) const
+{
+	auto bonus_tile_count { 0 };
+
+	for (auto it : tiles)
+	{
+		if (IsRedFive()(it))
+		{
+			bonus_tile_count++;
+		}
+
+		if (state.isBonusTile(it))
+		{
+			bonus_tile_count++;
+		}
+	}
+
+	for (const auto& it : melds)
+	{
+		bonus_tile_count += it.bonusTileCount(state);
+	}
+
+	return bonus_tile_count;
 }
 
 TileHolder PlayerHand::makeHandHolder() const

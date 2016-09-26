@@ -10,6 +10,7 @@
 #include "meld.h"
 #include "wining-hand-collator.h"
 #include "hand-computer.h"
+#include "doubling-factor-report.h"
 #include <array>
 #include <cassert>
 
@@ -20,13 +21,22 @@ WiningHandCounter::WiningHandCounter(const PlayerHand& hand, const WiningState& 
 	, state(state)
 {}
 
-void WiningHandCounter::compute()
+DoublingFactorReport WiningHandCounter::compute()
 {
+	DoublingFactorReport report;
+
 	WiningHandCollator collator(hand);
 	auto wining_hands = collator.collate();
 
 	HandComputer computer(state, wining_hands);
-	patterns = computer.compute();
+	report.patterns = computer.compute();
+
+	report.bonus_tile_count = hand.bonusTileCount(state);
+	report.doubling_factor = 0;
+
+	patterns = report.patterns;
+
+	return report;
 }
 
 bool WiningHandCounter::hasPattern(Pattern hand) const
