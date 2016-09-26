@@ -23,60 +23,54 @@ void PlayerHand::remove(Tile tile)
 
 void PlayerHand::bindSequence(BindTiles tiles)
 {
-	assert(3 == tiles.size());
-	assert(IsSame()(NextTile()(tiles[0]), tiles[1]));
-	assert(IsSame()(NextTile()(tiles[1]), tiles[2]));
+	Meld meld { tiles, true };	
+	assert(meld.isSequence());
 
 	for (auto it : tiles)
 	{
 		remove(it);
 	}
 
-	melds.push_back({ tiles, true });
+	melds.push_back(meld);	
 }
 
 void PlayerHand::bindTriplet(BindTiles tiles)
 {
-	assert(3 == tiles.size());
-	assert(IsSame()(tiles[0], tiles[1]));
-	assert(IsSame()(tiles[0], tiles[2]));
+	Meld meld { tiles, true };
+	assert(meld.isTriplet());
 
 	for (auto it : tiles)
 	{
 		remove(it);
 	}
 
-	melds.push_back({ tiles, true });
+	melds.push_back(meld);
 }
 
 void PlayerHand::bindOpenQuad(BindTiles tiles)
 {
-	assert(4 == tiles.size());
-	assert(IsSame()(tiles[0], tiles[1]));
-	assert(IsSame()(tiles[1], tiles[2]));
-	assert(IsSame()(tiles[2], tiles[3]));
+	Meld meld { tiles, true };
+	assert(meld.isQuad());
 
 	for (auto it : tiles)
 	{
 		remove(it);
 	}
 
-	melds.push_back({ tiles, true });
+	melds.push_back(meld);
 }
 
 void PlayerHand::bindClosedQuad(BindTiles tiles)
 {
-	assert(4 == tiles.size());
-	assert(IsSame()(tiles[0], tiles[1]));
-	assert(IsSame()(tiles[1], tiles[2]));
-	assert(IsSame()(tiles[2], tiles[3]));
+	Meld meld { tiles, false };
+	assert(meld.isQuad());
 
 	for (auto it : tiles)
 	{
 		remove(it);
 	}
 
-	melds.push_back({ tiles, false });
+	melds.push_back(meld);
 }
 
 bool PlayerHand::isClosedHand() const
