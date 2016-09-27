@@ -7,11 +7,7 @@
 
 using namespace std;
 
-WiningHandCollator::WiningHandCollator(const PlayerHand& hand)
-	: hand(hand)
-{}
-
-WiningHandCollator::WiningHands WiningHandCollator::collate()
+WiningHandCollator::WiningHands WiningHandCollator::collate(const PlayerHand& hand)
 {
 	wining_hands.clear();
 

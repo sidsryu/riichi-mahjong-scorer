@@ -75,9 +75,9 @@ TEST(WiningStateTest, NoHandClaim)
 	s.claim();
 
 	selfDrawn();
-	w.compute();
+	auto r = w.compute();
 
-	CHECK(w.isPattenEmpty());
+	CHECK(r.patterns.empty());
 }
 
 TEST(WiningStateTest, NoHandWinByDiscard)
@@ -85,9 +85,9 @@ TEST(WiningStateTest, NoHandWinByDiscard)
 	addNoWiningHand();
 
 	winByDiscard();
-	w.compute();
+	auto r= w.compute();
 
-	CHECK(w.isPattenEmpty());
+	CHECK(r.patterns.empty());
 }
 
 TEST(WiningStateTest, SelfDrawn)
@@ -95,9 +95,9 @@ TEST(WiningStateTest, SelfDrawn)
 	addNoWiningHand();
 
 	selfDrawn();
-	w.compute();
+	auto r = w.compute();
 
-	CHECK(w.hasPattern(Pattern::SelfDrawn));
+	CHECK_EQUAL(1, r.patterns.count(Pattern::SelfDrawn));
 }
 
 TEST(WiningStateTest, ReadyHand)
@@ -106,9 +106,9 @@ TEST(WiningStateTest, ReadyHand)
 
 	s.readyHand();
 	winByDiscard();
-	w.compute();
+	auto r = w.compute();
 
-	CHECK(w.hasPattern(Pattern::ReadyHand));
+	CHECK_EQUAL(1, r.patterns.count(Pattern::ReadyHand));
 }
 
 TEST(WiningStateTest, OneShot)
@@ -120,9 +120,9 @@ TEST(WiningStateTest, OneShot)
 	situation.is_one_shot = true;
 
 	winByDiscard(situation);
-	w.compute();
+	auto r = w.compute();
 
-	CHECK(w.hasPattern(Pattern::OneShot));
+	CHECK_EQUAL(1, r.patterns.count(Pattern::OneShot));
 }
 
 TEST(WiningStateTest, Not_OneShot_ReadyOnly)
@@ -133,9 +133,9 @@ TEST(WiningStateTest, Not_OneShot_ReadyOnly)
 	situation.is_one_shot = true;
 
 	selfDrawn(situation);
-	w.compute();
+	auto r = w.compute();
 
-	CHECK(!w.hasPattern(Pattern::OneShot));
+	CHECK_EQUAL(0, r.patterns.count(Pattern::OneShot));
 }
 
 TEST(WiningStateTest, DeadWallDraw)
@@ -146,9 +146,9 @@ TEST(WiningStateTest, DeadWallDraw)
 	situation.is_dead_wall = true;
 
 	selfDrawn(situation);
-	w.compute();
+	auto r = w.compute();
 
-	CHECK(w.hasPattern(Pattern::DeadWallDraw));
+	CHECK_EQUAL(1, r.patterns.count(Pattern::DeadWallDraw));
 }
 
 TEST(WiningStateTest, RobbingQuad)
@@ -159,9 +159,9 @@ TEST(WiningStateTest, RobbingQuad)
 	situation.is_robbing_quad = true;
 
 	winByDiscard(situation);
-	w.compute();
+	auto r = w.compute();
 
-	CHECK(w.hasPattern(Pattern::RobbingQuad));
+	CHECK_EQUAL(1, r.patterns.count(Pattern::RobbingQuad));
 }
 
 TEST(WiningStateTest, LastTileFromTheWall)
@@ -172,9 +172,9 @@ TEST(WiningStateTest, LastTileFromTheWall)
 	situation.is_last_wall = true;
 
 	selfDrawn(situation);
-	w.compute();
+	auto r = w.compute();
 
-	CHECK(w.hasPattern(Pattern::LastTileFromTheWall));
+	CHECK_EQUAL(1, r.patterns.count(Pattern::LastTileFromTheWall));
 }
 
 TEST(WiningStateTest, LastDiscard)
@@ -185,9 +185,9 @@ TEST(WiningStateTest, LastDiscard)
 	situation.is_last_discard = true;
 
 	winByDiscard(situation);
-	w.compute();
+	auto r = w.compute();
 
-	CHECK(w.hasPattern(Pattern::LastDiscard));
+	CHECK_EQUAL(1, r.patterns.count(Pattern::LastDiscard));
 }
 
 TEST(WiningStateTest, DoubleReady)
@@ -196,9 +196,9 @@ TEST(WiningStateTest, DoubleReady)
 
 	s.doubleReady();
 	winByDiscard();
-	w.compute();
+	auto r = w.compute();
 
-	CHECK(w.hasPattern(Pattern::DoubleReady));
+	CHECK_EQUAL(1, r.patterns.count(Pattern::DoubleReady));
 }
 
 TEST(WiningStateTest, BonusTiles)
@@ -217,7 +217,7 @@ TEST(WiningStateTest, BonusTiles)
 	selfDrawn();
 	auto r = w.compute();
 
-	CHECK(w.hasPattern(Pattern::SelfDrawn));
+	CHECK_EQUAL(1, r.patterns.count(Pattern::SelfDrawn));
 	CHECK_EQUAL(6, r.bonus_tile_count);
 }
 
@@ -235,6 +235,6 @@ TEST(WiningStateTest, BonusTiles_RedFives)
 	selfDrawn();
 	auto r = w.compute();
 
-	CHECK(w.hasPattern(Pattern::SelfDrawn));
+	CHECK_EQUAL(1, r.patterns.count(Pattern::SelfDrawn));
 	CHECK_EQUAL(5, r.bonus_tile_count);
 }

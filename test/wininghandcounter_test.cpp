@@ -94,9 +94,9 @@ TEST(WiningHandCounterTest, SevenPairs)
 	addPair(Tile::OneOfCharacters);
 
 	selfDrawn();
-	w.compute();
+	auto r = w.compute();
 
-	CHECK(w.hasPattern(Pattern::SevenPairs));
+	CHECK_EQUAL(1, r.patterns.count(Pattern::SevenPairs));
 }
 
 TEST(WiningHandCounterTest, Not_SevenPairs_FourSuit)
@@ -110,9 +110,9 @@ TEST(WiningHandCounterTest, Not_SevenPairs_FourSuit)
 	addPair(Tile::GreenDragon);
 
 	selfDrawn();
-	w.compute();
+	auto r = w.compute();
 
-	CHECK(!w.hasPattern(Pattern::SevenPairs));
+	CHECK_EQUAL(0, r.patterns.count(Pattern::SevenPairs));
 }
 
 TEST(WiningHandCounterTest, NoPointsHand)
@@ -124,9 +124,9 @@ TEST(WiningHandCounterTest, NoPointsHand)
 	addSequence(Tile::SevenOfCharacters, false);
 
 	selfDrawn();
-	w.compute();
+	auto r = w.compute();
 
-	CHECK(w.hasPattern(Pattern::NoPointsHand));
+	CHECK_EQUAL(1, r.patterns.count(Pattern::NoPointsHand));
 }
 
 TEST(WiningHandCounterTest, Not_NoPointsHand_Open)
@@ -138,9 +138,9 @@ TEST(WiningHandCounterTest, Not_NoPointsHand_Open)
 	addSequence(Tile::SevenOfCharacters, false);
 
 	selfDrawn();
-	w.compute();
+	auto r = w.compute();
 
-	CHECK(w.isPattenEmpty());
+	CHECK(r.patterns.empty());
 }
 
 TEST(WiningHandCounterTest, Not_NoPointsHand_NotMultiWait)
@@ -155,9 +155,9 @@ TEST(WiningHandCounterTest, Not_NoPointsHand_NotMultiWait)
 	h.add(Tile::SevenOfCircles);
 
 	selfDrawn();
-	w.compute();
+	auto r = w.compute();
 
-	CHECK(!w.hasPattern(Pattern::NoPointsHand));
+	CHECK_EQUAL(0, r.patterns.count(Pattern::NoPointsHand));
 }
 
 TEST(WiningHandCounterTest, Not_NoPointsHand_DragonPair)
@@ -169,9 +169,9 @@ TEST(WiningHandCounterTest, Not_NoPointsHand_DragonPair)
 	addSequence(Tile::SevenOfCharacters, false);
 
 	selfDrawn();
-	w.compute();
+	auto r = w.compute();
 
-	CHECK(!w.hasPattern(Pattern::NoPointsHand));
+	CHECK_EQUAL(0, r.patterns.count(Pattern::NoPointsHand));
 }
 
 TEST(WiningHandCounterTest, NoPointsHand_ScoringWindPair)
@@ -185,9 +185,9 @@ TEST(WiningHandCounterTest, NoPointsHand_ScoringWindPair)
 	addSequence(Tile::SevenOfCharacters, false);
 
 	selfDrawn();
-	w.compute();
+	auto r = w.compute();
 
-	CHECK(!w.hasPattern(Pattern::NoPointsHand));
+	CHECK_EQUAL(0, r.patterns.count(Pattern::NoPointsHand));
 }
 
 TEST(WiningHandCounterTest, OneSetOfIdenticalSequences)
@@ -199,9 +199,9 @@ TEST(WiningHandCounterTest, OneSetOfIdenticalSequences)
 	addTriplet(Tile::NineOfBamboos, false);
 
 	selfDrawn();
-	w.compute();
+	auto r = w.compute();
 
-	CHECK(w.hasPattern(Pattern::OneSetOfIdenticalSequences));
+	CHECK_EQUAL(1, r.patterns.count(Pattern::OneSetOfIdenticalSequences));
 }
 
 TEST(WiningHandCounterTest, Not_OneSetOfIdenticalSequences_Open)
@@ -213,9 +213,9 @@ TEST(WiningHandCounterTest, Not_OneSetOfIdenticalSequences_Open)
 	addTriplet(Tile::NineOfBamboos, true);
 
 	selfDrawn();
-	w.compute();
+	auto r = w.compute();
 
-	CHECK(w.isPattenEmpty());
+	CHECK(r.patterns.empty());
 }
 
 TEST(WiningHandCounterTest, Not_OneSetOfIdenticalSequences_ThreeClosedTriplets)
@@ -227,9 +227,9 @@ TEST(WiningHandCounterTest, Not_OneSetOfIdenticalSequences_ThreeClosedTriplets)
 	addTriplet(Tile::NineOfBamboos, false);
 
 	selfDrawn();
-	w.compute();
+	auto r = w.compute();
 
-	CHECK(w.hasPattern(Pattern::ThreeClosedTriplets));
+	CHECK_EQUAL(1, r.patterns.count(Pattern::ThreeClosedTriplets));
 }
 
 TEST(WiningHandCounterTest, ThreeColourStraights)
@@ -241,9 +241,9 @@ TEST(WiningHandCounterTest, ThreeColourStraights)
 	addSequence(Tile::SevenOfCharacters, true);
 
 	selfDrawn();
-	w.compute();
+	auto r = w.compute();
 
-	CHECK(w.hasPattern(Pattern::ThreeColourStraights));
+	CHECK_EQUAL(1, r.patterns.count(Pattern::ThreeColourStraights));
 }
 
 TEST(WiningHandCounterTest, Straight)
@@ -255,9 +255,9 @@ TEST(WiningHandCounterTest, Straight)
 	addTriplet(Tile::OneOfBamboos, false);
 
 	selfDrawn();
-	w.compute();
+	auto r = w.compute();
 
-	CHECK(w.hasPattern(Pattern::Straight));
+	CHECK_EQUAL(1, r.patterns.count(Pattern::Straight));
 }
 
 TEST(WiningHandCounterTest, TwoSetsOfIdenticalSequences)
@@ -269,10 +269,10 @@ TEST(WiningHandCounterTest, TwoSetsOfIdenticalSequences)
 	addSequence(Tile::ThreeOfCircles, false);
 
 	selfDrawn();
-	w.compute();
+	auto r = w.compute();
 
-	CHECK(w.hasPattern(Pattern::TwoSetsOfIdenticalSequences));
-	CHECK(!w.hasPattern(Pattern::SevenPairs));
+	CHECK_EQUAL(1, r.patterns.count(Pattern::TwoSetsOfIdenticalSequences));
+	CHECK_EQUAL(0, r.patterns.count(Pattern::SevenPairs));
 }
 
 TEST(WiningHandCounterTest, TwoSetsOfIdenticalSequences_SameFourSequences)
@@ -284,9 +284,9 @@ TEST(WiningHandCounterTest, TwoSetsOfIdenticalSequences_SameFourSequences)
 	addSequence(Tile::TwoOfCircles, false);
 
 	selfDrawn();
-	w.compute();
+	auto r = w.compute();
 
-	CHECK(w.hasPattern(Pattern::TwoSetsOfIdenticalSequences));
+	CHECK_EQUAL(1, r.patterns.count(Pattern::TwoSetsOfIdenticalSequences));
 }
 
 TEST(WiningHandCounterTest, Not_TwoSetsOfIdenticalSequences_Open)
@@ -298,9 +298,9 @@ TEST(WiningHandCounterTest, Not_TwoSetsOfIdenticalSequences_Open)
 	addSequence(Tile::ThreeOfCircles, true);
 
 	selfDrawn();
-	w.compute();
+	auto r = w.compute();
 
-	CHECK(!w.hasPattern(Pattern::TwoSetsOfIdenticalSequences));
+	CHECK_EQUAL(0, r.patterns.count(Pattern::TwoSetsOfIdenticalSequences));
 }
 
 TEST(WiningHandCounterTest, AllTriplets)
@@ -312,9 +312,9 @@ TEST(WiningHandCounterTest, AllTriplets)
 	addTriplet(Tile::SevenOfCharacters, false);
 
 	selfDrawn();
-	w.compute();
+	auto r = w.compute();
 
-	CHECK(w.hasPattern(Pattern::AllTriplets));
+	CHECK_EQUAL(1, r.patterns.count(Pattern::AllTriplets));
 }
 
 TEST(WiningHandCounterTest, ThreeClosedTriplets)
@@ -326,9 +326,9 @@ TEST(WiningHandCounterTest, ThreeClosedTriplets)
 	addSequence(Tile::SevenOfCharacters, false);
 
 	selfDrawn();
-	w.compute();
+	auto r = w.compute();
 
-	CHECK(w.hasPattern(Pattern::ThreeClosedTriplets));
+	CHECK_EQUAL(1, r.patterns.count(Pattern::ThreeClosedTriplets));
 }
 
 TEST(WiningHandCounterTest, Not_ThreeClosedTriplets_WinByDiscard)
@@ -340,9 +340,9 @@ TEST(WiningHandCounterTest, Not_ThreeClosedTriplets_WinByDiscard)
 	addTriplet(Tile::ThreeOfBamboos, false);
 		
 	winByDiscard();
-	w.compute();
+	auto r = w.compute();
 
-	CHECK(!w.hasPattern(Pattern::ThreeClosedTriplets));
+	CHECK_EQUAL(0, r.patterns.count(Pattern::ThreeClosedTriplets));
 }
 
 TEST(WiningHandCounterTest, ThreeClosedTriplets_WinByDiscard)
@@ -354,9 +354,9 @@ TEST(WiningHandCounterTest, ThreeClosedTriplets_WinByDiscard)
 	addTriplet(Tile::ThreeOfBamboos, false);
 
 	winByDiscard();
-	w.compute();
+	auto r = w.compute();
 
-	CHECK(w.hasPattern(Pattern::ThreeClosedTriplets));
+	CHECK_EQUAL(1, r.patterns.count(Pattern::ThreeClosedTriplets));
 }
 
 TEST(WiningHandCounterTest, AllTriplets_ThreeClosedTriplets)
@@ -368,10 +368,10 @@ TEST(WiningHandCounterTest, AllTriplets_ThreeClosedTriplets)
 	addTriplet(Tile::SevenOfCharacters, false);
 
 	winByDiscard();
-	w.compute();
+	auto r = w.compute();
 
-	CHECK(w.hasPattern(Pattern::AllTriplets));
-	CHECK(w.hasPattern(Pattern::ThreeClosedTriplets));
+	CHECK_EQUAL(1, r.patterns.count(Pattern::AllTriplets));
+	CHECK_EQUAL(1, r.patterns.count(Pattern::ThreeClosedTriplets));
 }
 
 TEST(WiningHandCounterTest, ThreeColourTriplets)
@@ -383,9 +383,9 @@ TEST(WiningHandCounterTest, ThreeColourTriplets)
 	addSequence(Tile::SevenOfCharacters, false);
 
 	selfDrawn();
-	w.compute();
+	auto r = w.compute();
 
-	CHECK(w.hasPattern(Pattern::ThreeColourTriplets));
+	CHECK_EQUAL(1, r.patterns.count(Pattern::ThreeColourTriplets));
 }
 
 TEST(WiningHandCounterTest, ThreeQuads)
@@ -397,9 +397,9 @@ TEST(WiningHandCounterTest, ThreeQuads)
 	addSequence(Tile::SevenOfCharacters, false);
 
 	selfDrawn();
-	w.compute();
+	auto r = w.compute();
 
-	CHECK(w.hasPattern(Pattern::ThreeQuads));
+	CHECK_EQUAL(1, r.patterns.count(Pattern::ThreeQuads));
 }
 
 TEST(WiningHandCounterTest, ThreeQuads_ThreeClosedTriplets_AllTriplets)
@@ -411,11 +411,11 @@ TEST(WiningHandCounterTest, ThreeQuads_ThreeClosedTriplets_AllTriplets)
 	addTriplet(Tile::SevenOfCharacters, true);
 
 	selfDrawn();
-	w.compute();
+	auto r = w.compute();
 
-	CHECK(w.hasPattern(Pattern::ThreeQuads));
-	CHECK(w.hasPattern(Pattern::ThreeClosedTriplets));
-	CHECK(w.hasPattern(Pattern::AllTriplets));
+	CHECK_EQUAL(1, r.patterns.count(Pattern::ThreeQuads));
+	CHECK_EQUAL(1, r.patterns.count(Pattern::ThreeClosedTriplets));
+	CHECK_EQUAL(1, r.patterns.count(Pattern::AllTriplets));
 }
 
 TEST(WiningHandCounterTest, AllSimples)
@@ -427,9 +427,9 @@ TEST(WiningHandCounterTest, AllSimples)
 	addSequence(Tile::SixOfBamboos, false);
 
 	selfDrawn();
-	w.compute();
+	auto r = w.compute();
 
-	CHECK(w.hasPattern(Pattern::AllSimples));
+	CHECK_EQUAL(1, r.patterns.count(Pattern::AllSimples));
 }
 
 TEST(WiningHandCounterTest, HonorTiles_Dragon)
@@ -441,9 +441,9 @@ TEST(WiningHandCounterTest, HonorTiles_Dragon)
 	addTriplet(Tile::WhiteDragon, false);
 
 	selfDrawn();
-	w.compute();
+	auto r = w.compute();
 
-	CHECK(w.hasPattern(Pattern::WhiteDragon));
+	CHECK_EQUAL(1, r.patterns.count(Pattern::WhiteDragon));
 }
 
 TEST(WiningHandCounterTest, HonorTiles_Wind)
@@ -458,19 +458,19 @@ TEST(WiningHandCounterTest, HonorTiles_Wind)
 	addTriplet(Tile::EastWind, false);
 
 	selfDrawn();
-	w.compute();
+	auto r = w.compute();
 
-	CHECK(w.hasPattern(Pattern::EastWind));
+	CHECK_EQUAL(1, r.patterns.count(Pattern::EastWind));
 
 	s.setSeatWind(Tile::EastWind);	
-	w.compute();
+	r = w.compute();
 
-	CHECK(w.hasPattern(Pattern::DoubleEastWind));
+	CHECK_EQUAL(1, r.patterns.count(Pattern::DoubleEastWind));
 
 	s.setRountWind(Tile::SouthWind);
-	w.compute();
+	r = w.compute();
 
-	CHECK(w.hasPattern(Pattern::EastWind));
+	CHECK_EQUAL(1, r.patterns.count(Pattern::EastWind));
 }
 
 TEST(WiningHandCounterTest, TerminalOrHonorInEachSet)
@@ -482,9 +482,9 @@ TEST(WiningHandCounterTest, TerminalOrHonorInEachSet)
 	addSequence(Tile::SevenOfBamboos, false);
 
 	selfDrawn();
-	w.compute();
+	auto r = w.compute();
 
-	CHECK(w.hasPattern(Pattern::TerminalOrHonorInEachSet));
+	CHECK_EQUAL(1, r.patterns.count(Pattern::TerminalOrHonorInEachSet));
 }
 
 TEST(WiningHandCounterTest, AllTerminalsAndHornors_AllTriplets)
@@ -496,11 +496,11 @@ TEST(WiningHandCounterTest, AllTerminalsAndHornors_AllTriplets)
 	addTriplet(Tile::NineOfBamboos, false);
 
 	selfDrawn();
-	w.compute();
+	auto r = w.compute();
 
-	CHECK(w.hasPattern(Pattern::AllTerminalsAndHornors));
-	CHECK(w.hasPattern(Pattern::AllTriplets));
-	CHECK(!w.hasPattern(Pattern::TerminalOrHonorInEachSet));
+	CHECK_EQUAL(1, r.patterns.count(Pattern::AllTerminalsAndHornors));
+	CHECK_EQUAL(1, r.patterns.count(Pattern::AllTriplets));
+	CHECK_EQUAL(0, r.patterns.count(Pattern::TerminalOrHonorInEachSet));
 }
 
 TEST(WiningHandCounterTest, AllTerminalsAndHornors_SevenPairs)
@@ -514,11 +514,11 @@ TEST(WiningHandCounterTest, AllTerminalsAndHornors_SevenPairs)
 	addPair(Tile::WestWind);
 
 	selfDrawn();
-	w.compute();
+	auto r = w.compute();
 
-	CHECK(w.hasPattern(Pattern::AllTerminalsAndHornors));
-	CHECK(w.hasPattern(Pattern::SevenPairs));
-	CHECK(!w.hasPattern(Pattern::TerminalOrHonorInEachSet));
+	CHECK_EQUAL(1, r.patterns.count(Pattern::AllTerminalsAndHornors));
+	CHECK_EQUAL(1, r.patterns.count(Pattern::SevenPairs));
+	CHECK_EQUAL(0, r.patterns.count(Pattern::TerminalOrHonorInEachSet));
 }
 
 TEST(WiningHandCounterTest, TerminalInEachSet)
@@ -530,10 +530,10 @@ TEST(WiningHandCounterTest, TerminalInEachSet)
 	addSequence(Tile::SevenOfBamboos, false);
 
 	selfDrawn();
-	w.compute();
+	auto r = w.compute();
 
-	CHECK(w.hasPattern(Pattern::TerminalInEachSet));
-	CHECK(!w.hasPattern(Pattern::TerminalOrHonorInEachSet));
+	CHECK_EQUAL(1, r.patterns.count(Pattern::TerminalInEachSet));
+	CHECK_EQUAL(0, r.patterns.count(Pattern::TerminalOrHonorInEachSet));
 }
 
 TEST(WiningHandCounterTest, Not_TerminalInEachSet_NotTerminalPair)
@@ -545,9 +545,9 @@ TEST(WiningHandCounterTest, Not_TerminalInEachSet_NotTerminalPair)
 	addSequence(Tile::SevenOfBamboos, false);
 
 	selfDrawn();
-	w.compute();
+	auto r = w.compute();
 
-	CHECK(!w.hasPattern(Pattern::TerminalInEachSet));
+	CHECK_EQUAL(0, r.patterns.count(Pattern::TerminalInEachSet));
 }
 
 TEST(WiningHandCounterTest, LittleThreeDragons)
@@ -559,9 +559,9 @@ TEST(WiningHandCounterTest, LittleThreeDragons)
 	addSequence(Tile::SixOfBamboos, false);
 
 	selfDrawn();
-	w.compute();
+	auto r = w.compute();
 
-	CHECK(w.hasPattern(Pattern::LittleThreeDragons));
+	CHECK_EQUAL(1, r.patterns.count(Pattern::LittleThreeDragons));
 }
 
 TEST(WiningHandCounterTest, HalfFlush)
@@ -573,9 +573,9 @@ TEST(WiningHandCounterTest, HalfFlush)
 	addSequence(Tile::SixOfCharacters, false);
 
 	selfDrawn();
-	w.compute();
+	auto r = w.compute();
 
-	CHECK(w.hasPattern(Pattern::HalfFlush));
+	CHECK_EQUAL(1, r.patterns.count(Pattern::HalfFlush));
 }
 
 TEST(WiningHandCounterTest, Flush)
@@ -587,7 +587,7 @@ TEST(WiningHandCounterTest, Flush)
 	addSequence(Tile::SevenOfCharacters, false);
 
 	selfDrawn();
-	w.compute();
+	auto r = w.compute();
 
-	CHECK(w.hasPattern(Pattern::Flush));
+	CHECK_EQUAL(1, r.patterns.count(Pattern::Flush));
 }

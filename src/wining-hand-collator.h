@@ -9,9 +9,9 @@ class TileHolder;
 class WiningHandCollator
 {
 	using WiningHands = std::vector<WiningHand>;
+
 public:
-	WiningHandCollator(const PlayerHand& hand);
-	WiningHands collate();
+	WiningHands collate(const PlayerHand& hand);
 
 private:
 	void backtrack(const WiningHand& extended_hand, const TileHolder& extended_holder);
@@ -20,6 +20,5 @@ private:
 	void backtrackSequence(WiningHand extended_hand, TileHolder extended_holder);
 
 private:
-	const PlayerHand& hand;
 	WiningHands wining_hands;
 };

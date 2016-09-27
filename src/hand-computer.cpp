@@ -16,12 +16,12 @@
 #include "terminal-or-honor-recognizer.h"
 #include "dragons-recognizer.h"
 #include "flush-recognizer.h"
+#include "wining-hand-collator.h"
 
 using namespace std;
 
-HandComputer::HandComputer(const WiningState& state, const WiningHands& hands)
+HandComputer::HandComputer(const WiningState& state)
 	: state(state)
-	, hands(hands)
 {
 	recognizers.emplace_back(make_unique<StateRecognizer>(state));
 	recognizers.emplace_back(make_unique<SevenPairsRecognizer>(state));
@@ -38,11 +38,12 @@ HandComputer::HandComputer(const WiningState& state, const WiningHands& hands)
 
 HandComputer::~HandComputer() = default;
 
-set<Pattern> HandComputer::compute()
+set<Pattern> HandComputer::compute(const PlayerHand& hand)
 {
 	highest_patterns.clear();
 
-	for (const auto& h : hands)
+	WiningHandCollator c;
+	for (const auto& h : c.collate(hand))
 	{
 		resetRecognizer();
 

@@ -23,29 +23,13 @@ WiningHandCounter::WiningHandCounter(const PlayerHand& hand, const WiningState& 
 
 DoublingFactorReport WiningHandCounter::compute()
 {
-	DoublingFactorReport report;
+	DoublingFactorReport r;
 
-	WiningHandCollator collator(hand);
-	auto wining_hands = collator.collate();
+	HandComputer c(state);
+	r.patterns = c.compute(hand);
 
-	HandComputer computer(state, wining_hands);
-	report.patterns = computer.compute();
+	r.bonus_tile_count = hand.bonusTileCount(state);
+	r.doubling_factor = 0;
 
-	report.bonus_tile_count = hand.bonusTileCount(state);
-	report.doubling_factor = 0;
-
-	patterns = report.patterns;
-
-	return report;
-}
-
-bool WiningHandCounter::hasPattern(Pattern hand) const
-{
-	auto it = patterns.find(hand);
-	return it != patterns.end();
-}
-
-bool WiningHandCounter::isPattenEmpty() const
-{
-	return 0 == patterns.size();
+	return r;
 }
