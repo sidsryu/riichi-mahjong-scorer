@@ -2,6 +2,8 @@
 
 #include <set>
 
+enum class Pattern;
+
 struct DoublingFactorReport
 {	
 	std::set<Pattern> patterns;

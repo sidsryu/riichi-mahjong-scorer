@@ -1,5 +1,5 @@
 #include "CppUTest/TestHarness.h"
-#include "wining-hand-counter.h"
+#include "doubling-factor-counter.h"
 #include "wining-state.h"
 #include "player-hand.h"
 #include "tile-functor.h"
@@ -15,7 +15,7 @@ TEST_GROUP(WiningStateTest)
 {
 	PlayerHand h;
 	WiningState s;
-	WiningHandCounter w { h, s };
+	DoubligFactorCounter c { h, s };
 
 	void addPair(Tile tile)
 	{
@@ -75,7 +75,7 @@ TEST(WiningStateTest, NoHandClaim)
 	s.claim();
 
 	selfDrawn();
-	auto r = w.compute();
+	auto r = c.report();
 
 	CHECK(r.patterns.empty());
 }
@@ -85,7 +85,7 @@ TEST(WiningStateTest, NoHandWinByDiscard)
 	addNoWiningHand();
 
 	winByDiscard();
-	auto r= w.compute();
+	auto r= c.report();
 
 	CHECK(r.patterns.empty());
 }
@@ -95,7 +95,7 @@ TEST(WiningStateTest, SelfDrawn)
 	addNoWiningHand();
 
 	selfDrawn();
-	auto r = w.compute();
+	auto r = c.report();
 
 	CHECK_EQUAL(1, r.patterns.count(Pattern::SelfDrawn));
 }
@@ -106,7 +106,7 @@ TEST(WiningStateTest, ReadyHand)
 
 	s.readyHand();
 	winByDiscard();
-	auto r = w.compute();
+	auto r = c.report();
 
 	CHECK_EQUAL(1, r.patterns.count(Pattern::ReadyHand));
 }
@@ -120,7 +120,7 @@ TEST(WiningStateTest, OneShot)
 	situation.is_one_shot = true;
 
 	winByDiscard(situation);
-	auto r = w.compute();
+	auto r = c.report();
 
 	CHECK_EQUAL(1, r.patterns.count(Pattern::OneShot));
 }
@@ -133,7 +133,7 @@ TEST(WiningStateTest, Not_OneShot_ReadyOnly)
 	situation.is_one_shot = true;
 
 	selfDrawn(situation);
-	auto r = w.compute();
+	auto r = c.report();
 
 	CHECK_EQUAL(0, r.patterns.count(Pattern::OneShot));
 }
@@ -146,7 +146,7 @@ TEST(WiningStateTest, DeadWallDraw)
 	situation.is_dead_wall = true;
 
 	selfDrawn(situation);
-	auto r = w.compute();
+	auto r = c.report();
 
 	CHECK_EQUAL(1, r.patterns.count(Pattern::DeadWallDraw));
 }
@@ -159,7 +159,7 @@ TEST(WiningStateTest, RobbingQuad)
 	situation.is_robbing_quad = true;
 
 	winByDiscard(situation);
-	auto r = w.compute();
+	auto r = c.report();
 
 	CHECK_EQUAL(1, r.patterns.count(Pattern::RobbingQuad));
 }
@@ -172,7 +172,7 @@ TEST(WiningStateTest, LastTileFromTheWall)
 	situation.is_last_wall = true;
 
 	selfDrawn(situation);
-	auto r = w.compute();
+	auto r = c.report();
 
 	CHECK_EQUAL(1, r.patterns.count(Pattern::LastTileFromTheWall));
 }
@@ -185,7 +185,7 @@ TEST(WiningStateTest, LastDiscard)
 	situation.is_last_discard = true;
 
 	winByDiscard(situation);
-	auto r = w.compute();
+	auto r = c.report();
 
 	CHECK_EQUAL(1, r.patterns.count(Pattern::LastDiscard));
 }
@@ -196,7 +196,7 @@ TEST(WiningStateTest, DoubleReady)
 
 	s.doubleReady();
 	winByDiscard();
-	auto r = w.compute();
+	auto r = c.report();
 
 	CHECK_EQUAL(1, r.patterns.count(Pattern::DoubleReady));
 }
@@ -215,7 +215,7 @@ TEST(WiningStateTest, BonusTiles)
 
 	s.readyHand();
 	selfDrawn();
-	auto r = w.compute();
+	auto r = c.report();
 
 	CHECK_EQUAL(1, r.patterns.count(Pattern::SelfDrawn));
 	CHECK_EQUAL(6, r.bonus_tile_count);
@@ -233,7 +233,7 @@ TEST(WiningStateTest, BonusTiles_RedFives)
 
 	s.readyHand();
 	selfDrawn();
-	auto r = w.compute();
+	auto r = c.report();
 
 	CHECK_EQUAL(1, r.patterns.count(Pattern::SelfDrawn));
 	CHECK_EQUAL(5, r.bonus_tile_count);

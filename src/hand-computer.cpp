@@ -1,5 +1,5 @@
 #include "hand-computer.h"
-#include "wining-hand-counter.h"
+#include "doubling-factor-counter.h"
 #include "wining-hand.h"
 #include "player-hand.h"
 #include "hand-recognizer.h"
