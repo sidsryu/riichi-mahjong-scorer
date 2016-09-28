@@ -206,10 +206,10 @@ TEST(DoublingFactorCounterTest, OneSetOfIdenticalSequences)
 
 TEST(DoublingFactorCounterTest, Not_OneSetOfIdenticalSequences_Open)
 {
-	addPair(Tile::SouthWind);
+	addPair(Tile::SouthWind);	
 	addSequence(Tile::OneOfCharacters, false);
 	addSequence(Tile::TwoOfCircles, false);
-	addSequence(Tile::TwoOfCircles, false);
+	addSequence(Tile::TwoOfCircles, false);	
 	addTriplet(Tile::NineOfBamboos, true);
 
 	selfDrawn();
@@ -220,13 +220,13 @@ TEST(DoublingFactorCounterTest, Not_OneSetOfIdenticalSequences_Open)
 
 TEST(DoublingFactorCounterTest, Not_OneSetOfIdenticalSequences_ThreeClosedTriplets)
 {
-	addPair(Tile::SouthWind);
+	addPair(Tile::SouthWind);	
 	addSequence(Tile::TwoOfCircles, false);
 	addSequence(Tile::TwoOfCircles, false);
-	addSequence(Tile::TwoOfCircles, false);
+	addSequence(Tile::TwoOfCircles, false);	
 	addTriplet(Tile::NineOfBamboos, false);
 
-	selfDrawn();
+	winByDiscard();
 	auto r = c.report();
 
 	CHECK_EQUAL(1, r.patterns.count(Pattern::ThreeClosedTriplets));
@@ -562,6 +562,8 @@ TEST(DoublingFactorCounterTest, LittleThreeDragons)
 	auto r = c.report();
 
 	CHECK_EQUAL(1, r.patterns.count(Pattern::LittleThreeDragons));
+	CHECK_EQUAL(1, r.patterns.count(Pattern::RedDragon));
+	CHECK_EQUAL(1, r.patterns.count(Pattern::GreenDragon));
 }
 
 TEST(DoublingFactorCounterTest, HalfFlush)
@@ -593,7 +595,18 @@ TEST(DoublingFactorCounterTest, Flush)
 }
 
 TEST(DoublingFactorCounterTest, FourClosedTriplets)
-{}
+{
+	addPair(Tile::WestWind);
+	addTriplet(Tile::OneOfCharacters, false);
+	addTriplet(Tile::TwoOfCircles, false);
+	addQuad(Tile::ThreeOfBamboos, false);
+	addTriplet(Tile::SevenOfCharacters, false);
+
+	selfDrawn();
+	auto r = c.report();
+
+	CHECK_EQUAL(1, r.patterns.count(Pattern::FourClosedTriplets));
+}
 
 TEST(DoublingFactorCounterTest, ThirteenOrphans)
 {}
@@ -605,22 +618,122 @@ TEST(DoublingFactorCounterTest, AllGreen)
 {}
 
 TEST(DoublingFactorCounterTest, AllHonors)
-{}
+{
+	addPair(Tile::EastWind);
+	addTriplet(Tile::SouthWind, false);
+	addTriplet(Tile::WestWind, false);
+	addTriplet(Tile::WhiteDragon, false);
+	addTriplet(Tile::GreenDragon, false);
+
+	selfDrawn();
+	auto r = c.report();
+
+	CHECK_EQUAL(1, r.patterns.count(Pattern::AllHonors));
+}
+
+TEST(DoublingFactorCounterTest, AllHonors_SevenPairsForm)
+{
+	addPair(Tile::EastWind);
+	addPair(Tile::SouthWind);
+	addPair(Tile::WestWind);
+	addPair(Tile::NorthWind);
+	addPair(Tile::WhiteDragon);
+	addPair(Tile::RedDragon);
+	addPair(Tile::GreenDragon);	
+
+	selfDrawn();
+	auto r = c.report();
+
+	CHECK_EQUAL(1, r.patterns.count(Pattern::AllHonors));
+}
 
 TEST(DoublingFactorCounterTest, AllTerminals)
-{}
+{
+	addPair(Tile::OneOfCharacters);
+	addTriplet(Tile::NineOfCharacters, false);
+	addTriplet(Tile::OneOfCircles, false);
+	addTriplet(Tile::OneOfBamboos, false);
+	addTriplet(Tile::NineOfBamboos, false);	
+
+	selfDrawn();
+	auto r = c.report();
+
+	CHECK_EQUAL(1, r.patterns.count(Pattern::AllTerminals));
+}
 
 TEST(DoublingFactorCounterTest, BigThreeDragons)
-{}
+{
+	addPair(Tile::WestWind);
+	addTriplet(Tile::WhiteDragon, true);
+	addTriplet(Tile::RedDragon, false);
+	addTriplet(Tile::GreenDragon, false);
+	addSequence(Tile::TwoOfCharacters, false);
+
+	selfDrawn();
+	auto r = c.report();
+
+	CHECK_EQUAL(1, r.patterns.count(Pattern::BigThreeDragons));
+	CHECK_EQUAL(0, r.patterns.count(Pattern::WhiteDragon));
+	CHECK_EQUAL(0, r.patterns.count(Pattern::RedDragon));
+	CHECK_EQUAL(0, r.patterns.count(Pattern::GreenDragon));
+}
 
 TEST(DoublingFactorCounterTest, LittleFourWinds)
-{}
+{
+	addPair(Tile::EastWind);
+	addTriplet(Tile::SouthWind, false);
+	addTriplet(Tile::WestWind, false);
+	addTriplet(Tile::NorthWind, false);
+	addSequence(Tile::TwoOfCharacters, false);
+
+	selfDrawn();
+	auto r = c.report();
+
+	CHECK_EQUAL(1, r.patterns.count(Pattern::LittleFourWinds));
+}
 
 TEST(DoublingFactorCounterTest, BigFourWinds)
-{}
+{
+	addPair(Tile::OneOfBamboos);
+	addTriplet(Tile::EastWind, false);
+	addTriplet(Tile::SouthWind, false);
+	addTriplet(Tile::WestWind, false);
+	addTriplet(Tile::NorthWind, false);
+
+	selfDrawn();
+	auto r = c.report();
+
+	CHECK_EQUAL(1, r.patterns.count(Pattern::BigFourWinds));
+}
 
 TEST(DoublingFactorCounterTest, FourQuads)
-{}
+{
+	addPair(Tile::WestWind);
+	addQuad(Tile::ThreeOfCharacters, false);
+	addQuad(Tile::FourOfCircles, true);
+	addQuad(Tile::FiveOfBamboos, true);
+	addQuad(Tile::SevenOfCharacters, false);
+
+	selfDrawn();
+	auto r = c.report();
+
+	CHECK_EQUAL(1, r.patterns.count(Pattern::FourQuads));
+}
+
+TEST(DoublingFactorCounterTest, FourQuads_FourClosedTriplets)
+{
+	addPair(Tile::WestWind);
+	addQuad(Tile::ThreeOfCharacters, false);
+	addQuad(Tile::FourOfCircles, false);
+	addQuad(Tile::FiveOfBamboos, false);
+	addQuad(Tile::SevenOfCharacters, false);
+
+	selfDrawn();
+	auto r = c.report();
+
+	CHECK_EQUAL(1, r.patterns.count(Pattern::FourQuads));
+	CHECK_EQUAL(1, r.patterns.count(Pattern::FourClosedTriplets));
+}
 
 TEST(DoublingFactorCounterTest, MaxDoublingFactor)
 {}

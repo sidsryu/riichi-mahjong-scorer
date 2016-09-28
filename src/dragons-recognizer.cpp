@@ -32,5 +32,10 @@ std::set<Pattern> DragonsRecognizer::recognize()
 		return { Pattern::LittleThreeDragons };
 	}
 
+	if (dragon_count == 3)
+	{
+		return { Pattern::BigThreeDragons };
+	}
+
 	return {};
 }

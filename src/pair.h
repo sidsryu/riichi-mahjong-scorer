@@ -12,8 +12,10 @@ public:
 	Pair(std::vector<Tile> tiles);
 
 	bool isSimples() const;
+	bool isTerminals() const;
 	bool isHonors() const;
 	bool isDragons() const;	
+	bool isWinds() const;
 	bool isValueTiles(const WiningState& state) const;
 	bool isContain(Tile tile) const;
 	Tile frontTile() const;

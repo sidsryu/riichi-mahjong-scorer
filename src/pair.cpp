@@ -17,6 +17,11 @@ bool Pair::isSimples() const
 	return IsSimple()(tiles.front());
 }
 
+bool Pair::isTerminals() const
+{
+	return IsTerminal()(tiles.front());
+}
+
 bool Pair::isHonors() const
 {
 	return IsHonor()(tiles.front());
@@ -25,6 +30,11 @@ bool Pair::isHonors() const
 bool Pair::isDragons() const
 {
 	return IsDragon()(tiles.front());
+}
+
+bool Pair::isWinds() const
+{
+	return IsWind()(tiles.front());
 }
 
 bool Pair::isValueTiles(const WiningState& state) const

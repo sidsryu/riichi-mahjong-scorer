@@ -121,6 +121,7 @@
     <ClCompile Include="dragons-recognizer.cpp" />
     <ClCompile Include="flush-recognizer.cpp" />
     <ClCompile Include="pattern-computer.cpp" />
+    <ClCompile Include="pattern-functor.cpp" />
     <ClCompile Include="pattern-recognizer.cpp" />
     <ClCompile Include="identical-sequences-recognizer.cpp" />
     <ClCompile Include="meld.cpp" />
@@ -138,6 +139,7 @@
     <ClCompile Include="tile-holder.cpp" />
     <ClCompile Include="triplets-or-quads-recognizer.cpp" />
     <ClCompile Include="value-tiles-recognizer.cpp" />
+    <ClCompile Include="winds-recognizer.cpp" />
     <ClCompile Include="wining-hand-collator.cpp" />
     <ClCompile Include="doubling-factor-counter.cpp" />
     <ClCompile Include="wining-state.cpp" />
@@ -149,6 +151,7 @@
     <ClInclude Include="identical-sequences-recognizer.h" />
     <ClInclude Include="no-points-hand-recognizer.h" />
     <ClInclude Include="pattern-define.h" />
+    <ClInclude Include="pattern-functor.h" />
     <ClInclude Include="pattern-recognizer.h" />
     <ClInclude Include="meld.h" />
     <ClInclude Include="minipoint-counter.h" />
@@ -165,6 +168,7 @@
     <ClInclude Include="tile-holder.h" />
     <ClInclude Include="triplets-or-quads-recognizer.h" />
     <ClInclude Include="value-tiles-recognizer.h" />
+    <ClInclude Include="winds-recognizer.h" />
     <ClInclude Include="wining-hand-collator.h" />
     <ClInclude Include="doubling-factor-counter.h" />
     <ClInclude Include="doubling-factor-report.h" />

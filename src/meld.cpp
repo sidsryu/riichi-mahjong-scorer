@@ -120,24 +120,19 @@ bool Meld::isDragons() const
 	return IsDragon()(tiles.front());
 }
 
+bool Meld::isWinds() const
+{
+	return IsWind()(tiles.front());
+}
+
 bool Meld::isTerminals() const
 {
-	for (auto it : tiles)
-	{
-		if (!IsTerminal()(it)) return false;
-	}
-
-	return true;
+	return IsTerminal()(tiles.front()) && IsTerminal()(tiles.back());
 }
 
 bool Meld::hasTerminal() const
 {
-	for (auto it : tiles)
-	{
-		if (IsTerminal()(it)) return true;
-	}
-
-	return false;
+	return IsTerminal()(tiles.front()) || IsTerminal()(tiles.back());
 }
 
 bool Meld::isValueTiles(const WiningState& state) const

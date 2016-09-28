@@ -24,6 +24,7 @@ public:
 	bool isSimples() const;	
 	bool isHonors() const;	
 	bool isDragons() const;
+	bool isWinds() const;
 	bool isTerminals() const;
 	bool hasTerminal() const;
 	bool isValueTiles(const WiningState& state) const;

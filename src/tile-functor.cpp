@@ -32,6 +32,12 @@ bool IsDragon::operator()(const Tile& tile) const
 	return suit == 5;
 }
 
+bool IsWind::operator()(const Tile& tile) const
+{
+	auto suit = static_cast<int>(tile) / 100;
+	return suit == 4;
+}
+
 bool IsHonor::operator()(const Tile& tile) const
 {
 	auto suit = static_cast<int>(tile) / 100;

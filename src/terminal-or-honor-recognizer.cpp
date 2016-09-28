@@ -7,51 +7,56 @@ using namespace std;
 
 void TerminalOrHonorRecognizer::reset()
 {
-	is_all_simples = true;
-	is_terminal_or_honor_in_each_set = true;
-	is_terminal_in_each_set = true;
-	is_all_terminal_or_honor = true;
+	set_count = 0;
+	simple_set_count = 0;
+	honors_set_count = 0;
+	terminals_set_count = 0;
+	contained_terminal_set_count = 0;
 }
 
 void TerminalOrHonorRecognizer::check(const Pair& pair)
 {
+	set_count++;
+
 	if (pair.isSimples())
 	{
-		is_terminal_or_honor_in_each_set = false;
-		is_terminal_in_each_set = false;
-		is_all_terminal_or_honor = false;
+		simple_set_count++;
 	}
-	else
-	{
-		is_all_simples = false;
 
-		if (pair.isHonors())
-		{
-			is_terminal_in_each_set = false;
-		}
+	if (pair.isHonors())
+	{
+		honors_set_count++;
+	}
+	
+	if (pair.isTerminals())
+	{
+		terminals_set_count++;
+		contained_terminal_set_count++;
 	}
 }
 
 void TerminalOrHonorRecognizer::check(const Meld& meld)
 {
+	set_count++;
+
 	if (meld.isSimples())
 	{
-		is_terminal_or_honor_in_each_set = false;
-		is_terminal_in_each_set = false;
-		is_all_terminal_or_honor = false;
+		simple_set_count++;
 	}
-	else
-	{
-		is_all_simples = false;
 
-		if (meld.isHonors())
+	if (meld.isHonors())
+	{
+		honors_set_count++;
+	}
+	
+	if (meld.hasTerminal())
+	{
+		contained_terminal_set_count++;
+
+		if (meld.isTerminals())
 		{
-			is_terminal_in_each_set = false;
-		}
-		else if (!meld.isTerminals())
-		{
-			is_all_terminal_or_honor = false;
-		}
+			terminals_set_count++;
+		}		
 	}
 }
 
@@ -59,26 +64,32 @@ set<Pattern> TerminalOrHonorRecognizer::recognize()
 {
 	set<Pattern> patterns;
 
-	if (is_all_simples)
+	if (simple_set_count == set_count)
 	{
 		patterns.insert(Pattern::AllSimples);
 	}
 
-	if (is_all_terminal_or_honor && is_terminal_in_each_set)
+	if (honors_set_count == set_count)
 	{
-		// all_terminals
+		patterns.insert(Pattern::AllHonors);
+	}
+
+	if (terminals_set_count == set_count)
+	{
+		patterns.insert(Pattern::AllTerminals);
+	}
+
+	if (honors_set_count + terminals_set_count == set_count)
+	{
+		patterns.insert(Pattern::AllTerminalsAndHornors);
 	}
 	else
 	{
-		if (is_all_terminal_or_honor)
-		{
-			patterns.insert(Pattern::AllTerminalsAndHornors);
-		}
-		else if (is_terminal_in_each_set)
+		if (contained_terminal_set_count == set_count)
 		{
 			patterns.insert(Pattern::TerminalInEachSet);
 		}
-		else if (is_terminal_or_honor_in_each_set)
+		else if (contained_terminal_set_count + honors_set_count == set_count)
 		{
 			patterns.insert(Pattern::TerminalOrHonorInEachSet);
 		}

@@ -36,15 +36,18 @@ void TripletsOrQuadsRecognizer::check(const Meld& meld)
 		}
 	}
 
-	if (!meld.isOpen() && meld.isContain(state.lastTile()))
+	if (state.isWinByDiscard())
 	{
-		if (meld.isSequence())
+		if (!meld.isOpen() && meld.isContain(state.lastTile()))
 		{
-			closed_count_modifier++;
-		}
-		else
-		{
-			closed_count_modifier--;
+			if (meld.isSequence())
+			{
+				closed_count_modifier++;
+			}
+			else
+			{
+				closed_count_modifier--;
+			}
 		}
 	}
 }
@@ -64,9 +67,19 @@ set<Pattern> TripletsOrQuadsRecognizer::recognize()
 		patterns.insert(Pattern::ThreeQuads);
 	}
 
+	if (quad_count == 4)
+	{
+		patterns.insert(Pattern::FourQuads);
+	}
+	
 	if (closed_triplet_or_quad_count == 3)
 	{
 		patterns.insert(Pattern::ThreeClosedTriplets);
+	}
+
+	if (closed_triplet_or_quad_count == 4)
+	{
+		patterns.insert(Pattern::FourClosedTriplets);
 	}
 
 	if (triplet_count + quad_count == 4)

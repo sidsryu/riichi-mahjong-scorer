@@ -2,7 +2,7 @@
 
 enum class Pattern
 {	
-	ReadyHand,
+	ReadyHand = 1,
 	DoubleReady,
 	OneShot,	
 	LastTileFromTheWall,
@@ -38,4 +38,16 @@ enum class Pattern
 	TwoSetsOfIdenticalSequences,
 	TerminalInEachSet,
 	Flush,
+
+	// limit hands
+	FourClosedTriplets,
+	ThirteenOrphans,
+	NineGates,
+	AllGreen,
+	AllHonors,
+	AllTerminals,
+	BigThreeDragons,
+	LittleFourWinds,
+	BigFourWinds,
+	FourQuads,
 };

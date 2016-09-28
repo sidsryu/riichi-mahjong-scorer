@@ -13,8 +13,9 @@ public:
 	virtual std::set<Pattern> recognize() override;
 
 private:
-	bool is_all_simples { true };
-	bool is_terminal_or_honor_in_each_set { true };
-	bool is_terminal_in_each_set { true };
-	bool is_all_terminal_or_honor { true };
+	int set_count { 0 };
+	int simple_set_count { 0 };
+	int honors_set_count { 0 };
+	int terminals_set_count { 0 };
+	int contained_terminal_set_count { 0 };
 };

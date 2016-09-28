@@ -22,6 +22,11 @@ struct IsDragon
 	bool operator()(const Tile& tile) const;
 };
 
+struct IsWind
+{
+	bool operator()(const Tile& tile) const;
+};
+
 struct IsHonor
 {
 	bool operator()(const Tile& tile) const;

@@ -5,6 +5,7 @@
 #include "pattern-recognizer.h"
 #include "pair.h"
 #include "meld.h"
+#include "pattern-functor.h"
 #include "state-recognizer.h"
 #include "seven-pairs-recognizer.h"
 #include "no-points-hand-recognizer.h"
@@ -17,6 +18,7 @@
 #include "dragons-recognizer.h"
 #include "flush-recognizer.h"
 #include "wining-hand-collator.h"
+#include "winds-recognizer.h"
 
 using namespace std;
 
@@ -34,6 +36,7 @@ PatternComputer::PatternComputer(const WiningState& state)
 	recognizers.emplace_back(make_unique<TerminalOrHonorRecognizer>(state));
 	recognizers.emplace_back(make_unique<DragonsRecognizer>(state));
 	recognizers.emplace_back(make_unique<FlushRecognizer>(state));
+	recognizers.emplace_back(make_unique<WindsRecognizer>(state));
 }
 
 PatternComputer::~PatternComputer() = default;
@@ -93,8 +96,8 @@ void PatternComputer::check(const Meld& meld)
 
 void PatternComputer::recognize()
 {
+	// compute patterns
 	set<Pattern> patterns;
-
 	for (auto& it : recognizers)
 	{
 		auto p = it->recognize();
@@ -102,7 +105,21 @@ void PatternComputer::recognize()
 	}
 	if (patterns.empty()) return;
 
+	// limit hands can combine only themselves.
+	set<Pattern> limit_hands;
+	for (auto it : patterns)
+	{
+		if (IsLimitHand()(it))
+		{
+			limit_hands.insert(it);
+		}
+	}
+	if (!limit_hands.empty())
+	{
+		patterns = limit_hands;
+	}
 
+	// choose highest
 	if (highest_patterns.empty())
 	{
 		highest_patterns = patterns;
