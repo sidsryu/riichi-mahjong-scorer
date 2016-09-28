@@ -1,8 +1,8 @@
 #pragma once
 
-#include "hand-recognizer.h"
+#include "pattern-recognizer.h"
 
-class StateRecognizer: public HandRecognizer
+class StateRecognizer: public PatternRecognizer
 {
 public:
 	RECOGNIZER_CONSTRUCTOR(StateRecognizer);

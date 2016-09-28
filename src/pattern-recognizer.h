@@ -8,11 +8,11 @@ class Meld;
 class PlayerHand;
 class WiningState;
 
-class HandRecognizer
+class PatternRecognizer
 {
 public:
-	HandRecognizer(const WiningState& state);
-	virtual ~HandRecognizer() = default;
+	PatternRecognizer(const WiningState& state);
+	virtual ~PatternRecognizer() = default;
 
 	virtual void reset() = 0;
 	virtual void check(const Pair& pair) = 0;
@@ -23,4 +23,4 @@ protected:
 	const WiningState& state;
 };
 
-#define RECOGNIZER_CONSTRUCTOR(class_name) class_name(const WiningState& state) : HandRecognizer(state) {}
+#define RECOGNIZER_CONSTRUCTOR(class_name) class_name(const WiningState& state) : PatternRecognizer(state) {}

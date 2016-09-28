@@ -6,14 +6,14 @@
 
 using namespace std;
 
-void NoPointsHandRecognizer::reset()
+void NoPointsPatternRecognizer::reset()
 {
 	sequence_count = 0;
 	has_value_pair = false;
 	is_multi_wait = false;
 }
 
-void NoPointsHandRecognizer::check(const Pair& pair)
+void NoPointsPatternRecognizer::check(const Pair& pair)
 {
 	if (pair.isValueTiles(state))
 	{
@@ -21,7 +21,7 @@ void NoPointsHandRecognizer::check(const Pair& pair)
 	}
 }
 
-void NoPointsHandRecognizer::check(const Meld& meld)
+void NoPointsPatternRecognizer::check(const Meld& meld)
 {
 	if (meld.isSequence())
 	{
@@ -35,7 +35,7 @@ void NoPointsHandRecognizer::check(const Meld& meld)
 	}
 }
 
-set<Pattern> NoPointsHandRecognizer::recognize()
+set<Pattern> NoPointsPatternRecognizer::recognize()
 {
 	if (state.isClosedHand())
 	{

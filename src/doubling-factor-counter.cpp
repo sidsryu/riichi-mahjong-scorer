@@ -3,7 +3,7 @@
 #include "wining-state.h"
 #include "doubling-factor-report.h"
 #include "pattern-define.h"
-#include "hand-computer.h"
+#include "pattern-computer.h"
 
 using namespace std;
 
@@ -16,7 +16,7 @@ DoublingFactorReport DoubligFactorCounter::report()
 {
 	DoublingFactorReport r;
 
-	HandComputer c(state);
+	PatternComputer c(state);
 	r.patterns = c.compute(hand);
 
 	r.bonus_tile_count = hand.bonusTileCount(state);

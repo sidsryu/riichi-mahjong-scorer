@@ -1,8 +1,8 @@
-#include "hand-computer.h"
+#include "pattern-computer.h"
 #include "doubling-factor-counter.h"
 #include "wining-hand.h"
 #include "player-hand.h"
-#include "hand-recognizer.h"
+#include "pattern-recognizer.h"
 #include "pair.h"
 #include "meld.h"
 #include "state-recognizer.h"
@@ -20,12 +20,12 @@
 
 using namespace std;
 
-HandComputer::HandComputer(const WiningState& state)
+PatternComputer::PatternComputer(const WiningState& state)
 	: state(state)
 {
 	recognizers.emplace_back(make_unique<StateRecognizer>(state));
 	recognizers.emplace_back(make_unique<SevenPairsRecognizer>(state));
-	recognizers.emplace_back(make_unique<NoPointsHandRecognizer>(state));
+	recognizers.emplace_back(make_unique<NoPointsPatternRecognizer>(state));
 	recognizers.emplace_back(make_unique<IdenticalSequencesRecognizer>(state));
 	recognizers.emplace_back(make_unique<ValueTilesRecognizer>(state));
 	recognizers.emplace_back(make_unique<StraightRecognizer>(state));
@@ -36,9 +36,9 @@ HandComputer::HandComputer(const WiningState& state)
 	recognizers.emplace_back(make_unique<FlushRecognizer>(state));
 }
 
-HandComputer::~HandComputer() = default;
+PatternComputer::~PatternComputer() = default;
 
-set<Pattern> HandComputer::compute(const PlayerHand& hand)
+set<Pattern> PatternComputer::compute(const PlayerHand& hand)
 {
 	highest_patterns.clear();
 
@@ -54,7 +54,7 @@ set<Pattern> HandComputer::compute(const PlayerHand& hand)
 	return highest_patterns;
 }
 
-void HandComputer::resetRecognizer()
+void PatternComputer::resetRecognizer()
 {
 	for (auto& it : recognizers)
 	{
@@ -62,7 +62,7 @@ void HandComputer::resetRecognizer()
 	}
 }
 
-void HandComputer::check(const WiningHand& hand)
+void PatternComputer::check(const WiningHand& hand)
 {
 	for (const auto& it : hand.pairs)
 	{
@@ -75,7 +75,7 @@ void HandComputer::check(const WiningHand& hand)
 	}
 }
 
-void HandComputer::check(const Pair& pair)
+void PatternComputer::check(const Pair& pair)
 {
 	for (auto& it : recognizers)
 	{
@@ -83,7 +83,7 @@ void HandComputer::check(const Pair& pair)
 	}
 }
 
-void HandComputer::check(const Meld& meld)
+void PatternComputer::check(const Meld& meld)
 {
 	for (auto& it : recognizers)
 	{
@@ -91,7 +91,7 @@ void HandComputer::check(const Meld& meld)
 	}
 }
 
-void HandComputer::recognize()
+void PatternComputer::recognize()
 {
 	set<Pattern> patterns;
 

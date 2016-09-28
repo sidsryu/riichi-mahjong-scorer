@@ -1,11 +1,11 @@
 #pragma once
 
-#include "hand-recognizer.h"
+#include "pattern-recognizer.h"
 #include <vector>
 
 enum class Tile;
 
-class SevenPairsRecognizer: public HandRecognizer
+class SevenPairsRecognizer: public PatternRecognizer
 {
 public:
 	RECOGNIZER_CONSTRUCTOR(SevenPairsRecognizer);

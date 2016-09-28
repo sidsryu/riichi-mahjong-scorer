@@ -120,8 +120,8 @@
   <ItemGroup>
     <ClCompile Include="dragons-recognizer.cpp" />
     <ClCompile Include="flush-recognizer.cpp" />
-    <ClCompile Include="hand-computer.cpp" />
-    <ClCompile Include="hand-recognizer.cpp" />
+    <ClCompile Include="pattern-computer.cpp" />
+    <ClCompile Include="pattern-recognizer.cpp" />
     <ClCompile Include="identical-sequences-recognizer.cpp" />
     <ClCompile Include="meld.cpp" />
     <ClCompile Include="minipoint-counter.cpp" />
@@ -145,11 +145,11 @@
   <ItemGroup>
     <ClInclude Include="dragons-recognizer.h" />
     <ClInclude Include="flush-recognizer.h" />
-    <ClInclude Include="hand-computer.h" />
+    <ClInclude Include="pattern-computer.h" />
     <ClInclude Include="identical-sequences-recognizer.h" />
     <ClInclude Include="no-points-hand-recognizer.h" />
     <ClInclude Include="pattern-define.h" />
-    <ClInclude Include="hand-recognizer.h" />
+    <ClInclude Include="pattern-recognizer.h" />
     <ClInclude Include="meld.h" />
     <ClInclude Include="minipoint-counter.h" />
     <ClInclude Include="pair.h" />

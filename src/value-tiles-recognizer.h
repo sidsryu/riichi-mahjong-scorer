@@ -1,11 +1,11 @@
 #pragma once
 
 #include <set>
-#include "hand-recognizer.h"
+#include "pattern-recognizer.h"
 
 enum class Tile;
 
-class ValueTilesRecognizer: public HandRecognizer
+class ValueTilesRecognizer: public PatternRecognizer
 {
 public:
 	RECOGNIZER_CONSTRUCTOR(ValueTilesRecognizer);

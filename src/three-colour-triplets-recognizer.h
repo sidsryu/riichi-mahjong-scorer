@@ -1,9 +1,9 @@
 #pragma once
 
-#include "hand-recognizer.h"
+#include "pattern-recognizer.h"
 #include <array>
 
-class ThreeColourTripletsRecognizer: public HandRecognizer
+class ThreeColourTripletsRecognizer: public PatternRecognizer
 {
 public:
 	RECOGNIZER_CONSTRUCTOR(ThreeColourTripletsRecognizer);

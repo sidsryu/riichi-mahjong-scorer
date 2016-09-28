@@ -35,12 +35,6 @@
     <ClCompile Include="pair.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="hand-computer.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="hand-recognizer.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="state-recognizer.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -80,6 +74,12 @@
     <ClCompile Include="doubling-factor-counter.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="pattern-computer.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="pattern-recognizer.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="scoring-table.h">
@@ -110,12 +110,6 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="wining-hand.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="hand-computer.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="hand-recognizer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="state-recognizer.h">
@@ -161,6 +155,12 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="doubling-factor-counter.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="pattern-computer.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="pattern-recognizer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

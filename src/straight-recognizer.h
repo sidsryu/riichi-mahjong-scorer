@@ -1,9 +1,9 @@
 #pragma once
 
-#include "hand-recognizer.h"
+#include "pattern-recognizer.h"
 #include <array>
 
-class StraightRecognizer: public HandRecognizer
+class StraightRecognizer: public PatternRecognizer
 {
 	using SuitFlag = std::array<bool, 3>;
 	using NumberFlag = std::array<SuitFlag, 9>;

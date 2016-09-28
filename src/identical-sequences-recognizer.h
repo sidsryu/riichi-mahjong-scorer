@@ -1,9 +1,9 @@
 #pragma once
 
 #include <vector>
-#include "hand-recognizer.h"
+#include "pattern-recognizer.h"
 
-class IdenticalSequencesRecognizer: public HandRecognizer
+class IdenticalSequencesRecognizer: public PatternRecognizer
 {
 	using SetCount = int;
 	using IdentityInfo = std::pair<Meld, SetCount>;

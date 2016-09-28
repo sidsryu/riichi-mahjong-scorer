@@ -1,11 +1,11 @@
 #pragma once
 
-#include "hand-recognizer.h"
+#include "pattern-recognizer.h"
 
-class NoPointsHandRecognizer: public HandRecognizer
+class NoPointsPatternRecognizer: public PatternRecognizer
 {
 public:
-	RECOGNIZER_CONSTRUCTOR(NoPointsHandRecognizer);
+	RECOGNIZER_CONSTRUCTOR(NoPointsPatternRecognizer);
 
 	virtual void reset() override;
 	virtual void check(const Pair& pair) override;

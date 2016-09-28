@@ -8,18 +8,18 @@ enum class Pattern;
 struct WiningHand;
 class PlayerHand;
 class WiningState;
-class HandRecognizer;
+class PatternRecognizer;
 class Pair;
 class Meld;
 
-class HandComputer
+class PatternComputer
 {
 	using WiningHands = std::vector<WiningHand>;
-	using HandRecognizerPtr = std::unique_ptr<HandRecognizer>;
+	using PatternRecognizerPtr = std::unique_ptr<PatternRecognizer>;
 
 public:
-	HandComputer(const WiningState& state);
-	virtual ~HandComputer();
+	PatternComputer(const WiningState& state);
+	virtual ~PatternComputer();
 
 	std::set<Pattern> compute(const PlayerHand& hand);
 
@@ -32,6 +32,6 @@ private:
 
 private:
 	const WiningState& state;
-	std::vector<HandRecognizerPtr> recognizers;	
+	std::vector<PatternRecognizerPtr> recognizers;	
 	std::set<Pattern> highest_patterns;
 };
