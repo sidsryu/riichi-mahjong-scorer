@@ -29,6 +29,7 @@ private:
 	void check(const Pair& pair);
 	void check(const Meld& meld);
 	void recognize();
+	void special(const PlayerHand& hand);
 
 private:
 	const WiningState& state;

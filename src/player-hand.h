@@ -12,6 +12,7 @@ class WiningState;
 class PlayerHand
 {
 	using BindTiles = std::vector<Tile>;
+	using FreeTiles = std::vector<Tile>;
 
 public:
 	void add(Tile tile);
@@ -24,7 +25,8 @@ public:
 	bool isClosedHand() const;
 	Tile lastTile() const;
 	int bonusTileCount(const WiningState& state) const;
-	TileHolder makeHandHolder() const;	
+	TileHolder makeHandHolder() const;
+	FreeTiles makeFreeTiles() const;
 
 private:
 	Tile last_tile;

@@ -609,7 +609,26 @@ TEST(DoublingFactorCounterTest, FourClosedTriplets)
 }
 
 TEST(DoublingFactorCounterTest, ThirteenOrphans)
-{}
+{
+	h.add(Tile::OneOfCharacters);
+	h.add(Tile::NineOfCharacters);
+	h.add(Tile::OneOfCircles);
+	h.add(Tile::NineOfCircles);
+	h.add(Tile::OneOfBamboos);
+	h.add(Tile::NineOfBamboos);
+	h.add(Tile::EastWind);
+	h.add(Tile::SouthWind);
+	h.add(Tile::WestWind);
+	h.add(Tile::NorthWind);
+	h.add(Tile::WhiteDragon);
+	h.add(Tile::GreenDragon);
+	addPair(Tile::RedDragon);
+
+	selfDrawn();
+	auto r = c.report();
+
+	CHECK_EQUAL(1, r.patterns.count(Pattern::ThirteenOrphans));
+}
 
 TEST(DoublingFactorCounterTest, NineGates)
 {}

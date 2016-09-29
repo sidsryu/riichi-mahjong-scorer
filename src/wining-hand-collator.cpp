@@ -4,6 +4,7 @@
 #include "meld.h"
 #include "player-hand.h"
 #include "tile-holder.h"
+#include <set>
 
 using namespace std;
 
@@ -34,7 +35,8 @@ void WiningHandCollator::backtrack(const WiningHand& extended_hand, const TileHo
 void WiningHandCollator::backtrackPair(WiningHand extended_hand, TileHolder extended_holder)
 {
 	auto pair = extended_holder.popPairWithFrontTile();
-	if (pair.isValid())
+	if (pair.isValid() && 
+		(0 == extended_hand.pairs.size() || 0 == extended_hand.melds.size()))
 	{
 		extended_hand.pairs.push_back(pair);
 		backtrack(extended_hand, extended_holder);
@@ -44,7 +46,7 @@ void WiningHandCollator::backtrackPair(WiningHand extended_hand, TileHolder exte
 void WiningHandCollator::backtrackTripletOrQuad(WiningHand extended_hand, TileHolder extended_holder)
 {
 	auto meld = extended_holder.popTripletOrQuadWithFrontTile();
-	if (meld.isValid())
+	if (meld.isValid() && extended_hand.pairs.size() < 2)
 	{
 		extended_hand.melds.push_back(meld);
 		backtrack(extended_hand, extended_holder);
@@ -54,7 +56,7 @@ void WiningHandCollator::backtrackTripletOrQuad(WiningHand extended_hand, TileHo
 void WiningHandCollator::backtrackSequence(WiningHand extended_hand, TileHolder extended_holder)
 {
 	auto meld = extended_holder.popSequenceWithFrontTile();
-	if (meld.isValid())
+	if (meld.isValid() && extended_hand.pairs.size() < 2)
 	{
 		extended_hand.melds.push_back(meld);
 		backtrack(extended_hand, extended_holder);

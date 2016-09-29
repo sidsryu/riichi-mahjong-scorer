@@ -24,6 +24,6 @@ private:
 	Meld popSequenceMeld();
 
 private:
-	std::vector<Tile> tiles;	
+	std::vector<Tile> tiles;
 	std::vector<Meld> melds;
 };

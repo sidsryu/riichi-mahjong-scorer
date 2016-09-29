@@ -129,3 +129,13 @@ TileHolder PlayerHand::makeHandHolder() const
 
 	return h;
 }
+
+PlayerHand::FreeTiles PlayerHand::makeFreeTiles() const
+{
+	if (melds.empty())
+	{
+		return FreeTiles(tiles.begin(), tiles.end());
+	}
+
+	return {};	
+}

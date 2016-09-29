@@ -5,7 +5,9 @@
 #include "pattern-recognizer.h"
 #include "pair.h"
 #include "meld.h"
+#include "tile-functor.h"
 #include "pattern-functor.h"
+#include "pattern-define.h"
 #include "state-recognizer.h"
 #include "seven-pairs-recognizer.h"
 #include "no-points-hand-recognizer.h"
@@ -53,6 +55,8 @@ set<Pattern> PatternComputer::compute(const PlayerHand& hand)
 		check(h);
 		recognize();
 	}
+		
+	special(hand);
 
 	return highest_patterns;
 }
@@ -127,5 +131,20 @@ void PatternComputer::recognize()
 	else if ((int)*highest_patterns.rbegin() < (int)*patterns.rbegin())
 	{
 		highest_patterns = patterns;
+	}
+}
+
+void PatternComputer::special(const PlayerHand& hand)
+{
+	set<Tile> tiles;
+	for (auto it : hand.makeFreeTiles())
+	{
+		if (IsSimple()(it)) continue;
+		tiles.insert(it);
+	}
+
+	if (13 == tiles.size())
+	{
+		highest_patterns = { Pattern::ThirteenOrphans };
 	}
 }

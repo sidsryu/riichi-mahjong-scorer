@@ -2,6 +2,7 @@
 
 #include <vector>
 
+enum class Tile;
 struct WiningHand;
 class PlayerHand;
 class TileHolder;
