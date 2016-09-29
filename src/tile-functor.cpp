@@ -50,6 +50,18 @@ bool IsRedFive::operator()(const Tile& tile) const
 	return red == 1;
 }
 
+bool IsGreen::operator()(const Tile& tile) const
+{
+	if (tile == Tile::GreenDragon) return true;
+	if (tile == Tile::TwoOfBamboos) return true;
+	if (tile == Tile::ThreeOfBamboos) return true;
+	if (tile == Tile::FourOfBamboos) return true;
+	if (tile == Tile::SixOfBamboos) return true;
+	if (tile == Tile::EightOfBamboos) return true;
+
+	return false;
+}
+
 Tile NextTile::operator()(const Tile& tile) const
 {
 	auto code = static_cast<int>(tile);

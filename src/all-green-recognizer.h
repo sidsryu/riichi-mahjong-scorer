@@ -1,12 +1,11 @@
 #pragma once
 
 #include "pattern-recognizer.h"
-#include <array>
 
-class FlushRecognizer: public PatternRecognizer
+class AllGreenRecognizer: public PatternRecognizer
 {
 public:
-	RECOGNIZER_CONSTRUCTOR(FlushRecognizer);
+	RECOGNIZER_CONSTRUCTOR(AllGreenRecognizer);
 
 	virtual void reset() override;
 	virtual void check(const Pair& pair) override;
@@ -14,7 +13,5 @@ public:
 	virtual std::set<Pattern> recognize() override;
 
 private:
-	bool has_honors { false };
-	std::array<bool, 3> has_suit_tiles {};
-	std::array<int, 9> number_count {};
+	int is_all_green { true };
 };

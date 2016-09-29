@@ -37,6 +37,11 @@ struct IsRedFive
 	bool operator()(const Tile& tile) const;
 };
 
+struct IsGreen
+{
+	bool operator()(const Tile& tile) const;
+};
+
 struct NextTile
 {
 	Tile operator()(const Tile& tile) const;

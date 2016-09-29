@@ -31,6 +31,7 @@ public:
 	int bonusTileCount(const WiningState& state) const;
 	Tile frontTile() const;
 	bool isValid() const;	
+	bool isGreens() const;
 
 private:
 	std::vector<Tile> tiles;

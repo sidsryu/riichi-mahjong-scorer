@@ -21,6 +21,7 @@
 #include "flush-recognizer.h"
 #include "wining-hand-collator.h"
 #include "winds-recognizer.h"
+#include "all-green-recognizer.h"
 
 using namespace std;
 
@@ -39,6 +40,7 @@ PatternComputer::PatternComputer(const WiningState& state)
 	recognizers.emplace_back(make_unique<DragonsRecognizer>(state));
 	recognizers.emplace_back(make_unique<FlushRecognizer>(state));
 	recognizers.emplace_back(make_unique<WindsRecognizer>(state));
+	recognizers.emplace_back(make_unique<AllGreenRecognizer>(state));
 }
 
 PatternComputer::~PatternComputer() = default;

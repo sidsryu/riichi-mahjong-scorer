@@ -65,3 +65,9 @@ bool Pair::isValid() const
 {
 	return !tiles.empty();
 }
+
+bool Pair::isGreens() const
+{
+	return IsGreen()(tiles.front());
+}
+

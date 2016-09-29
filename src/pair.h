@@ -21,6 +21,7 @@ public:
 	Tile frontTile() const;
 	bool isSame(const Pair& pair) const;
 	bool isValid() const;
+	bool isGreens() const;
 
 private:
 	std::vector<Tile> tiles;

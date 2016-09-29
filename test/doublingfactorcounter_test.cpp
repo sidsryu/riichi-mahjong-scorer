@@ -631,10 +631,58 @@ TEST(DoublingFactorCounterTest, ThirteenOrphans)
 }
 
 TEST(DoublingFactorCounterTest, NineGates)
-{}
+{
+	addTriplet(Tile::OneOfCharacters, false);
+	h.add(Tile::TwoOfCharacters);
+	h.add(Tile::ThreeOfCharacters);
+	h.add(Tile::FourOfCharacters);
+	h.add(Tile::FiveOfCharacters);
+	h.add(Tile::SixOfCharacters);
+	h.add(Tile::SevenOfCharacters);
+	h.add(Tile::EightOfCharacters);
+	addTriplet(Tile::NineOfCharacters, false);
+
+	h.add(Tile::NineOfCharacters);
+
+	selfDrawn();
+	auto r = c.report();
+
+	CHECK_EQUAL(1, r.patterns.count(Pattern::NineGates));
+}
+
+TEST(DoublingFactorCounterTest, Not_NineGates_Open)
+{
+	addTriplet(Tile::OneOfCharacters, false);
+	h.add(Tile::TwoOfCharacters);
+	h.add(Tile::ThreeOfCharacters);
+	h.add(Tile::FourOfCharacters);
+	h.add(Tile::FiveOfCharacters);
+	h.add(Tile::SixOfCharacters);
+	h.add(Tile::SevenOfCharacters);
+	h.add(Tile::EightOfCharacters);
+	addTriplet(Tile::NineOfCharacters, true);
+
+	h.add(Tile::NineOfCharacters);
+
+	selfDrawn();
+	auto r = c.report();
+
+	CHECK_EQUAL(0, r.patterns.count(Pattern::NineGates));
+}
 
 TEST(DoublingFactorCounterTest, AllGreen)
-{}
+{
+	addPair(Tile::GreenDragon);
+	addTriplet(Tile::TwoOfBamboos, false);
+	addSequence(Tile::TwoOfBamboos, false);
+	addTriplet(Tile::SixOfBamboos, false);
+	addTriplet(Tile::EightOfBamboos, false);
+
+	selfDrawn();
+	auto r = c.report();
+
+	CHECK_EQUAL(1, r.patterns.count(Pattern::AllGreen));
+}
 
 TEST(DoublingFactorCounterTest, AllHonors)
 {

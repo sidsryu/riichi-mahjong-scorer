@@ -173,3 +173,13 @@ bool Meld::isValid() const
 {
 	return !tiles.empty();
 }
+
+bool Meld::isGreens() const
+{
+	for (auto it : tiles)
+	{
+		if (!IsGreen()(it)) return false;
+	}
+
+	return true;
+}
