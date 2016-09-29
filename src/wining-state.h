@@ -29,7 +29,7 @@ public:
 	void claim();
 	void winByDiscard(Tile tile, WinByDiscardSituation situation = {});
 	void selfDrawn(Tile tile, SelfDrawnSituation situation = {});
-	void setRountWind(Tile tile);
+	void setRoundWind(Tile tile);
 	void setSeatWind(Tile tile);
 	void addBonusTile(Tile tile);
 
@@ -46,7 +46,7 @@ public:
 	bool isLastTileFromTheWall() const;
 	bool isDeadWallDraw() const;
 	bool isRobbinQuad() const;
-	bool isBonusTile(Tile tile) const;
+	int bonusTileCount(Tile tile) const;
 	bool isUninterruptedFirstDrawn() const;
 	bool isDealer() const;
 
@@ -63,6 +63,6 @@ private:
 	bool is_robbing_quad { false };
 	bool is_last_tile_from_the_wall { false };
 	bool is_dead_wall_draw { false };
-	std::set<Tile> bonus_tiles;
+	std::multiset<Tile> bonus_tiles;
 	bool is_uninterrupted_first_drawn { false };
 };

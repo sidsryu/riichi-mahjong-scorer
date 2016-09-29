@@ -221,6 +221,27 @@ TEST(WiningStateTest, BonusTiles)
 	CHECK_EQUAL(6, r.bonus_tile_count);
 }
 
+TEST(WiningStateTest, BonusTiles_Multiple)
+{
+	addPair(Tile::OneOfBamboos);
+	addSequence(Tile::TwoOfBamboos);
+	addSequence(Tile::ThreeOfCharacters);
+	addTriplet(Tile::SixOfCircles);
+	addSequence(Tile::SevenOfCharacters);
+
+	s.addBonusTile(Tile::OneOfBamboos);	
+	s.addBonusTile(Tile::OneOfBamboos);
+	s.addBonusTile(Tile::OneOfBamboos);
+	s.addBonusTile(Tile::OneOfBamboos);	
+
+	s.readyHand();
+	selfDrawn();
+	auto r = c.report();
+
+	CHECK_EQUAL(1, r.patterns.count(Pattern::SelfDrawn));
+	CHECK_EQUAL(8, r.bonus_tile_count);
+}
+
 TEST(WiningStateTest, BonusTiles_RedFives)
 {
 	addPair(Tile::RedFiveOfBamboos);

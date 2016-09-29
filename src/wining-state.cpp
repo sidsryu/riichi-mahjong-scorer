@@ -54,7 +54,7 @@ void WiningState::selfDrawn(Tile tile, SelfDrawnSituation situation)
 	);
 }
 
-void WiningState::setRountWind(Tile tile)
+void WiningState::setRoundWind(Tile tile)
 {
 	round_wind = tile;
 }
@@ -65,7 +65,10 @@ void WiningState::setSeatWind(Tile tile)
 }
 
 void WiningState::addBonusTile(Tile tile)
-{
+{	
+	assert(bonus_tiles.size() < 10);
+	assert(bonus_tiles.count(tile) < 4);
+
 	bonus_tiles.insert(tile);
 }
 
@@ -134,14 +137,24 @@ bool WiningState::isRobbinQuad() const
 	return is_robbing_quad;
 }
 
-bool WiningState::isBonusTile(Tile tile) const
+int WiningState::bonusTileCount(Tile tile) const
 {
-	for (auto it : bonus_tiles)
+	auto bonus_tile_count { 0 };
+
+	if (IsRedFive()(tile))
 	{
-		if (IsSame()(it, tile)) return true;		
+		bonus_tile_count++;
 	}
 
-	return false;
+	for (auto it : bonus_tiles)
+	{
+		if (IsSame()(it, tile))
+		{
+			bonus_tile_count++;
+		}		
+	}
+
+	return bonus_tile_count;
 }
 
 bool WiningState::isUninterruptedFirstDrawn() const

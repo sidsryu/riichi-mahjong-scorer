@@ -150,15 +150,7 @@ int Meld::bonusTileCount(const WiningState& state) const
 
 	for (auto it : tiles)
 	{
-		if (IsRedFive()(it))
-		{
-			bonus_tile_count++;
-		}
-
-		if (state.isBonusTile(it))
-		{
-			bonus_tile_count++;
-		}
+		bonus_tile_count += state.bonusTileCount(it);	
 	}
 
 	return bonus_tile_count;

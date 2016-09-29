@@ -213,7 +213,7 @@ TEST(MinipointCounterTest, DragonPair)
 
 TEST(MinipointCounterTest, OwnWindPair)
 {
-	s.setRountWind(Tile::EastWind);
+	s.setRoundWind(Tile::EastWind);
 	s.setSeatWind(Tile::SouthWind);
 
 	addPair(Tile::SouthWind);
@@ -225,7 +225,7 @@ TEST(MinipointCounterTest, OwnWindPair)
 
 TEST(MinipointCounterTest, RoundWindPair)
 {
-	s.setRountWind(Tile::EastWind);
+	s.setRoundWind(Tile::EastWind);
 	s.setSeatWind(Tile::SouthWind);
 	
 	addPair(Tile::EastWind);
@@ -237,7 +237,7 @@ TEST(MinipointCounterTest, RoundWindPair)
 
 TEST(MinipointCounterTest, OwnAndRoundWindPair)
 {
-	s.setRountWind(Tile::EastWind);
+	s.setRoundWind(Tile::EastWind);
 	s.setSeatWind(Tile::EastWind);
 
 	addPair(Tile::EastWind);
@@ -321,7 +321,7 @@ TEST(MinipointCounterTest, HornorOrTerminalClosedQuad)
 
 TEST(MinipointCounterTest, HighestPoints)
 {
-	s.setRountWind(Tile::EastWind);
+	s.setRoundWind(Tile::EastWind);
 	s.setSeatWind(Tile::EastWind);
 
 	addQuad(Tile::OneOfCharacters, false);

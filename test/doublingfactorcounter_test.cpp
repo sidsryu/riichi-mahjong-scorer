@@ -76,10 +76,10 @@ TEST_GROUP(DoublingFactorCounterTest)
 		s.selfDrawn(tile);
 	}
 
-	void winByDiscard()
+	void winByDiscard(WinByDiscardSituation situation = {})
 	{
 		auto tile = h.lastTile();
-		s.winByDiscard(tile);
+		s.winByDiscard(tile, situation);
 	}
 };
 
@@ -176,7 +176,7 @@ TEST(DoublingFactorCounterTest, Not_NoPointsHand_DragonPair)
 
 TEST(DoublingFactorCounterTest, NoPointsHand_ScoringWindPair)
 {
-	s.setRountWind(Tile::EastWind);
+	s.setRoundWind(Tile::EastWind);
 
 	addPair(Tile::EastWind);
 	addSequence(Tile::OneOfCharacters, false);
@@ -448,7 +448,7 @@ TEST(DoublingFactorCounterTest, HonorTiles_Dragon)
 
 TEST(DoublingFactorCounterTest, HonorTiles_Wind)
 {
-	s.setRountWind(Tile::EastWind);
+	s.setRoundWind(Tile::EastWind);
 	s.setSeatWind(Tile::SouthWind);
 
 	addPair(Tile::WhiteDragon);
@@ -467,7 +467,7 @@ TEST(DoublingFactorCounterTest, HonorTiles_Wind)
 
 	CHECK_EQUAL(1, r.patterns.count(Pattern::DoubleEastWind));
 
-	s.setRountWind(Tile::SouthWind);
+	s.setRoundWind(Tile::SouthWind);
 	r = c.report();
 
 	CHECK_EQUAL(1, r.patterns.count(Pattern::EastWind));
@@ -803,4 +803,49 @@ TEST(DoublingFactorCounterTest, FourQuads_FourClosedTriplets)
 }
 
 TEST(DoublingFactorCounterTest, MaxDoublingFactor)
-{}
+{
+	s.setRoundWind(Tile::EastWind);
+	s.setSeatWind(Tile::EastWind);
+
+	addPair(Tile::WhiteDragon);
+	addQuad(Tile::GreenDragon, false);
+	addQuad(Tile::RedDragon, false);
+	addQuad(Tile::OneOfBamboos, false);
+	addTriplet(Tile::EastWind, false);
+
+	s.addBonusTile(Tile::GreenDragon);
+	s.addBonusTile(Tile::GreenDragon);
+	s.addBonusTile(Tile::GreenDragon);
+	s.addBonusTile(Tile::RedDragon);
+	s.addBonusTile(Tile::RedDragon);
+
+	s.addBonusTile(Tile::RedDragon);
+	s.addBonusTile(Tile::OneOfBamboos);
+	s.addBonusTile(Tile::OneOfBamboos);
+	s.addBonusTile(Tile::OneOfBamboos);
+	s.addBonusTile(Tile::OneOfBamboos);
+
+	s.doubleReady();
+
+	WinByDiscardSituation situation;
+	situation.is_one_shot = true;
+	situation.is_last_discard = true;
+
+	winByDiscard(situation);
+	auto r = c.report();
+
+	CHECK_EQUAL(1, r.patterns.count(Pattern::DoubleReady));
+	CHECK_EQUAL(1, r.patterns.count(Pattern::LastDiscard));
+	CHECK_EQUAL(1, r.patterns.count(Pattern::AllTriplets));	
+	CHECK_EQUAL(1, r.patterns.count(Pattern::ThreeClosedTriplets));
+	CHECK_EQUAL(1, r.patterns.count(Pattern::ThreeQuads));
+	CHECK_EQUAL(1, r.patterns.count(Pattern::DoubleEastWind));
+	CHECK_EQUAL(1, r.patterns.count(Pattern::GreenDragon));
+	CHECK_EQUAL(1, r.patterns.count(Pattern::RedDragon));
+	CHECK_EQUAL(1, r.patterns.count(Pattern::LittleThreeDragons));
+	CHECK_EQUAL(1, r.patterns.count(Pattern::AllTerminalsAndHornors));
+	CHECK_EQUAL(1, r.patterns.count(Pattern::HalfFlush));
+	CHECK_EQUAL(40, r.bonus_tile_count);
+
+	// CHECK_EQUAL(60, r.doubling_factor);
+}
