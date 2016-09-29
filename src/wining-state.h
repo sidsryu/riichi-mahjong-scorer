@@ -16,6 +16,7 @@ struct SelfDrawnSituation
 	bool is_one_shot { false };
 	bool is_dead_wall { false };
 	bool is_last_wall { false };
+	bool is_uninterrupted_first_drawn { false };
 };
 
 class WiningState
@@ -46,6 +47,8 @@ public:
 	bool isDeadWallDraw() const;
 	bool isRobbinQuad() const;
 	bool isBonusTile(Tile tile) const;
+	bool isUninterruptedFirstDrawn() const;
+	bool isDealer() const;
 
 private:
 	bool is_ready_hand { false };
@@ -61,4 +64,5 @@ private:
 	bool is_last_tile_from_the_wall { false };
 	bool is_dead_wall_draw { false };
 	std::set<Tile> bonus_tiles;
+	bool is_uninterrupted_first_drawn { false };
 };

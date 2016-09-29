@@ -40,6 +40,8 @@ enum class Pattern
 	Flush,
 
 	// limit hands
+	HeavenlyHand,
+	EarthlyHand,
 	FourClosedTriplets,
 	ThirteenOrphans,
 	NineGates,

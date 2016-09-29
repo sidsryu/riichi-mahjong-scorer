@@ -238,3 +238,31 @@ TEST(WiningStateTest, BonusTiles_RedFives)
 	CHECK_EQUAL(1, r.patterns.count(Pattern::SelfDrawn));
 	CHECK_EQUAL(5, r.bonus_tile_count);
 }
+
+TEST(WiningStateTest, HeavenlyHand)
+{
+	addNoWiningHand();
+		
+	SelfDrawnSituation situation;
+	situation.is_uninterrupted_first_drawn = true;
+
+	selfDrawn(situation);
+	auto r = c.report();
+
+	CHECK_EQUAL(1, r.patterns.count(Pattern::HeavenlyHand));
+}
+
+TEST(WiningStateTest, EarthlyHand)
+{
+	s.setSeatWind(Tile::SouthWind);
+
+	addNoWiningHand();
+
+	SelfDrawnSituation situation;
+	situation.is_uninterrupted_first_drawn = true;
+
+	selfDrawn(situation);
+	auto r = c.report();
+
+	CHECK_EQUAL(1, r.patterns.count(Pattern::EarthlyHand));
+}

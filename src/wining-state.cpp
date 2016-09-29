@@ -44,7 +44,14 @@ void WiningState::selfDrawn(Tile tile, SelfDrawnSituation situation)
 	is_one_shot = situation.is_one_shot;
 	is_last_tile_from_the_wall = situation.is_last_wall;
 	is_dead_wall_draw = situation.is_dead_wall;
-	assert(!is_last_tile_from_the_wall || !is_dead_wall_draw);
+	is_uninterrupted_first_drawn = situation.is_uninterrupted_first_drawn;
+
+	assert(
+		!(is_uninterrupted_first_drawn && is_one_shot) ||
+		!(is_uninterrupted_first_drawn && is_last_tile_from_the_wall) ||
+		!(is_uninterrupted_first_drawn && is_dead_wall_draw) ||
+		!(is_last_tile_from_the_wall && is_dead_wall_draw)
+	);
 }
 
 void WiningState::setRountWind(Tile tile)
@@ -135,4 +142,14 @@ bool WiningState::isBonusTile(Tile tile) const
 	}
 
 	return false;
+}
+
+bool WiningState::isUninterruptedFirstDrawn() const
+{
+	return is_uninterrupted_first_drawn;
+}
+
+bool WiningState::isDealer() const
+{
+	return IsSame()(seat_wind, Tile::EastWind);
 }

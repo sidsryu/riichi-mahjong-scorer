@@ -59,6 +59,18 @@ set<Pattern> StateRecognizer::recognize()
 		{
 			patterns.insert(Pattern::DeadWallDraw);
 		}
+
+		if (state.isUninterruptedFirstDrawn())
+		{
+			if (state.isDealer())
+			{
+				patterns.insert(Pattern::HeavenlyHand);
+			}
+			else
+			{
+				patterns.insert(Pattern::EarthlyHand);
+			}			
+		}
 	}
 
 	if (state.isClosedHand() && state.isSelfDrawn())

@@ -3,5 +3,5 @@
 
 bool IsLimitHand::operator()(const Pattern& pattern) const
 {
-	return Pattern::FourClosedTriplets <= pattern;
+	return Pattern::Flush < pattern;
 }
