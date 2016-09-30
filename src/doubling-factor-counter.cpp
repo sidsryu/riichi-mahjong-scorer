@@ -4,6 +4,7 @@
 #include "doubling-factor-report.h"
 #include "pattern-define.h"
 #include "pattern-computer.h"
+#include "doubling-factor-table.h"
 
 using namespace std;
 
@@ -14,13 +15,17 @@ DoubligFactorCounter::DoubligFactorCounter(const PlayerHand& hand, const WiningS
 
 DoublingFactorReport DoubligFactorCounter::report()
 {
-	DoublingFactorReport r;
-
 	PatternComputer c(state);
-	r.patterns = c.compute(hand);
+	auto patterns = c.compute(hand);
+	auto bonus_tile_count = hand.bonusTileCount(state);
 
-	r.bonus_tile_count = hand.bonusTileCount(state);
-	r.doubling_factor = 0;
+	DoublingFactorTable t(state);
+	auto doubling_factor = t.total(patterns) + bonus_tile_count;
+
+	DoublingFactorReport r;
+	r.patterns = patterns;
+	r.bonus_tile_count = bonus_tile_count;
+	r.doubling_factor = doubling_factor;
 
 	return r;
 }

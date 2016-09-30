@@ -33,7 +33,10 @@ void WiningState::winByDiscard(Tile tile, WinByDiscardSituation situation)
 	is_one_shot = situation.is_one_shot;
 	is_last_discard = situation.is_last_discard;
 	is_robbing_quad = situation.is_robbing_quad;
-	assert(!is_last_discard || !is_robbing_quad);
+	assert(
+		!(is_last_discard && is_robbing_quad) &&
+		!(is_last_discard && is_one_shot)
+	);
 }
 
 void WiningState::selfDrawn(Tile tile, SelfDrawnSituation situation)
@@ -47,9 +50,9 @@ void WiningState::selfDrawn(Tile tile, SelfDrawnSituation situation)
 	is_uninterrupted_first_drawn = situation.is_uninterrupted_first_drawn;
 
 	assert(
-		!(is_uninterrupted_first_drawn && is_one_shot) ||
-		!(is_uninterrupted_first_drawn && is_last_tile_from_the_wall) ||
-		!(is_uninterrupted_first_drawn && is_dead_wall_draw) ||
+		!(is_uninterrupted_first_drawn && is_one_shot) &&
+		!(is_uninterrupted_first_drawn && is_last_tile_from_the_wall) &&
+		!(is_uninterrupted_first_drawn && is_dead_wall_draw) &&
 		!(is_last_tile_from_the_wall && is_dead_wall_draw)
 	);
 }

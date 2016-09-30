@@ -119,6 +119,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="all-green-recognizer.cpp" />
+    <ClCompile Include="doubling-factor-table.cpp" />
     <ClCompile Include="dragons-recognizer.cpp" />
     <ClCompile Include="flush-recognizer.cpp" />
     <ClCompile Include="pattern-computer.cpp" />
@@ -147,6 +148,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="all-green-recognizer.h" />
+    <ClInclude Include="doubling-factor-table.h" />
     <ClInclude Include="dragons-recognizer.h" />
     <ClInclude Include="flush-recognizer.h" />
     <ClInclude Include="pattern-computer.h" />
