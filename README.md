@@ -45,8 +45,74 @@ make
 
 ## Usage
 
-준비중입니다.
+### 손패 취급
 
+```c++
+#include <player-hand.h>
+
+using namesapce mahjong;
+
+PlayerHand h;
+
+h.add(Tile::SouthWind);
+h.add(Tile::SouthWind);
+
+h.add(Tile::OneOfCharacters);
+h.add(Tile::TwoOfCharacters);
+h.add(Tile::ThreeOfCharacters);
+
+h.add(Tile::FiveOfCircles);
+h.add(Tile::FiveOfCircles);
+h.add(Tile::RedFiveOfCircles);
+h.bindTriplet({
+    Tile::FiveOfCircles, Tile::FiveOfCircles, Tile::RedFiveOfCircles 
+});
+
+h.add(Tile::EightOfBamboos);
+h.add(Tile::EightOfBamboos);
+h.add(Tile::EightOfBamboos);
+h.add(Tile::EightOfBamboos);
+h.add(Tile::EightOfBamboos);
+h.bindQuad({
+    Tile::EightOfBamboos, Tile::EightOfBamboos, Tile::EightOfBamboos,
+    Tile::EightOfBamboos 
+});
+
+h.add(Tile::SevenOfCharacters);
+h.add(Tile::EightOfCharacters);
+h.add(Tile::NineOfCharacters);
+h.bindSequence({
+    Tile::SevenOfCharacters, Tile::EightOfCharacters, Tile::NineOfCharacters 
+});
+
+```
+
+### 점수 계산
+
+```c++
+#include "doubling-factor-counter.h"
+#include "player-hand.h"
+#include "wining-state.h"
+
+using namespace mahjong;
+
+PlayerHand h;
+... // add tiles to hand
+
+WiningState s;
+s.selfDrawn();
+
+// han: doubling factor
+DoublingFactorCounter dc { h, s };
+DoublingFactorReport r = dc.report();
+
+// fu: minipoints
+MinipointCounter mc { h, s };
+int minipoints = mc.total();
+
+ScoringTable t;
+int score = t.dealerSelfDrawn(r.doubling_factor, minipoints);
+```
 
 ## Scoring Tables
 
