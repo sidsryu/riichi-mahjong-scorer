@@ -46,7 +46,7 @@ make
 ### 손패 취급
 
 ```c++
-#include <player-hand.h>
+#include "player-hand.h"
 
 using namesapce mahjong;
 
