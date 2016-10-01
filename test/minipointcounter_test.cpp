@@ -81,22 +81,12 @@ TEST_GROUP(MinipointCounterTest)
 		addSequence(Tile::TwoOfBamboos, true);
 		addSequence(Tile::TwoOfCharacters, false);
 	}
-
-	void selfDrawn()
-	{
-		s.selfDrawn();
-	}
-
-	void winByDiscard()
-	{
-		s.winByDiscard();
-	}
 };
 
 TEST(MinipointCounterTest, BasicPoints_OpenNoPointsHand)
 {
 	addOpenNoPointHand();
-	winByDiscard();
+	s.winByDiscard();
 
 	CHECK_EQUAL(30, m.total(false));
 	CHECK_EQUAL(30, m.total());
@@ -105,7 +95,7 @@ TEST(MinipointCounterTest, BasicPoints_OpenNoPointsHand)
 TEST(MinipointCounterTest, ClosedWinByDiscard)
 {
 	addNoPointHand();
-	winByDiscard();
+	s.winByDiscard();
 
 	CHECK_EQUAL(30, m.total(false));
 	CHECK_EQUAL(30, m.total());
@@ -114,7 +104,7 @@ TEST(MinipointCounterTest, ClosedWinByDiscard)
 TEST(MinipointCounterTest, SelfDrawn)
 {
 	addOpenNoPointHand();
-	selfDrawn();
+	s.selfDrawn();
 
 	CHECK_EQUAL(22, m.total(false));
 	CHECK_EQUAL(30, m.total());
@@ -123,7 +113,7 @@ TEST(MinipointCounterTest, SelfDrawn)
 TEST(MinipointCounterTest, NoPointsHandSelfDrawn)
 {
 	addNoPointHand();
-	selfDrawn();
+	s.selfDrawn();
 
 	CHECK_EQUAL(20, m.total(false));
 	CHECK_EQUAL(20, m.total());
@@ -138,7 +128,7 @@ TEST(MinipointCounterTest, SevenPairs)
 	addPair(Tile::OneOfBamboos);
 	addPair(Tile::GreenDragon);
 	addPair(Tile::OneOfCharacters);
-	selfDrawn();
+	s.selfDrawn();
 
 	CHECK_EQUAL(25, m.total(false));
 	CHECK_EQUAL(25, m.total());
@@ -149,11 +139,11 @@ TEST(MinipointCounterTest, EdgeWait)
 	addOpenNoPointHand();
 
 	h.last_tile = Tile::ThreeOfCharacters;
-	winByDiscard();
+	s.winByDiscard();
 	CHECK_EQUAL(22, m.total(false));
 
 	h.last_tile = Tile::SevenOfCharacters;
-	winByDiscard();
+	s.winByDiscard();
 	CHECK_EQUAL(22, m.total(false));
 }
 
@@ -162,7 +152,7 @@ TEST(MinipointCounterTest, ClosedWait)
 	addOpenNoPointHand();
 
 	h.last_tile = Tile::EightOfCharacters;
-	winByDiscard();
+	s.winByDiscard();
 	CHECK_EQUAL(22, m.total(false));
 }
 
@@ -171,7 +161,7 @@ TEST(MinipointCounterTest, PairWait)
 	addOpenNoPointHand();
 
 	h.last_tile = Tile::SouthWind;
-	winByDiscard();
+	s.winByDiscard();
 	CHECK_EQUAL(22, m.total(false));
 }
 
@@ -184,7 +174,7 @@ TEST(MinipointCounterTest, ChooseHighestPointsWait)
 	addSequence(Tile::ThreeOfCharacters, false);
 
 	h.last_tile = Tile::ThreeOfCharacters;
-	winByDiscard();
+	s.winByDiscard();
 	CHECK_EQUAL(22, m.total(false));
 }
 
@@ -197,7 +187,7 @@ TEST(MinipointCounterTest, ChooseHighestPointsWait_AnotherHandOrder)
 	addSequence(Tile::OneOfBamboos, true);
 
 	h.last_tile = Tile::ThreeOfCharacters;
-	winByDiscard();
+	s.winByDiscard();
 	CHECK_EQUAL(22, m.total(false));
 }
 
@@ -205,7 +195,7 @@ TEST(MinipointCounterTest, DragonPair)
 {
 	addPair(Tile::WhiteDragon);
 	addOpenNoPointsHandWithoutPair();
-	winByDiscard();
+	s.winByDiscard();
 
 	CHECK_EQUAL(22, m.total(false));
 }
@@ -217,7 +207,7 @@ TEST(MinipointCounterTest, OwnWindPair)
 
 	addPair(Tile::SouthWind);
 	addOpenNoPointsHandWithoutPair();
-	winByDiscard();
+	s.winByDiscard();
 
 	CHECK_EQUAL(22, m.total(false));
 }
@@ -229,7 +219,7 @@ TEST(MinipointCounterTest, RoundWindPair)
 
 	addPair(Tile::EastWind);
 	addOpenNoPointsHandWithoutPair();
-	winByDiscard();
+	s.winByDiscard();
 
 	CHECK_EQUAL(22, m.total(false));
 }
@@ -241,7 +231,7 @@ TEST(MinipointCounterTest, OwnAndRoundWindPair)
 
 	addPair(Tile::EastWind);
 	addOpenNoPointsHandWithoutPair();
-	winByDiscard();
+	s.winByDiscard();
 
 	CHECK_EQUAL(24, m.total(false));
 }
@@ -250,7 +240,7 @@ TEST(MinipointCounterTest, SimpleOpenTriplet)
 {
 	addTriplet(Tile::EightOfCharacters, true);
 	addOpenNoPointsHandWithoutOneMeld();
-	winByDiscard();
+	s.winByDiscard();
 
 	CHECK_EQUAL(22, m.total(false));
 }
@@ -259,7 +249,7 @@ TEST(MinipointCounterTest, SimpleClosedTriplet)
 {
 	addTriplet(Tile::EightOfCircles, false);
 	addOpenNoPointsHandWithoutOneMeld();
-	winByDiscard();
+	s.winByDiscard();
 
 	CHECK_EQUAL(24, m.total(false));
 }
@@ -268,7 +258,7 @@ TEST(MinipointCounterTest, SimpleOpenQuad)
 {
 	addQuad(Tile::EightOfCircles, true);
 	addOpenNoPointsHandWithoutOneMeld();
-	winByDiscard();
+	s.winByDiscard();
 
 	CHECK_EQUAL(28, m.total(false));
 }
@@ -277,7 +267,7 @@ TEST(MinipointCounterTest, SimpleClosedQuad)
 {
 	addQuad(Tile::EightOfCircles, false);
 	addOpenNoPointsHandWithoutOneMeld();
-	winByDiscard();
+	s.winByDiscard();
 
 	CHECK_EQUAL(36, m.total(false));
 }
@@ -286,7 +276,7 @@ TEST(MinipointCounterTest, HornorOrTerminalOpenTriplet)
 {
 	addTriplet(Tile::WhiteDragon, true);
 	addOpenNoPointsHandWithoutOneMeld();
-	winByDiscard();
+	s.winByDiscard();
 
 	CHECK_EQUAL(24, m.total(false));
 }
@@ -295,7 +285,7 @@ TEST(MinipointCounterTest, HornorOrTerminalClosedTriplet)
 {
 	addTriplet(Tile::WhiteDragon, false);
 	addOpenNoPointsHandWithoutOneMeld();
-	winByDiscard();
+	s.winByDiscard();
 
 	CHECK_EQUAL(28, m.total(false));
 }
@@ -304,7 +294,7 @@ TEST(MinipointCounterTest, HornorOrTerminalOpenQuad)
 {
 	addQuad(Tile::WhiteDragon, true);
 	addOpenNoPointsHandWithoutOneMeld();
-	winByDiscard();
+	s.winByDiscard();
 
 	CHECK_EQUAL(36, m.total(false));
 }
@@ -313,7 +303,7 @@ TEST(MinipointCounterTest, HornorOrTerminalClosedQuad)
 {
 	addQuad(Tile::WhiteDragon, false);
 	addOpenNoPointsHandWithoutOneMeld();
-	winByDiscard();
+	s.winByDiscard();
 
 	CHECK_EQUAL(52, m.total(false));
 }
@@ -329,7 +319,7 @@ TEST(MinipointCounterTest, HighestPoints)
 	addSequence(Tile::SevenOfCircles, false);
 	addPair(Tile::EastWind);
 
-	selfDrawn();
+	s.selfDrawn();
 
 	CHECK_EQUAL(108, m.total(false));
 	CHECK_EQUAL(110, m.total());
