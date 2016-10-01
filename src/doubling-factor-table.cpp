@@ -75,7 +75,7 @@ DoublingFactorTable::DoublingFactorTable(const PlayerHand& hand, const WiningSta
 
 int DoublingFactorTable::total(const std::set<Pattern>& patterns) const
 {
-	auto total_factor { 0 };
+	auto total_factor = 0;
 	for (auto it : patterns)
 	{
 		total_factor += factor(it);

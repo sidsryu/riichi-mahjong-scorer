@@ -6,6 +6,7 @@
 #include "pair.h"
 #include "meld.h"
 #include <algorithm>
+#include <cmath>
 
 namespace mahjong {
 MinipointCounter::MinipointCounter(const WiningHand& hand, const WiningState& state)
