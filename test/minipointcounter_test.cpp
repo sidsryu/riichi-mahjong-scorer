@@ -8,6 +8,7 @@
 #include "meld.h"
 
 using namespace std;
+using namespace mahjong;
 
 TEST_GROUP(MinipointCounterTest)
 {

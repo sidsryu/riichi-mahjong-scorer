@@ -10,7 +10,8 @@
 #include "meld.h"
 #include "doubling-factor-report.h"
 #include "doubling-factor-table.h"
-#include <cassert>
+
+using namespace mahjong;
 
 TEST_GROUP(DoublingFactorCounterTest)
 {

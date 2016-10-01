@@ -3,6 +3,7 @@
 #include <set>
 #include "pattern-recognizer.h"
 
+namespace mahjong {
 enum class Tile;
 
 class ValueTilesRecognizer: public PatternRecognizer
@@ -18,3 +19,4 @@ public:
 private:
 	std::set<Tile> value_tiles;
 };
+}

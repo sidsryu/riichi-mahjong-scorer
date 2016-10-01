@@ -3,6 +3,7 @@
 #include <vector>
 #include <set>
 
+namespace mahjong {
 enum class Tile;
 class Meld;
 class Pair;
@@ -27,3 +28,4 @@ private:
 	std::vector<Tile> tiles;
 	std::vector<Meld> melds;
 };
+}

@@ -3,6 +3,7 @@
 #include <vector>
 #include "pattern-recognizer.h"
 
+namespace mahjong {
 class IdenticalSequencesRecognizer: public PatternRecognizer
 {
 	using SetCount = int;
@@ -19,3 +20,4 @@ public:
 private:
 	std::vector<IdentityInfo> identity_infos;
 };
+}

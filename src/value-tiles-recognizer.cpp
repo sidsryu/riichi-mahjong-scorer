@@ -7,6 +7,7 @@
 
 using namespace std;
 
+namespace mahjong {
 void ValueTilesRecognizer::reset()
 {
 	value_tiles.clear();
@@ -49,6 +50,7 @@ std::set<Pattern> ValueTilesRecognizer::recognize()
 			if (IsSame()(it, Tile::NorthWind)) patterns.insert(Pattern::NorthWind);
 		}
 	}
-	
+
 	return patterns;
+}
 }

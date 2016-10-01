@@ -3,6 +3,7 @@
 #include "pair.h"
 #include "meld.h"
 
+namespace mahjong {
 void DragonsRecognizer::reset()
 {
 	dragon_count = 0;
@@ -38,4 +39,5 @@ std::set<Pattern> DragonsRecognizer::recognize()
 	}
 
 	return {};
+}
 }

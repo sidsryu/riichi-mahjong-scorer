@@ -3,6 +3,7 @@
 #include "pair.h"
 #include "meld.h"
 
+namespace mahjong {
 void WindsRecognizer::reset()
 {
 	wind_count = 0;
@@ -38,4 +39,5 @@ std::set<Pattern> WindsRecognizer::recognize()
 	}
 
 	return {};
+}
 }

@@ -6,6 +6,7 @@
 
 using namespace std;
 
+namespace mahjong {
 void SevenPairsRecognizer::reset()
 {
 	front_tiles_of_pair.clear();
@@ -15,7 +16,7 @@ void SevenPairsRecognizer::check(const Pair& pair)
 {
 	auto tile = pair.frontTile();
 	for (auto it : front_tiles_of_pair)
-	{		
+	{
 		if (IsSame()(it, tile))
 		{
 			return;
@@ -32,8 +33,9 @@ set<Pattern> SevenPairsRecognizer::recognize()
 {
 	if (7 == front_tiles_of_pair.size())
 	{
-		return { Pattern::SevenPairs };		
+		return { Pattern::SevenPairs };
 	}
 
 	return {};
+}
 }

@@ -2,6 +2,7 @@
 
 #include "pattern-recognizer.h"
 
+namespace mahjong {
 class StateRecognizer: public PatternRecognizer
 {
 public:
@@ -12,3 +13,4 @@ public:
 	virtual void check(const Meld& meld) override;
 	virtual std::set<Pattern> recognize() override;
 };
+}

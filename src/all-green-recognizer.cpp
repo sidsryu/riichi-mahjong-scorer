@@ -3,6 +3,7 @@
 #include "pair.h"
 #include "meld.h"
 
+namespace mahjong {
 void AllGreenRecognizer::reset()
 {
 	is_all_green = true;
@@ -32,4 +33,5 @@ std::set<Pattern> AllGreenRecognizer::recognize()
 	}
 
 	return {};
+}
 }

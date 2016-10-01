@@ -3,6 +3,7 @@
 #include "wining-state.h"
 #include <cassert>
 
+namespace mahjong {
 Meld::Meld()
 {}
 
@@ -17,14 +18,14 @@ Meld::Meld(std::vector<Tile> tiles, bool is_open)
 			IsSame()(NextTile()(tiles[0]), tiles[1]) &&
 			IsSame()(NextTile()(tiles[1]), tiles[2])) ||
 		// triplet
-		(3 == tiles.size() &&
-			IsSame()(tiles[0], tiles[1]) &&
-			IsSame()(tiles[0], tiles[2])) ||
+			(3 == tiles.size() &&
+				IsSame()(tiles[0], tiles[1]) &&
+				IsSame()(tiles[0], tiles[2])) ||
 		// quad
-		(4 == tiles.size() && 
-			IsSame()(tiles[0], tiles[1]) &&
-			IsSame()(tiles[0], tiles[2]) &&
-			IsSame()(tiles[0], tiles[3]))
+				(4 == tiles.size() &&
+					IsSame()(tiles[0], tiles[1]) &&
+					IsSame()(tiles[0], tiles[2]) &&
+					IsSame()(tiles[0], tiles[3]))
 	);
 }
 
@@ -49,7 +50,7 @@ bool Meld::isQuad() const
 }
 
 bool Meld::isTripletOrQuad() const
-{	
+{
 	// same 'isTriplet() || isQuad()'
 	return !isSequence();
 }
@@ -150,7 +151,7 @@ int Meld::bonusTileCount(const WiningState& state) const
 
 	for (auto it : tiles)
 	{
-		bonus_tile_count += state.bonusTileCount(it);	
+		bonus_tile_count += state.bonusTileCount(it);
 	}
 
 	return bonus_tile_count;
@@ -174,4 +175,5 @@ bool Meld::isGreens() const
 	}
 
 	return true;
+}
 }

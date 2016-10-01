@@ -2,6 +2,7 @@
 
 #include <set>
 
+namespace mahjong {
 enum class Pattern;
 class Pair;
 class Meld;
@@ -28,3 +29,4 @@ protected:
 	class_name(const PlayerHand& hand, const WiningState& state)\
 		: PatternRecognizer(hand, state)\
 	{}
+}

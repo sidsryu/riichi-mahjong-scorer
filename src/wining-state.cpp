@@ -3,12 +3,13 @@
 #include "tile-functor.h"
 #include <cassert>
 
+namespace mahjong {
 WiningState::WiningState()
 	: round_wind(Tile::EastWind)
-	, seat_wind(Tile::EastWind)	
+	, seat_wind(Tile::EastWind)
 {}
 
-void WiningState::winByDiscard(WinByDiscardSituation situation) 
+void WiningState::winByDiscard(WinByDiscardSituation situation)
 {
 	is_win_by_discard = true;
 
@@ -49,7 +50,7 @@ void WiningState::setSeatWind(Tile tile)
 }
 
 void WiningState::addBonusTile(Tile tile)
-{	
+{
 	assert(bonus_tiles.size() < 10);
 	assert(bonus_tiles.count(tile) < 4);
 
@@ -115,7 +116,7 @@ int WiningState::bonusTileCount(Tile tile) const
 		if (IsSame()(it, tile))
 		{
 			bonus_tile_count++;
-		}		
+		}
 	}
 
 	return bonus_tile_count;
@@ -129,4 +130,5 @@ bool WiningState::isUninterruptedFirstDrawn() const
 bool WiningState::isDealer() const
 {
 	return IsSame()(seat_wind, Tile::EastWind);
+}
 }

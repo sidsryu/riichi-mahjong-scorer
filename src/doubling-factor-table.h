@@ -3,6 +3,7 @@
 #include <set>
 #include <map>
 
+namespace mahjong {
 enum class Pattern;
 class PlayerHand;
 class WiningState;
@@ -21,3 +22,4 @@ private:
 	const WiningState& state;
 	std::map<Pattern, int> factor_table;
 };
+}

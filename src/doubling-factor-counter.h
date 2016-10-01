@@ -1,5 +1,6 @@
 #pragma once
 
+namespace mahjong {
 struct DoublingFactorReport;
 class PlayerHand;
 class WiningState;
@@ -12,5 +13,6 @@ public:
 
 private:
 	const PlayerHand& hand;
-	const WiningState& state;	
+	const WiningState& state;
 };
+}

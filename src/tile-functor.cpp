@@ -2,6 +2,7 @@
 #include "tile-define.h"
 #include <cassert>
 
+namespace mahjong {
 bool IsSame::operator()(const Tile& lhv, const Tile& rhv) const
 {
 	// red fives' units is 1
@@ -46,7 +47,7 @@ bool IsHonor::operator()(const Tile& tile) const
 
 bool IsRedFive::operator()(const Tile& tile) const
 {
-	auto red = static_cast<int>(tile) % 10;	
+	auto red = static_cast<int>(tile) % 10;
 	return red == 1;
 }
 
@@ -67,7 +68,7 @@ Tile NextTile::operator()(const Tile& tile) const
 	auto code = static_cast<int>(tile);
 	auto suit = code / 100;
 	auto number = code / 10 % 10;
-	
+
 	number++;
 
 	if (1 <= suit && suit <= 3 && 9 < number) number = 1;
@@ -76,4 +77,5 @@ Tile NextTile::operator()(const Tile& tile) const
 
 	auto next = suit * 100 + number * 10;
 	return static_cast<Tile>(next);
+}
 }

@@ -3,6 +3,8 @@
 #include "tile-define.h"
 #include "meld.h"
 
+using namespace mahjong;
+
 TEST_GROUP(PlayerHandTest)
 {
 	PlayerHand h;

@@ -6,6 +6,7 @@
 
 const int LIMIT_HAND_FACTOR = 100;
 
+namespace mahjong {
 DoublingFactorTable::DoublingFactorTable(const PlayerHand& hand, const WiningState& state)
 	: hand(hand)
 	, state(state)
@@ -16,7 +17,7 @@ DoublingFactorTable::DoublingFactorTable(const PlayerHand& hand, const WiningSta
 		closed_hand_bonus = 1;
 	}
 
-	factor_table.insert({ Pattern::ReadyHand, 1 });	
+	factor_table.insert({ Pattern::ReadyHand, 1 });
 	factor_table.insert({ Pattern::OneShot, 1 });
 	factor_table.insert({ Pattern::LastTileFromTheWall, 1 });
 	factor_table.insert({ Pattern::LastDiscard, 1 });
@@ -36,7 +37,7 @@ DoublingFactorTable::DoublingFactorTable(const PlayerHand& hand, const WiningSta
 
 	factor_table.insert({ Pattern::ThreeColourStraights, 1 + closed_hand_bonus });
 	factor_table.insert({ Pattern::Straight, 1 + closed_hand_bonus });
-	factor_table.insert({ Pattern::TerminalOrHonorInEachSet, 1 + closed_hand_bonus });		
+	factor_table.insert({ Pattern::TerminalOrHonorInEachSet, 1 + closed_hand_bonus });
 
 	factor_table.insert({ Pattern::DoubleEastWind, 2 });
 	factor_table.insert({ Pattern::DoubleSouthWind, 2 });
@@ -54,7 +55,7 @@ DoublingFactorTable::DoublingFactorTable(const PlayerHand& hand, const WiningSta
 	factor_table.insert({ Pattern::HalfFlush, 2 + closed_hand_bonus });
 	factor_table.insert({ Pattern::TerminalInEachSet, 2 + closed_hand_bonus });
 
-	factor_table.insert({ Pattern::TwoSetsOfIdenticalSequences, 3 });	
+	factor_table.insert({ Pattern::TwoSetsOfIdenticalSequences, 3 });
 
 	factor_table.insert({ Pattern::Flush, 6 });
 
@@ -88,5 +89,6 @@ int DoublingFactorTable::factor(Pattern pattern) const
 	auto it = factor_table.find(pattern);
 	if (it == factor_table.end()) return 0;
 
-	return it->second;	
+	return it->second;
+}
 }

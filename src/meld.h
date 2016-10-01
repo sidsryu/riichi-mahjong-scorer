@@ -2,6 +2,7 @@
 
 #include <vector>
 
+namespace mahjong {
 enum class Tile;
 class WiningState;
 
@@ -21,8 +22,8 @@ public:
 	bool isClosedWait(Tile last_tile) const;
 	bool isEdgeWait(Tile last_tile) const;
 	bool isSame(const Meld& meld) const;
-	bool isSimples() const;	
-	bool isHonors() const;	
+	bool isSimples() const;
+	bool isHonors() const;
 	bool isDragons() const;
 	bool isWinds() const;
 	bool isTerminals() const;
@@ -30,10 +31,11 @@ public:
 	bool isValueTiles(const WiningState& state) const;
 	int bonusTileCount(const WiningState& state) const;
 	Tile frontTile() const;
-	bool isValid() const;	
+	bool isValid() const;
 	bool isGreens() const;
 
 private:
 	std::vector<Tile> tiles;
 	bool is_open { false };
 };
+}

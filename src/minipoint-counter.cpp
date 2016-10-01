@@ -7,6 +7,7 @@
 #include "meld.h"
 #include <algorithm>
 
+namespace mahjong {
 MinipointCounter::MinipointCounter(const WiningHand& hand, const WiningState& state)
 	: hand(hand)
 	, state(state)
@@ -37,7 +38,7 @@ bool MinipointCounter::isNoPointsHandSelfDrawn() const
 {
 	if (state.isWinByDiscard()) return false;
 
-	auto is_multi_wait = false;	
+	auto is_multi_wait = false;
 	for (auto it : hand.melds)
 	{
 		if (it.isOpen()) return false;
@@ -72,7 +73,7 @@ void MinipointCounter::computeMelds()
 				basic *= 2;
 			}
 
-			if (it.isQuad())			
+			if (it.isQuad())
 			{
 				basic *= 4;
 			}
@@ -159,4 +160,5 @@ void MinipointCounter::computeOpenNoPointsHand()
 	{
 		point += 10;
 	}
+}
 }

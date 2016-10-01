@@ -3,6 +3,7 @@
 #include "wining-hand.h"
 #include <set>
 
+namespace mahjong {
 enum class Pattern;
 struct WiningHand;
 
@@ -13,3 +14,4 @@ struct DoublingFactorReport
 	int bonus_tile_count { 0 };
 	int doubling_factor { 0 };
 };
+}

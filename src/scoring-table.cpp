@@ -4,6 +4,7 @@
 
 using namespace std;
 
+namespace mahjong {
 int ScoringTable::dealerWinByDiscard(int doubling_factor, int minipoints) const
 {
 	return roundUp(6 * basicPoints(doubling_factor, minipoints));
@@ -71,4 +72,5 @@ bool ScoringTable::isSanbaiman(int doubling_factor) const
 bool ScoringTable::isYakuman(int doubling_factor) const
 {
 	return 13 <= doubling_factor;
+}
 }

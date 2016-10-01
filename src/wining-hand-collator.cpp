@@ -8,6 +8,7 @@
 
 using namespace std;
 
+namespace mahjong {
 WiningHandCollator::WiningHands WiningHandCollator::collate(const PlayerHand& hand)
 {
 	wining_hands.clear();
@@ -37,7 +38,7 @@ void WiningHandCollator::backtrack(const WiningHand& extended_hand, const TileHo
 void WiningHandCollator::backtrackPair(WiningHand extended_hand, TileHolder extended_holder)
 {
 	auto pair = extended_holder.popPairWithFrontTile();
-	if (pair.isValid() && 
+	if (pair.isValid() &&
 		(0 == extended_hand.pairs.size() || 0 == extended_hand.melds.size()))
 	{
 		extended_hand.pairs.push_back(pair);
@@ -63,4 +64,5 @@ void WiningHandCollator::backtrackSequence(WiningHand extended_hand, TileHolder 
 		extended_hand.melds.push_back(meld);
 		backtrack(extended_hand, extended_holder);
 	}
+}
 }

@@ -1,5 +1,6 @@
 #pragma once
 
+namespace mahjong {
 enum class Tile;
 
 struct IsSame
@@ -46,3 +47,4 @@ struct NextTile
 {
 	Tile operator()(const Tile& tile) const;
 };
+}

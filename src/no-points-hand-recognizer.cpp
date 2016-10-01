@@ -7,6 +7,7 @@
 
 using namespace std;
 
+namespace mahjong {
 void NoPointsPatternRecognizer::reset()
 {
 	sequence_count = 0;
@@ -49,4 +50,5 @@ set<Pattern> NoPointsPatternRecognizer::recognize()
 	}
 
 	return {};
+}
 }

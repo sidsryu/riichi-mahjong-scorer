@@ -7,6 +7,7 @@
 
 using namespace std;
 
+namespace mahjong {
 void TileHolder::add(Tile tile)
 {
 	tiles.push_back(tile);
@@ -145,4 +146,5 @@ Meld TileHolder::popSequenceMeld()
 	}
 
 	return {};
+}
 }

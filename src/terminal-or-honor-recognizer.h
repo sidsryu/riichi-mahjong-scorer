@@ -2,6 +2,7 @@
 
 #include "pattern-recognizer.h"
 
+namespace mahjong {
 class TerminalOrHonorRecognizer: public PatternRecognizer
 {
 public:
@@ -19,3 +20,4 @@ private:
 	int terminals_set_count { 0 };
 	int contained_terminal_set_count { 0 };
 };
+}

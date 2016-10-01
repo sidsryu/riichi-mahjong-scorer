@@ -6,6 +6,7 @@
 
 using namespace std;
 
+namespace mahjong {
 void IdenticalSequencesRecognizer::reset()
 {
 	identity_infos.clear();
@@ -59,4 +60,5 @@ std::set<Pattern> IdenticalSequencesRecognizer::recognize()
 	}
 
 	return {};
+}
 }

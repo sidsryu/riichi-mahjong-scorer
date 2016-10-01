@@ -6,6 +6,7 @@
 
 using namespace std;
 
+namespace mahjong {
 void TripletsOrQuadsRecognizer::reset()
 {
 	quad_count = 0;
@@ -72,7 +73,7 @@ set<Pattern> TripletsOrQuadsRecognizer::recognize()
 	{
 		patterns.insert(Pattern::FourQuads);
 	}
-	
+
 	if (closed_triplet_or_quad_count == 3)
 	{
 		patterns.insert(Pattern::ThreeClosedTriplets);
@@ -89,4 +90,5 @@ set<Pattern> TripletsOrQuadsRecognizer::recognize()
 	}
 
 	return patterns;
+}
 }

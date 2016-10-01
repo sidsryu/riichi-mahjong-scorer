@@ -4,6 +4,7 @@
 #include <functional>
 #include <vector>
 
+namespace mahjong {
 enum class Tile;
 class Meld;
 class TileHolder;
@@ -19,7 +20,7 @@ class PlayerHand
 		not_ready = 0,
 		ready_hand,
 		double_ready,
-	};	
+	};
 
 public:
 	void add(Tile tile);
@@ -39,9 +40,10 @@ public:
 	bool isReadyHand() const;
 	bool isDoubleReady() const;
 
-private:	
+private:
 	Tile last_tile;
 	std::multiset<Tile> tiles;
 	std::vector<Meld> melds;
 	ReadyType ready_type { ReadyType::not_ready };
 };
+}

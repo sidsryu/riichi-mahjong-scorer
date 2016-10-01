@@ -2,6 +2,7 @@
 
 #include "pattern-recognizer.h"
 
+namespace mahjong {
 class TripletsOrQuadsRecognizer: public PatternRecognizer
 {
 public:
@@ -15,6 +16,7 @@ public:
 private:
 	int quad_count { 0 };
 	int triplet_count { 0 };
-	int closed_triplet_or_quad_count { 0 };	
+	int closed_triplet_or_quad_count { 0 };
 	int closed_count_modifier { 0 };
 };
+}

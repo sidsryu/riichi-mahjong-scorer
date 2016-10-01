@@ -5,6 +5,7 @@
 #include "player-hand.h"
 #include "wining-state.h"
 
+namespace mahjong {
 void FlushRecognizer::reset()
 {
 	has_honors = false;
@@ -45,15 +46,15 @@ void FlushRecognizer::check(const Meld& meld)
 
 		if (meld.isSequence())
 		{
-			number_count[number-1 + 0]++;
-			number_count[number-1 + 1]++;
-			number_count[number-1 + 2]++;
+			number_count[number - 1 + 0]++;
+			number_count[number - 1 + 1]++;
+			number_count[number - 1 + 2]++;
 		}
 		else
 		{
-			number_count[number-1] += 3;
-			if (meld.isQuad()) number_count[number-1]++;
-		}		
+			number_count[number - 1] += 3;
+			if (meld.isQuad()) number_count[number - 1]++;
+		}
 	}
 }
 
@@ -97,4 +98,5 @@ std::set<Pattern> FlushRecognizer::recognize()
 	}
 
 	return {};
+}
 }

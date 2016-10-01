@@ -3,6 +3,7 @@
 #include "pattern-recognizer.h"
 #include <vector>
 
+namespace mahjong {
 enum class Tile;
 
 class SevenPairsRecognizer: public PatternRecognizer
@@ -18,3 +19,4 @@ public:
 private:
 	std::vector<Tile> front_tiles_of_pair;
 };
+}

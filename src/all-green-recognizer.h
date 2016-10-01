@@ -2,6 +2,7 @@
 
 #include "pattern-recognizer.h"
 
+namespace mahjong {
 class AllGreenRecognizer: public PatternRecognizer
 {
 public:
@@ -15,3 +16,4 @@ public:
 private:
 	int is_all_green { true };
 };
+}

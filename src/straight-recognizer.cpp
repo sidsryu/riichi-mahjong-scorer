@@ -2,6 +2,7 @@
 #include "pattern-define.h"
 #include "meld.h"
 
+namespace mahjong {
 void StraightRecognizer::reset()
 {
 	has_front_tile_of_sequences = {};
@@ -18,7 +19,7 @@ void StraightRecognizer::check(const Meld& meld)
 		auto suit = code / 100;
 		auto number = code / 10 % 10;
 
-		has_front_tile_of_sequences[number-1][suit-1] = true;
+		has_front_tile_of_sequences[number - 1][suit - 1] = true;
 	}
 }
 
@@ -45,4 +46,5 @@ std::set<Pattern> StraightRecognizer::recognize()
 	}
 
 	return {};
+}
 }

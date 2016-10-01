@@ -3,6 +3,7 @@
 #include "pattern-recognizer.h"
 #include <array>
 
+namespace mahjong {
 class ThreeColourTripletsRecognizer: public PatternRecognizer
 {
 public:
@@ -16,3 +17,4 @@ public:
 private:
 	std::array<int, 9> front_tile_count_of_triplets_or_quads {};
 };
+}

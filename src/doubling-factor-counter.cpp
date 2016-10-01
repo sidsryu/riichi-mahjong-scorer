@@ -10,6 +10,7 @@
 
 using namespace std;
 
+namespace mahjong {
 DoubligFactorCounter::DoubligFactorCounter(const PlayerHand& hand, const WiningState& state)
 	: hand(hand)
 	, state(state)
@@ -18,7 +19,7 @@ DoubligFactorCounter::DoubligFactorCounter(const PlayerHand& hand, const WiningS
 DoublingFactorReport DoubligFactorCounter::report()
 {
 	DoublingFactorReport r;
-	
+
 	PatternComputer c(hand, state);
 	c.compute(r.patterns, r.wining_hand);
 
@@ -29,4 +30,5 @@ DoublingFactorReport DoubligFactorCounter::report()
 	r.doubling_factor += r.bonus_tile_count;
 
 	return r;
+}
 }

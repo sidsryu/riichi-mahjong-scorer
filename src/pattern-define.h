@@ -1,10 +1,11 @@
 #pragma once
 
+namespace mahjong {
 enum class Pattern
-{	
+{
 	ReadyHand = 1,
 	DoubleReady,
-	OneShot,	
+	OneShot,
 	LastTileFromTheWall,
 	LastDiscard,
 	DeadWallDraw,
@@ -53,3 +54,4 @@ enum class Pattern
 	BigFourWinds,
 	FourQuads,
 };
+}

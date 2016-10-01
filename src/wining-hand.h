@@ -3,6 +3,7 @@
 #include "tile-define.h"
 #include <vector>
 
+namespace mahjong {
 class Pair;
 class Meld;
 
@@ -13,3 +14,4 @@ struct WiningHand
 	std::vector<Tile> tiles;
 	Tile last_tile;
 };
+}

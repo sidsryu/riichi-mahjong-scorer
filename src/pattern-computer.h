@@ -5,6 +5,7 @@
 #include <memory>
 #include <set>
 
+namespace mahjong {
 enum class Pattern;
 class PlayerHand;
 class WiningState;
@@ -40,3 +41,4 @@ private:
 	WiningPatterns highest_patterns;
 	WiningHand highest_wining_hand;
 };
+}

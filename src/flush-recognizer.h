@@ -3,6 +3,7 @@
 #include "pattern-recognizer.h"
 #include <array>
 
+namespace mahjong {
 class FlushRecognizer: public PatternRecognizer
 {
 public:
@@ -18,3 +19,4 @@ private:
 	std::array<bool, 3> has_suit_tiles {};
 	std::array<int, 9> number_count {};
 };
+}

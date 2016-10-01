@@ -7,6 +7,7 @@
 
 using namespace std;
 
+namespace mahjong {
 void PlayerHand::add(Tile tile)
 {
 	tiles.insert(tile);
@@ -26,7 +27,7 @@ void PlayerHand::bindSequence(BindTiles tiles)
 {
 	assert(ready_type == ReadyType::not_ready);
 
-	Meld meld { tiles, true };	
+	Meld meld { tiles, true };
 	assert(meld.isSequence());
 
 	for (auto it : tiles)
@@ -34,7 +35,7 @@ void PlayerHand::bindSequence(BindTiles tiles)
 		remove(it);
 	}
 
-	melds.push_back(meld);	
+	melds.push_back(meld);
 }
 
 void PlayerHand::bindTriplet(BindTiles tiles)
@@ -85,7 +86,7 @@ void PlayerHand::bindClosedQuad(BindTiles tiles)
 void PlayerHand::readyHand()
 {
 	assert(isClosedHand());
-	assert(ready_type == ReadyType::not_ready);	
+	assert(ready_type == ReadyType::not_ready);
 
 	ready_type = ReadyType::ready_hand;
 }
@@ -154,7 +155,7 @@ PlayerHand::FreeTiles PlayerHand::makeFreeTiles() const
 		return FreeTiles(tiles.begin(), tiles.end());
 	}
 
-	return {};	
+	return {};
 }
 
 bool PlayerHand::isReadyHand() const
@@ -165,4 +166,5 @@ bool PlayerHand::isReadyHand() const
 bool PlayerHand::isDoubleReady() const
 {
 	return ready_type == ReadyType::double_ready;
+}
 }

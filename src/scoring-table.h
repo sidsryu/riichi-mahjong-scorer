@@ -1,7 +1,7 @@
 #pragma once
 
 #include <utility>
-
+namespace mahjong {
 class ScoringTable
 {
 public:
@@ -19,3 +19,4 @@ private:
 	bool isSanbaiman(int doubling_factor) const;
 	bool isYakuman(int doubling_factor) const;
 };
+}

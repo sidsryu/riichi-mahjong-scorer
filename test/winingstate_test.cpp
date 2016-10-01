@@ -11,6 +11,8 @@
 #include "doubling-factor-report.h"
 #include <cassert>
 
+using namespace mahjong;
+
 TEST_GROUP(WiningStateTest)
 {
 	PlayerHand h;

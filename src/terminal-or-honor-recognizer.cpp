@@ -5,6 +5,7 @@
 
 using namespace std;
 
+namespace mahjong {
 void TerminalOrHonorRecognizer::reset()
 {
 	set_count = 0;
@@ -27,7 +28,7 @@ void TerminalOrHonorRecognizer::check(const Pair& pair)
 	{
 		honors_set_count++;
 	}
-	
+
 	if (pair.isTerminals())
 	{
 		terminals_set_count++;
@@ -48,7 +49,7 @@ void TerminalOrHonorRecognizer::check(const Meld& meld)
 	{
 		honors_set_count++;
 	}
-	
+
 	if (meld.hasTerminal())
 	{
 		contained_terminal_set_count++;
@@ -56,7 +57,7 @@ void TerminalOrHonorRecognizer::check(const Meld& meld)
 		if (meld.isTerminals())
 		{
 			terminals_set_count++;
-		}		
+		}
 	}
 }
 
@@ -96,4 +97,5 @@ set<Pattern> TerminalOrHonorRecognizer::recognize()
 	}
 
 	return patterns;
+}
 }

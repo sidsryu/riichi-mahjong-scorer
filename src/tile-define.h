@@ -1,5 +1,6 @@
 #pragma once
 
+namespace mahjong {
 enum class Tile
 {
 	OneOfCharacters = 110,
@@ -17,13 +18,13 @@ enum class Tile
 	TwoOfCircles = 220,
 	ThreeOfCircles = 230,
 	FourOfCircles = 240,
-	FiveOfCircles = 250,	
+	FiveOfCircles = 250,
 	RedFiveOfCircles = 251,
 	SixOfCircles = 260,
 	SevenOfCircles = 270,
 	EightOfCircles = 280,
 	NineOfCircles = 290,
-	
+
 	OneOfBamboos = 310,
 	TwoOfBamboos = 320,
 	ThreeOfBamboos = 330,
@@ -44,3 +45,4 @@ enum class Tile
 	GreenDragon = 520,
 	RedDragon = 530,
 };
+}

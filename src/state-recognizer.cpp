@@ -5,6 +5,7 @@
 
 using namespace std;
 
+namespace mahjong {
 void StateRecognizer::reset()
 {}
 
@@ -70,7 +71,7 @@ set<Pattern> StateRecognizer::recognize()
 			else
 			{
 				patterns.insert(Pattern::EarthlyHand);
-			}			
+			}
 		}
 	}
 
@@ -80,4 +81,5 @@ set<Pattern> StateRecognizer::recognize()
 	}
 
 	return patterns;
+}
 }

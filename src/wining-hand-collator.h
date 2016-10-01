@@ -2,6 +2,7 @@
 
 #include <vector>
 
+namespace mahjong {
 enum class Tile;
 struct WiningHand;
 class PlayerHand;
@@ -23,3 +24,4 @@ private:
 private:
 	WiningHands wining_hands;
 };
+}

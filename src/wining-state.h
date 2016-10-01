@@ -2,6 +2,7 @@
 
 #include <set>
 
+namespace mahjong {
 enum class Tile;
 
 struct WinByDiscardSituation
@@ -33,7 +34,7 @@ public:
 	bool isWinByDiscard() const;
 	bool isSelfDrawn() const;
 	Tile roundWind() const;
-	Tile seatWind() const;	
+	Tile seatWind() const;
 	bool isOneShot() const;
 	bool isLastDiscard() const;
 	bool isLastTileFromTheWall() const;
@@ -46,7 +47,7 @@ public:
 private:
 	bool is_win_by_discard { false };
 	Tile round_wind;
-	Tile seat_wind;	
+	Tile seat_wind;
 	bool is_one_shot { false };
 	bool is_last_discard { false };
 	bool is_robbing_quad { false };
@@ -55,3 +56,4 @@ private:
 	std::multiset<Tile> bonus_tiles;
 	bool is_uninterrupted_first_drawn { false };
 };
+}

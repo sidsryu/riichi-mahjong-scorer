@@ -2,6 +2,7 @@
 
 #include "pattern-recognizer.h"
 
+namespace mahjong {
 class DragonsRecognizer: public PatternRecognizer
 {
 public:
@@ -13,6 +14,7 @@ public:
 	virtual std::set<Pattern> recognize() override;
 
 private:
-	int dragon_count { 0 };	
+	int dragon_count { 0 };
 	bool is_dragon_pair { false };
 };
+}

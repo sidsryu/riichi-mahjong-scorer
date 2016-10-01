@@ -1,5 +1,6 @@
 #pragma once
 
+namespace mahjong {
 struct WiningHand;
 class WiningState;
 
@@ -12,10 +13,10 @@ public:
 private:
 	int roundUp(int point) const;
 	bool isNoPointsHandSelfDrawn() const;
-	bool isSevenPairs() const;	
+	bool isSevenPairs() const;
 	void computeMelds();
 	void computePair();
-	void computeWait();	
+	void computeWait();
 	void computeWining();
 	void computeOpenNoPointsHand();
 
@@ -24,3 +25,4 @@ private:
 	const WiningState& state;
 	int point { 0 };
 };
+}

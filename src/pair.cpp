@@ -3,7 +3,8 @@
 #include "tile-functor.h"
 #include <cassert>
 
-Pair::Pair() 
+namespace mahjong {
+Pair::Pair()
 {}
 
 Pair::Pair(std::vector<Tile> tiles)
@@ -70,4 +71,4 @@ bool Pair::isGreens() const
 {
 	return IsGreen()(tiles.front());
 }
-
+}

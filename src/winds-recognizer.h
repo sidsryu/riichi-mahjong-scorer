@@ -2,6 +2,7 @@
 
 #include "pattern-recognizer.h"
 
+namespace mahjong {
 class WindsRecognizer: public PatternRecognizer
 {
 public:
@@ -13,6 +14,7 @@ public:
 	virtual std::set<Pattern> recognize() override;
 
 private:
-	int wind_count { 0 };	
+	int wind_count { 0 };
 	bool is_wind_pair { false };
 };
+}

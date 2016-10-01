@@ -2,6 +2,7 @@
 
 #include <vector>
 
+namespace mahjong {
 enum class Tile;
 class WiningState;
 
@@ -14,7 +15,7 @@ public:
 	bool isSimples() const;
 	bool isTerminals() const;
 	bool isHonors() const;
-	bool isDragons() const;	
+	bool isDragons() const;
 	bool isWinds() const;
 	bool isValueTiles(const WiningState& state) const;
 	bool isContain(Tile tile) const;
@@ -26,3 +27,4 @@ public:
 private:
 	std::vector<Tile> tiles;
 };
+}

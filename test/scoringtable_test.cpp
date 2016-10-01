@@ -2,6 +2,7 @@
 #include "scoring-table.h"
 
 using namespace std;
+using namespace mahjong;
 
 TEST_GROUP(ScoringTableTest)
 {

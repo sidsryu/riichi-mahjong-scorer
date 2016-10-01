@@ -26,6 +26,7 @@
 
 using namespace std;
 
+namespace mahjong {
 PatternComputer::PatternComputer(const PlayerHand& hand, const WiningState& state)
 	: hand(hand)
 	, state(state)
@@ -176,4 +177,5 @@ void PatternComputer::setHighest(const WiningHand& hand, const WiningPatterns& p
 		highest_patterns = final_patterns;
 		highest_wining_hand = hand;
 	}
+}
 }

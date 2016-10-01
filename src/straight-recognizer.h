@@ -3,6 +3,7 @@
 #include "pattern-recognizer.h"
 #include <array>
 
+namespace mahjong {
 class StraightRecognizer: public PatternRecognizer
 {
 	using SuitFlag = std::array<bool, 3>;
@@ -19,3 +20,4 @@ public:
 private:
 	NumberFlag has_front_tile_of_sequences {};
 };
+}
