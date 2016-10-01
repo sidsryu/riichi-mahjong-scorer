@@ -1,8 +1,8 @@
 #pragma once
 
+#include "tile-define.h"
 #include <vector>
 
-enum class Tile;
 class Pair;
 class Meld;
 

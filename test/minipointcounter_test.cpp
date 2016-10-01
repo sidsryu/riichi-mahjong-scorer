@@ -13,7 +13,7 @@ TEST_GROUP(MinipointCounterTest)
 {
 	WiningState s;
 	WiningHand h;
-	MinipointCounter m { h, s };	
+	MinipointCounter m { h, s };
 
 	void addPair(Tile tile)
 	{
@@ -76,14 +76,14 @@ TEST_GROUP(MinipointCounterTest)
 
 	void addOpenNoPointsHandWithoutOneMeld()
 	{
-		addPair(Tile::SouthWind);		
+		addPair(Tile::SouthWind);
 		addSequence(Tile::TwoOfCircles, true);
-		addSequence(Tile::TwoOfBamboos, true);		
+		addSequence(Tile::TwoOfBamboos, true);
 		addSequence(Tile::TwoOfCharacters, false);
 	}
 
 	void selfDrawn()
-	{		
+	{
 		s.selfDrawn();
 	}
 
@@ -147,7 +147,7 @@ TEST(MinipointCounterTest, SevenPairs)
 TEST(MinipointCounterTest, EdgeWait)
 {
 	addOpenNoPointHand();
-	
+
 	h.last_tile = Tile::ThreeOfCharacters;
 	winByDiscard();
 	CHECK_EQUAL(22, m.total(false));
@@ -160,7 +160,7 @@ TEST(MinipointCounterTest, EdgeWait)
 TEST(MinipointCounterTest, ClosedWait)
 {
 	addOpenNoPointHand();
-	
+
 	h.last_tile = Tile::EightOfCharacters;
 	winByDiscard();
 	CHECK_EQUAL(22, m.total(false));
@@ -169,7 +169,7 @@ TEST(MinipointCounterTest, ClosedWait)
 TEST(MinipointCounterTest, PairWait)
 {
 	addOpenNoPointHand();
-	
+
 	h.last_tile = Tile::SouthWind;
 	winByDiscard();
 	CHECK_EQUAL(22, m.total(false));
@@ -194,7 +194,7 @@ TEST(MinipointCounterTest, ChooseHighestPointsWait_AnotherHandOrder)
 	addSequence(Tile::ThreeOfCharacters, false);
 	addSequence(Tile::OneOfCharacters, false);
 	addSequence(Tile::OneOfCircles, true);
-	addSequence(Tile::OneOfBamboos, true);	
+	addSequence(Tile::OneOfBamboos, true);
 
 	h.last_tile = Tile::ThreeOfCharacters;
 	winByDiscard();
@@ -226,7 +226,7 @@ TEST(MinipointCounterTest, RoundWindPair)
 {
 	s.setRoundWind(Tile::EastWind);
 	s.setSeatWind(Tile::SouthWind);
-	
+
 	addPair(Tile::EastWind);
 	addOpenNoPointsHandWithoutPair();
 	winByDiscard();
@@ -260,7 +260,7 @@ TEST(MinipointCounterTest, SimpleClosedTriplet)
 	addTriplet(Tile::EightOfCircles, false);
 	addOpenNoPointsHandWithoutOneMeld();
 	winByDiscard();
-	
+
 	CHECK_EQUAL(24, m.total(false));
 }
 
@@ -269,7 +269,7 @@ TEST(MinipointCounterTest, SimpleOpenQuad)
 	addQuad(Tile::EightOfCircles, true);
 	addOpenNoPointsHandWithoutOneMeld();
 	winByDiscard();
-	
+
 	CHECK_EQUAL(28, m.total(false));
 }
 
@@ -278,7 +278,7 @@ TEST(MinipointCounterTest, SimpleClosedQuad)
 	addQuad(Tile::EightOfCircles, false);
 	addOpenNoPointsHandWithoutOneMeld();
 	winByDiscard();
-	
+
 	CHECK_EQUAL(36, m.total(false));
 }
 
@@ -287,7 +287,7 @@ TEST(MinipointCounterTest, HornorOrTerminalOpenTriplet)
 	addTriplet(Tile::WhiteDragon, true);
 	addOpenNoPointsHandWithoutOneMeld();
 	winByDiscard();
-	
+
 	CHECK_EQUAL(24, m.total(false));
 }
 

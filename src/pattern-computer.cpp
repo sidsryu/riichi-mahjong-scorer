@@ -22,6 +22,7 @@
 #include "wining-hand-collator.h"
 #include "winds-recognizer.h"
 #include "all-green-recognizer.h"
+#include <map>
 
 using namespace std;
 
@@ -46,7 +47,7 @@ PatternComputer::PatternComputer(const PlayerHand& hand, const WiningState& stat
 
 PatternComputer::~PatternComputer() = default;
 
-set<Pattern> PatternComputer::compute()
+void PatternComputer::compute(WiningPatterns& out_patterns, WiningHand& out_wining_hand)
 {
 	highest_patterns.clear();
 
@@ -56,12 +57,15 @@ set<Pattern> PatternComputer::compute()
 		resetRecognizer();
 
 		check(h);
-		recognize();
+
+		const auto& patterns = recognize();
+		setHighest(h, patterns);
 	}
-		
+
 	special(hand);
 
-	return highest_patterns;
+	out_patterns = highest_patterns;
+	out_wining_hand = highest_wining_hand;
 }
 
 void PatternComputer::resetRecognizer()
@@ -101,53 +105,75 @@ void PatternComputer::check(const Meld& meld)
 	}
 }
 
-void PatternComputer::recognize()
+PatternComputer::WiningPatterns PatternComputer::recognize()
 {
-	// compute patterns
 	set<Pattern> patterns;
+
 	for (auto& it : recognizers)
 	{
 		auto p = it->recognize();
 		patterns.insert(p.begin(), p.end());
 	}
-	if (patterns.empty()) return;
 
+	return patterns;
+}
+
+void PatternComputer::special(const PlayerHand& hand)
+{
+	map<Tile, int> unique_tiles;
+	for (auto it : hand.makeFreeTiles())
+	{
+		if (IsSimple()(it)) continue;
+		unique_tiles[it]++;
+	}
+
+	if (13 == unique_tiles.size())
+	{
+		highest_patterns = { Pattern::ThirteenOrphans };
+
+		WiningHand wining_hand;
+		wining_hand.last_tile = hand.lastTile();
+		for (auto it : unique_tiles)
+		{
+			if (2 == it.second)
+			{
+				auto p = Pair({ it.first, it.first });
+				wining_hand.pairs.push_back(p);
+			}
+			else
+			{
+				wining_hand.tiles.push_back(it.first);
+			}
+		}
+		highest_wining_hand = wining_hand;
+	}
+}
+
+void PatternComputer::setHighest(const WiningHand& hand, const WiningPatterns& patterns)
+{
 	// limit hands can combine only themselves.
-	set<Pattern> limit_hands;
+	WiningPatterns final_patterns;
 	for (auto it : patterns)
 	{
 		if (IsLimitHand()(it))
 		{
-			limit_hands.insert(it);
+			final_patterns.insert(it);
 		}
 	}
-	if (!limit_hands.empty())
+	if (final_patterns.empty())
 	{
-		patterns = limit_hands;
+		final_patterns = patterns;
 	}
 
 	// choose highest
 	if (highest_patterns.empty())
 	{
-		highest_patterns = patterns;
+		highest_patterns = final_patterns;
+		highest_wining_hand = hand;
 	}
-	else if ((int)*highest_patterns.rbegin() < (int)*patterns.rbegin())
+	else if ((int)*highest_patterns.rbegin() < (int)*final_patterns.rbegin())
 	{
-		highest_patterns = patterns;
-	}
-}
-
-void PatternComputer::special(const PlayerHand& hand)
-{
-	set<Tile> tiles;
-	for (auto it : hand.makeFreeTiles())
-	{
-		if (IsSimple()(it)) continue;
-		tiles.insert(it);
-	}
-
-	if (13 == tiles.size())
-	{
-		highest_patterns = { Pattern::ThirteenOrphans };
+		highest_patterns = final_patterns;
+		highest_wining_hand = hand;
 	}
 }

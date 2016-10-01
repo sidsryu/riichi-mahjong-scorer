@@ -14,6 +14,8 @@ WiningHandCollator::WiningHands WiningHandCollator::collate(const PlayerHand& ha
 
 	auto seed_holder = hand.makeHandHolder();
 	auto seed_hand = WiningHand();
+	seed_hand.last_tile = hand.lastTile();
+
 	backtrack(seed_hand, seed_holder);
 
 	return wining_hands;
