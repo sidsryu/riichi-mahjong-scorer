@@ -24,23 +24,16 @@ class WiningState
 public:
 	WiningState();
 
-	void readyHand();
-	void doubleReady();
-	void claim();
-	void winByDiscard(Tile tile, WinByDiscardSituation situation = {});
-	void selfDrawn(Tile tile, SelfDrawnSituation situation = {});
+	void winByDiscard(WinByDiscardSituation situation = {});
+	void selfDrawn(SelfDrawnSituation situation = {});
 	void setRoundWind(Tile tile);
 	void setSeatWind(Tile tile);
 	void addBonusTile(Tile tile);
 
-	bool isReadyHand() const;
-	bool isDoubleReady() const;
-	bool isClosedHand() const;
 	bool isWinByDiscard() const;
 	bool isSelfDrawn() const;
 	Tile roundWind() const;
-	Tile seatWind() const;
-	Tile lastTile() const;
+	Tile seatWind() const;	
 	bool isOneShot() const;
 	bool isLastDiscard() const;
 	bool isLastTileFromTheWall() const;
@@ -51,13 +44,9 @@ public:
 	bool isDealer() const;
 
 private:
-	bool is_ready_hand { false };
-	bool is_double_ready { false };
-	bool is_claim { false };
 	bool is_win_by_discard { false };
 	Tile round_wind;
-	Tile seat_wind;
-	Tile last_tile;
+	Tile seat_wind;	
 	bool is_one_shot { false };
 	bool is_last_discard { false };
 	bool is_robbing_quad { false };

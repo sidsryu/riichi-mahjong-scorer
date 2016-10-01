@@ -1,5 +1,6 @@
 #include "pattern-recognizer.h"
 
-PatternRecognizer::PatternRecognizer(const WiningState& state)
-	: state(state)
+PatternRecognizer::PatternRecognizer(const PlayerHand& hand, const WiningState& state)
+	: hand(hand)
+	, state(state)
 {}

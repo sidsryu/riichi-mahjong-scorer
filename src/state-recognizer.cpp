@@ -1,5 +1,6 @@
 #include "state-recognizer.h"
 #include "wining-state.h"
+#include "player-hand.h"
 #include "pattern-define.h"
 
 using namespace std;
@@ -17,14 +18,14 @@ set<Pattern> StateRecognizer::recognize()
 {
 	set<Pattern> patterns;
 
-	if (state.isReadyHand() || state.isDoubleReady())
+	if (hand.isReadyHand() || hand.isDoubleReady())
 	{
-		if (state.isReadyHand())
+		if (hand.isReadyHand())
 		{
 			patterns.insert(Pattern::ReadyHand);
 		}
 
-		if (state.isDoubleReady())
+		if (hand.isDoubleReady())
 		{
 			patterns.insert(Pattern::DoubleReady);
 		}
@@ -73,7 +74,7 @@ set<Pattern> StateRecognizer::recognize()
 		}
 	}
 
-	if (state.isClosedHand() && state.isSelfDrawn())
+	if (hand.isClosedHand() && state.isSelfDrawn())
 	{
 		patterns.insert(Pattern::SelfDrawn);
 	}

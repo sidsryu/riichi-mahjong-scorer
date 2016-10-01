@@ -11,7 +11,7 @@ class WiningState;
 class PatternRecognizer
 {
 public:
-	PatternRecognizer(const WiningState& state);
+	PatternRecognizer(const PlayerHand& hand, const WiningState& state);
 	virtual ~PatternRecognizer() = default;
 
 	virtual void reset() = 0;
@@ -20,7 +20,11 @@ public:
 	virtual std::set<Pattern> recognize() = 0;
 
 protected:
+	const PlayerHand& hand;
 	const WiningState& state;
 };
 
-#define RECOGNIZER_CONSTRUCTOR(class_name) class_name(const WiningState& state) : PatternRecognizer(state) {}
+#define RECOGNIZER_CONSTRUCTOR(class_name)\
+	class_name(const PlayerHand& hand, const WiningState& state)\
+		: PatternRecognizer(hand, state)\
+	{}

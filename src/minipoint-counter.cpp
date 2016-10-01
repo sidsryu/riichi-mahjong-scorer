@@ -2,6 +2,7 @@
 #include "wining-state.h"
 #include "tile-functor.h"
 #include "wining-hand.h"
+#include "player-hand.h"
 #include "pair.h"
 #include "meld.h"
 #include <algorithm>
@@ -36,13 +37,13 @@ bool MinipointCounter::isNoPointsHandSelfDrawn() const
 {
 	if (state.isWinByDiscard()) return false;
 
-	auto is_multi_wait = false;
+	auto is_multi_wait = false;	
 	for (auto it : hand.melds)
 	{
 		if (it.isOpen()) return false;
 		if (it.isTripletOrQuad()) return false;
 
-		is_multi_wait = it.isMultiWait(state.lastTile());
+		is_multi_wait = it.isMultiWait(hand.last_tile);
 	}
 
 	return is_multi_wait;
@@ -109,7 +110,7 @@ void MinipointCounter::computeWait()
 	for (auto it : hand.pairs)
 	{
 		// pair wait
-		if (it.isContain(state.lastTile()))
+		if (it.isContain(hand.last_tile))
 		{
 			point += 2;
 			return;
@@ -121,13 +122,13 @@ void MinipointCounter::computeWait()
 		if (it.isOpen()) continue;
 		if (it.isTripletOrQuad()) continue;
 
-		if (it.isClosedWait(state.lastTile()))
+		if (it.isClosedWait(hand.last_tile))
 		{
 			point += 2;
 			return;
 		}
 
-		if (it.isEdgeWait(state.lastTile()))
+		if (it.isEdgeWait(hand.last_tile))
 		{
 			point += 2;
 			return;

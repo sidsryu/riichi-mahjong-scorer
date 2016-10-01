@@ -1,5 +1,6 @@
 #include "no-points-hand-recognizer.h"
 #include "wining-state.h"
+#include "player-hand.h"
 #include "pattern-define.h"
 #include "pair.h"
 #include "meld.h"
@@ -27,7 +28,7 @@ void NoPointsPatternRecognizer::check(const Meld& meld)
 	{
 		sequence_count++;
 
-		auto last_tile = state.lastTile();
+		auto last_tile = hand.lastTile();
 		if (meld.isMultiWait(last_tile))
 		{
 			is_multi_wait = true;
@@ -37,7 +38,7 @@ void NoPointsPatternRecognizer::check(const Meld& meld)
 
 set<Pattern> NoPointsPatternRecognizer::recognize()
 {
-	if (state.isClosedHand())
+	if (hand.isClosedHand())
 	{
 		if (has_value_pair) return {};
 

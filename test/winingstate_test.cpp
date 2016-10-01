@@ -39,40 +39,40 @@ TEST_GROUP(WiningStateTest)
 		h.add(NextTile()(h.lastTile()));
 	}
 
-	void addNoWiningHand()
+	void addNoWiningHand(bool is_claim = false)
 	{
 		addPair(Tile::OneOfBamboos);
 
 		addSequence(Tile::TwoOfBamboos);
 		addSequence(Tile::ThreeOfCharacters);
-		addTriplet(Tile::SixOfCircles);
+
+		if (is_claim)
+		{
+			addTriplet(Tile::SixOfCircles);
+			h.bindTriplet({
+				Tile::SixOfCircles,
+				Tile::SixOfCircles,
+				Tile::SixOfCircles
+			});
+		}
 
 		addSequence(Tile::SevenOfCharacters);
 	}
 
 	void selfDrawn(SelfDrawnSituation situation = {})
 	{
-		auto tile = h.lastTile();
-		s.selfDrawn(tile, situation);
+		s.selfDrawn(situation);
 	}
 
 	void winByDiscard(WinByDiscardSituation situation = {})
 	{
-		auto tile = h.lastTile();
-		s.winByDiscard(tile, situation);
+		s.winByDiscard(situation);
 	}
 };
 
 TEST(WiningStateTest, NoHandClaim)
 {
-	addNoWiningHand();
-
-	h.bindSequence({
-		Tile::SevenOfCharacters,
-		Tile::EightOfCharacters,
-		Tile::NineOfCharacters
-	});
-	s.claim();
+	addNoWiningHand(true);
 
 	selfDrawn();
 	auto r = c.report();
@@ -107,7 +107,7 @@ TEST(WiningStateTest, ReadyHand)
 {
 	addNoWiningHand();
 
-	s.readyHand();
+	h.readyHand();	
 	winByDiscard();
 	auto r = c.report();
 
@@ -118,7 +118,7 @@ TEST(WiningStateTest, ReadyHand)
 TEST(WiningStateTest, OneShot)
 {
 	addNoWiningHand();
-	s.readyHand();
+	h.readyHand();
 
 	WinByDiscardSituation situation;
 	situation.is_one_shot = true;
@@ -146,12 +146,11 @@ TEST(WiningStateTest, Not_OneShot_ReadyOnly)
 
 TEST(WiningStateTest, DeadWallDraw)
 {
-	addNoWiningHand();
+	addNoWiningHand(true);
 
 	SelfDrawnSituation situation;
 	situation.is_dead_wall = true;
 
-	s.claim();
 	selfDrawn(situation);
 	auto r = c.report();
 
@@ -175,12 +174,11 @@ TEST(WiningStateTest, RobbingQuad)
 
 TEST(WiningStateTest, LastTileFromTheWall)
 {
-	addNoWiningHand();
+	addNoWiningHand(true);
 
 	SelfDrawnSituation situation;
 	situation.is_last_wall = true;
 
-	s.claim();
 	selfDrawn(situation);
 	auto r = c.report();
 
@@ -206,7 +204,7 @@ TEST(WiningStateTest, DoubleReady)
 {
 	addNoWiningHand();
 
-	s.doubleReady();
+	h.doubleReady();
 	winByDiscard();
 	auto r = c.report();
 

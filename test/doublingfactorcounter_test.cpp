@@ -33,7 +33,6 @@ TEST_GROUP(DoublingFactorCounterTest)
 		if (is_open)
 		{
 			h.bindTriplet({ tile, tile, tile });
-			s.claim();
 		}
 	}
 
@@ -49,7 +48,6 @@ TEST_GROUP(DoublingFactorCounterTest)
 		if (is_open)
 		{
 			h.bindSequence({ tile, next_tile, last_tile });
-			s.claim();
 		}
 	}
 
@@ -63,7 +61,6 @@ TEST_GROUP(DoublingFactorCounterTest)
 		if (is_open)
 		{
 			h.bindOpenQuad({ tile,tile,tile,tile });
-			s.claim();
 		}
 		else
 		{
@@ -73,14 +70,12 @@ TEST_GROUP(DoublingFactorCounterTest)
 
 	void selfDrawn()
 	{
-		auto tile = h.lastTile();
-		s.selfDrawn(tile);
+		s.selfDrawn();
 	}
 
 	void winByDiscard(WinByDiscardSituation situation = {})
 	{
-		auto tile = h.lastTile();
-		s.winByDiscard(tile, situation);
+		s.winByDiscard(situation);
 	}
 };
 
@@ -923,7 +918,7 @@ TEST(DoublingFactorCounterTest, MaxDoublingFactor)
 	s.addBonusTile(Tile::OneOfBamboos);
 	s.addBonusTile(Tile::OneOfBamboos);
 
-	s.doubleReady();
+	h.doubleReady();
 
 	WinByDiscardSituation situation;
 	situation.is_last_discard = true;

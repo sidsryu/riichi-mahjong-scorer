@@ -1,15 +1,17 @@
 #include "doubling-factor-table.h"
 #include "pattern-define.h"
 #include "wining-state.h"
+#include "player-hand.h"
 #include <algorithm>
 
 const int LIMIT_HAND_FACTOR = 100;
 
-DoublingFactorTable::DoublingFactorTable(const WiningState& state)
-	: state(state)
+DoublingFactorTable::DoublingFactorTable(const PlayerHand& hand, const WiningState& state)
+	: hand(hand)
+	, state(state)
 {
 	auto closed_hand_bonus = 0;
-	if (state.isClosedHand())
+	if (hand.isClosedHand())
 	{
 		closed_hand_bonus = 1;
 	}

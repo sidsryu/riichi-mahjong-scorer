@@ -1,5 +1,6 @@
 #include "identical-sequences-recognizer.h"
 #include "wining-state.h"
+#include "player-hand.h"
 #include "pattern-define.h"
 #include "meld.h"
 
@@ -31,7 +32,7 @@ void IdenticalSequencesRecognizer::check(const Meld& meld)
 
 std::set<Pattern> IdenticalSequencesRecognizer::recognize()
 {
-	if (state.isClosedHand())
+	if (hand.isClosedHand())
 	{
 		auto identical_set_count = 0;
 

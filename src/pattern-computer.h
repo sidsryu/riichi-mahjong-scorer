@@ -18,10 +18,10 @@ class PatternComputer
 	using PatternRecognizerPtr = std::unique_ptr<PatternRecognizer>;
 
 public:
-	PatternComputer(const WiningState& state);
+	PatternComputer(const PlayerHand& hand, const WiningState& state);
 	virtual ~PatternComputer();
 
-	std::set<Pattern> compute(const PlayerHand& hand);
+	std::set<Pattern> compute();
 
 private:
 	void resetRecognizer();
@@ -32,6 +32,7 @@ private:
 	void special(const PlayerHand& hand);
 
 private:
+	const PlayerHand& hand;
 	const WiningState& state;
 	std::vector<PatternRecognizerPtr> recognizers;	
 	std::set<Pattern> highest_patterns;

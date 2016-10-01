@@ -15,11 +15,11 @@ DoubligFactorCounter::DoubligFactorCounter(const PlayerHand& hand, const WiningS
 
 DoublingFactorReport DoubligFactorCounter::report()
 {
-	PatternComputer c(state);
-	auto patterns = c.compute(hand);
+	PatternComputer c(hand, state);
+	auto patterns = c.compute();
 	auto bonus_tile_count = hand.bonusTileCount(state);
 
-	DoublingFactorTable t(state);
+	DoublingFactorTable t(hand, state);
 	auto doubling_factor = t.total(patterns) + bonus_tile_count;
 
 	DoublingFactorReport r;

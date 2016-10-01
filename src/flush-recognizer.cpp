@@ -2,6 +2,7 @@
 #include "pattern-define.h"
 #include "pair.h"
 #include "meld.h"
+#include "player-hand.h"
 #include "wining-state.h"
 
 void FlushRecognizer::reset()
@@ -75,7 +76,7 @@ std::set<Pattern> FlushRecognizer::recognize()
 		}
 		else
 		{
-			if (state.isClosedHand())
+			if (hand.isClosedHand())
 			{
 				bool is_nine_gates = true;
 				if (number_count.front() < 3) is_nine_gates = false;

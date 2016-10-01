@@ -8,31 +8,9 @@ WiningState::WiningState()
 	, seat_wind(Tile::EastWind)	
 {}
 
-void WiningState::claim()
-{
-	assert(!is_ready_hand);
-	assert(!is_double_ready);
-	is_claim = true;
-}
-
-void WiningState::readyHand()
-{
-	assert(!is_double_ready);
-	assert(!is_claim);
-	is_ready_hand = true;
-}
-
-void WiningState::doubleReady()
-{
-	assert(!is_ready_hand);
-	assert(!is_claim);
-	is_double_ready = true;
-}
-
-void WiningState::winByDiscard(Tile tile, WinByDiscardSituation situation) 
+void WiningState::winByDiscard(WinByDiscardSituation situation) 
 {
 	is_win_by_discard = true;
-	last_tile = tile;
 
 	is_one_shot = situation.is_one_shot;
 	is_last_discard = situation.is_last_discard;
@@ -43,10 +21,9 @@ void WiningState::winByDiscard(Tile tile, WinByDiscardSituation situation)
 	);
 }
 
-void WiningState::selfDrawn(Tile tile, SelfDrawnSituation situation)
+void WiningState::selfDrawn(SelfDrawnSituation situation)
 {
 	is_win_by_discard = false;
-	last_tile = tile;
 
 	is_one_shot = situation.is_one_shot;
 	is_last_tile_from_the_wall = situation.is_last_wall;
@@ -79,21 +56,6 @@ void WiningState::addBonusTile(Tile tile)
 	bonus_tiles.insert(tile);
 }
 
-bool WiningState::isClosedHand() const
-{
-	return !is_claim;
-}
-
-bool WiningState::isReadyHand() const
-{
-	return is_ready_hand;
-}
-
-bool WiningState::isDoubleReady() const
-{
-	return is_double_ready;
-}
-
 bool WiningState::isWinByDiscard() const
 {
 	return is_win_by_discard;
@@ -112,11 +74,6 @@ Tile WiningState::roundWind() const
 Tile WiningState::seatWind() const
 {
 	return seat_wind;
-}
-
-Tile WiningState::lastTile() const
-{
-	return last_tile;
 }
 
 bool WiningState::isOneShot() const

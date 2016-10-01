@@ -16,6 +16,7 @@ void PlayerHand::add(Tile tile)
 void PlayerHand::remove(Tile tile)
 {
 	assert(0 < tiles.count(tile));
+	assert(ready_type == ReadyType::not_ready || last_tile == tile);
 
 	auto it = tiles.find(tile);
 	tiles.erase(it);
@@ -23,6 +24,8 @@ void PlayerHand::remove(Tile tile)
 
 void PlayerHand::bindSequence(BindTiles tiles)
 {
+	assert(ready_type == ReadyType::not_ready);
+
 	Meld meld { tiles, true };	
 	assert(meld.isSequence());
 
@@ -36,6 +39,8 @@ void PlayerHand::bindSequence(BindTiles tiles)
 
 void PlayerHand::bindTriplet(BindTiles tiles)
 {
+	assert(ready_type == ReadyType::not_ready);
+
 	Meld meld { tiles, true };
 	assert(meld.isTriplet());
 
@@ -49,6 +54,8 @@ void PlayerHand::bindTriplet(BindTiles tiles)
 
 void PlayerHand::bindOpenQuad(BindTiles tiles)
 {
+	assert(ready_type == ReadyType::not_ready);
+
 	Meld meld { tiles, true };
 	assert(meld.isQuad());
 
@@ -62,6 +69,8 @@ void PlayerHand::bindOpenQuad(BindTiles tiles)
 
 void PlayerHand::bindClosedQuad(BindTiles tiles)
 {
+	// NOTE: Allow bind closed quad in the ready, MUST not change waiting tiles.
+
 	Meld meld { tiles, false };
 	assert(meld.isQuad());
 
@@ -71,6 +80,22 @@ void PlayerHand::bindClosedQuad(BindTiles tiles)
 	}
 
 	melds.push_back(meld);
+}
+
+void PlayerHand::readyHand()
+{
+	assert(isClosedHand());
+	assert(ready_type == ReadyType::not_ready);	
+
+	ready_type = ReadyType::ready_hand;
+}
+
+void PlayerHand::doubleReady()
+{
+	assert(isClosedHand());
+	assert(ready_type == ReadyType::not_ready);
+
+	ready_type = ReadyType::double_ready;
 }
 
 bool PlayerHand::isClosedHand() const
@@ -130,4 +155,14 @@ PlayerHand::FreeTiles PlayerHand::makeFreeTiles() const
 	}
 
 	return {};	
+}
+
+bool PlayerHand::isReadyHand() const
+{
+	return ready_type == ReadyType::ready_hand;
+}
+
+bool PlayerHand::isDoubleReady() const
+{
+	return ready_type == ReadyType::double_ready;
 }

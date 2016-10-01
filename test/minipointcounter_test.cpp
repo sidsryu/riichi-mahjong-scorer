@@ -13,25 +13,24 @@ TEST_GROUP(MinipointCounterTest)
 {
 	WiningState s;
 	WiningHand h;
-	MinipointCounter m { h, s };
-	Tile last_tile;
+	MinipointCounter m { h, s };	
 
 	void addPair(Tile tile)
 	{
 		h.pairs.push_back(vector<Tile>{ tile, tile });
-		last_tile = tile;
+		h.last_tile = tile;
 	}
 
 	void addTriplet(Tile tile, bool is_open)
 	{
 		h.melds.push_back({ { tile, tile, tile }, is_open });
-		last_tile = tile;
+		h.last_tile = tile;
 	}
 
 	void addQuad(Tile tile, bool is_open)
 	{
 		h.melds.push_back({ { tile, tile, tile, tile }, is_open });
-		last_tile = tile;
+		h.last_tile = tile;
 	}
 
 	void addSequence(Tile tile, bool is_open)
@@ -45,7 +44,7 @@ TEST_GROUP(MinipointCounterTest)
 			last,
 		};
 		h.melds.push_back({ tiles, is_open });
-		last_tile = last;
+		h.last_tile = last;
 	}
 
 	void addNoPointHand()
@@ -84,13 +83,13 @@ TEST_GROUP(MinipointCounterTest)
 	}
 
 	void selfDrawn()
-	{
-		s.selfDrawn(last_tile);
+	{		
+		s.selfDrawn();
 	}
 
 	void winByDiscard()
 	{
-		s.winByDiscard(last_tile);
+		s.winByDiscard();
 	}
 };
 
@@ -149,11 +148,11 @@ TEST(MinipointCounterTest, EdgeWait)
 {
 	addOpenNoPointHand();
 	
-	last_tile = Tile::ThreeOfCharacters;
+	h.last_tile = Tile::ThreeOfCharacters;
 	winByDiscard();
 	CHECK_EQUAL(22, m.total(false));
 
-	last_tile = Tile::SevenOfCharacters;
+	h.last_tile = Tile::SevenOfCharacters;
 	winByDiscard();
 	CHECK_EQUAL(22, m.total(false));
 }
@@ -162,7 +161,7 @@ TEST(MinipointCounterTest, ClosedWait)
 {
 	addOpenNoPointHand();
 	
-	last_tile = Tile::EightOfCharacters;
+	h.last_tile = Tile::EightOfCharacters;
 	winByDiscard();
 	CHECK_EQUAL(22, m.total(false));
 }
@@ -171,7 +170,7 @@ TEST(MinipointCounterTest, PairWait)
 {
 	addOpenNoPointHand();
 	
-	last_tile = Tile::SouthWind;
+	h.last_tile = Tile::SouthWind;
 	winByDiscard();
 	CHECK_EQUAL(22, m.total(false));
 }
@@ -184,7 +183,7 @@ TEST(MinipointCounterTest, ChooseHighestPointsWait)
 	addSequence(Tile::OneOfBamboos, true);
 	addSequence(Tile::ThreeOfCharacters, false);
 
-	last_tile = Tile::ThreeOfCharacters;
+	h.last_tile = Tile::ThreeOfCharacters;
 	winByDiscard();
 	CHECK_EQUAL(22, m.total(false));
 }
@@ -197,7 +196,7 @@ TEST(MinipointCounterTest, ChooseHighestPointsWait_AnotherHandOrder)
 	addSequence(Tile::OneOfCircles, true);
 	addSequence(Tile::OneOfBamboos, true);	
 
-	last_tile = Tile::ThreeOfCharacters;
+	h.last_tile = Tile::ThreeOfCharacters;
 	winByDiscard();
 	CHECK_EQUAL(22, m.total(false));
 }

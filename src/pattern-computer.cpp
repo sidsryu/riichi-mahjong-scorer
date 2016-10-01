@@ -25,27 +25,28 @@
 
 using namespace std;
 
-PatternComputer::PatternComputer(const WiningState& state)
-	: state(state)
+PatternComputer::PatternComputer(const PlayerHand& hand, const WiningState& state)
+	: hand(hand)
+	, state(state)
 {
-	recognizers.emplace_back(make_unique<StateRecognizer>(state));
-	recognizers.emplace_back(make_unique<SevenPairsRecognizer>(state));
-	recognizers.emplace_back(make_unique<NoPointsPatternRecognizer>(state));
-	recognizers.emplace_back(make_unique<IdenticalSequencesRecognizer>(state));
-	recognizers.emplace_back(make_unique<ValueTilesRecognizer>(state));
-	recognizers.emplace_back(make_unique<StraightRecognizer>(state));
-	recognizers.emplace_back(make_unique<TripletsOrQuadsRecognizer>(state));
-	recognizers.emplace_back(make_unique<ThreeColourTripletsRecognizer>(state));
-	recognizers.emplace_back(make_unique<TerminalOrHonorRecognizer>(state));
-	recognizers.emplace_back(make_unique<DragonsRecognizer>(state));
-	recognizers.emplace_back(make_unique<FlushRecognizer>(state));
-	recognizers.emplace_back(make_unique<WindsRecognizer>(state));
-	recognizers.emplace_back(make_unique<AllGreenRecognizer>(state));
+	recognizers.emplace_back(make_unique<StateRecognizer>(hand, state));
+	recognizers.emplace_back(make_unique<SevenPairsRecognizer>(hand, state));
+	recognizers.emplace_back(make_unique<NoPointsPatternRecognizer>(hand, state));
+	recognizers.emplace_back(make_unique<IdenticalSequencesRecognizer>(hand, state));
+	recognizers.emplace_back(make_unique<ValueTilesRecognizer>(hand, state));
+	recognizers.emplace_back(make_unique<StraightRecognizer>(hand, state));
+	recognizers.emplace_back(make_unique<TripletsOrQuadsRecognizer>(hand, state));
+	recognizers.emplace_back(make_unique<ThreeColourTripletsRecognizer>(hand, state));
+	recognizers.emplace_back(make_unique<TerminalOrHonorRecognizer>(hand, state));
+	recognizers.emplace_back(make_unique<DragonsRecognizer>(hand, state));
+	recognizers.emplace_back(make_unique<FlushRecognizer>(hand, state));
+	recognizers.emplace_back(make_unique<WindsRecognizer>(hand, state));
+	recognizers.emplace_back(make_unique<AllGreenRecognizer>(hand, state));
 }
 
 PatternComputer::~PatternComputer() = default;
 
-set<Pattern> PatternComputer::compute(const PlayerHand& hand)
+set<Pattern> PatternComputer::compute()
 {
 	highest_patterns.clear();
 

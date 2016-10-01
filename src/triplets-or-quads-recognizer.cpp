@@ -1,6 +1,7 @@
 #include "triplets-or-quads-recognizer.h"
 #include "pattern-define.h"
 #include "wining-state.h"
+#include "player-hand.h"
 #include "meld.h"
 
 using namespace std;
@@ -38,7 +39,7 @@ void TripletsOrQuadsRecognizer::check(const Meld& meld)
 
 	if (state.isWinByDiscard())
 	{
-		if (!meld.isOpen() && meld.isContain(state.lastTile()))
+		if (!meld.isOpen() && meld.isContain(hand.lastTile()))
 		{
 			if (meld.isSequence())
 			{
