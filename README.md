@@ -1,10 +1,12 @@
 # riichi-mahjong-scorer
 
+[![Build Status](https://travis-ci.org/sidsryu/koikoi-scorer.svg?branch=master)][travis]
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)][license]
 
 Japanese mahjong scorer in c++14
 
 [license]: LICENSE 
+[travis]: https://travis-ci.org/sidsryu/riichi-mahjong-scorer
 
 
 ## About Riichi Mahjong Scorer
@@ -23,12 +25,27 @@ v1.0 목표
 
 - [x] 점수 계산하기
 - [x] 부수 계산하기
-- [ ] 판수 계산하기
+- [x] 판수 계산하기
 
-v2.0 목표
 
-- [ ] 텐파이 확인하기
-- [ ] 대기패 찾기
+## Installation
+
+테스트 프레임워크로 [CppUTest][cpputest]를 사용합니다.
+포함된 VS2015 프로젝트에서는 `/lib/cpputest` 위치에서 정적 라이브러리를 찾습니다. 
+CppUTest는 수동으로 설치해야합니다.
+
+CMake를 사용할 경우 CppUTest까지 함께 설치합니다.
+
+```
+cd Build
+cmake ..
+make
+```
+
+
+## Usage
+
+준비중입니다.
 
 
 ## Scoring Tables
@@ -96,7 +113,8 @@ v2.0 목표
 
 ## Winning Hands
 
-판수를 계산합니다.
+준비중입니다.
+
 
 ## Licensing
 
