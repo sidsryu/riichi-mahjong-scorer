@@ -104,7 +104,7 @@ bool WiningState::isRobbinQuad() const
 
 int WiningState::bonusTileCount(Tile tile) const
 {
-	auto bonus_tile_count { 0 };
+	auto bonus_tile_count = 0;
 
 	if (IsRedFive()(tile))
 	{

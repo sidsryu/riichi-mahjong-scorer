@@ -147,7 +147,7 @@ bool Meld::isValueTiles(const WiningState& state) const
 
 int Meld::bonusTileCount(const WiningState& state) const
 {
-	auto bonus_tile_count { 0 };
+	auto bonus_tile_count = 0;
 
 	for (auto it : tiles)
 	{

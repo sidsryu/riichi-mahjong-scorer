@@ -116,7 +116,7 @@ Tile PlayerHand::lastTile() const
 
 int PlayerHand::bonusTileCount(const WiningState& state) const
 {
-	auto bonus_tile_count { 0 };
+	auto bonus_tile_count = 0;
 
 	for (auto it : tiles)
 	{
