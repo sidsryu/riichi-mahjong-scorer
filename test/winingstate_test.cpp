@@ -78,6 +78,7 @@ TEST(WiningStateTest, NoHandClaim)
 	auto r = c.report();
 
 	CHECK(r.patterns.empty());
+	CHECK_EQUAL(0, r.doubling_factor);
 }
 
 TEST(WiningStateTest, NoHandWinByDiscard)
@@ -88,6 +89,7 @@ TEST(WiningStateTest, NoHandWinByDiscard)
 	auto r= c.report();
 
 	CHECK(r.patterns.empty());
+	CHECK_EQUAL(0, r.doubling_factor);
 }
 
 TEST(WiningStateTest, SelfDrawn)
@@ -98,6 +100,7 @@ TEST(WiningStateTest, SelfDrawn)
 	auto r = c.report();
 
 	CHECK_EQUAL(1, r.patterns.count(Pattern::SelfDrawn));
+	CHECK_EQUAL(1, r.doubling_factor);
 }
 
 TEST(WiningStateTest, ReadyHand)
@@ -109,6 +112,7 @@ TEST(WiningStateTest, ReadyHand)
 	auto r = c.report();
 
 	CHECK_EQUAL(1, r.patterns.count(Pattern::ReadyHand));
+	CHECK_EQUAL(1, r.doubling_factor);
 }
 
 TEST(WiningStateTest, OneShot)
@@ -122,7 +126,9 @@ TEST(WiningStateTest, OneShot)
 	winByDiscard(situation);
 	auto r = c.report();
 
+	CHECK_EQUAL(1, r.patterns.count(Pattern::ReadyHand));
 	CHECK_EQUAL(1, r.patterns.count(Pattern::OneShot));
+	CHECK_EQUAL(2, r.doubling_factor);
 }
 
 TEST(WiningStateTest, Not_OneShot_ReadyOnly)
@@ -145,10 +151,12 @@ TEST(WiningStateTest, DeadWallDraw)
 	SelfDrawnSituation situation;
 	situation.is_dead_wall = true;
 
+	s.claim();
 	selfDrawn(situation);
 	auto r = c.report();
 
 	CHECK_EQUAL(1, r.patterns.count(Pattern::DeadWallDraw));
+	CHECK_EQUAL(1, r.doubling_factor);
 }
 
 TEST(WiningStateTest, RobbingQuad)
@@ -162,6 +170,7 @@ TEST(WiningStateTest, RobbingQuad)
 	auto r = c.report();
 
 	CHECK_EQUAL(1, r.patterns.count(Pattern::RobbingQuad));
+	CHECK_EQUAL(1, r.doubling_factor);
 }
 
 TEST(WiningStateTest, LastTileFromTheWall)
@@ -171,10 +180,12 @@ TEST(WiningStateTest, LastTileFromTheWall)
 	SelfDrawnSituation situation;
 	situation.is_last_wall = true;
 
+	s.claim();
 	selfDrawn(situation);
 	auto r = c.report();
 
 	CHECK_EQUAL(1, r.patterns.count(Pattern::LastTileFromTheWall));
+	CHECK_EQUAL(1, r.doubling_factor);
 }
 
 TEST(WiningStateTest, LastDiscard)
@@ -188,6 +199,7 @@ TEST(WiningStateTest, LastDiscard)
 	auto r = c.report();
 
 	CHECK_EQUAL(1, r.patterns.count(Pattern::LastDiscard));
+	CHECK_EQUAL(1, r.doubling_factor);
 }
 
 TEST(WiningStateTest, DoubleReady)
@@ -199,6 +211,7 @@ TEST(WiningStateTest, DoubleReady)
 	auto r = c.report();
 
 	CHECK_EQUAL(1, r.patterns.count(Pattern::DoubleReady));
+	CHECK_EQUAL(2, r.doubling_factor);
 }
 
 TEST(WiningStateTest, BonusTiles)
@@ -213,12 +226,12 @@ TEST(WiningStateTest, BonusTiles)
 	s.addBonusTile(Tile::SixOfCircles);
 	s.addBonusTile(Tile::NineOfCharacters);
 
-	s.readyHand();
 	selfDrawn();
 	auto r = c.report();
 
 	CHECK_EQUAL(1, r.patterns.count(Pattern::SelfDrawn));
 	CHECK_EQUAL(6, r.bonus_tile_count);
+	CHECK_EQUAL(7, r.doubling_factor);
 }
 
 TEST(WiningStateTest, BonusTiles_Multiple)
@@ -233,13 +246,13 @@ TEST(WiningStateTest, BonusTiles_Multiple)
 	s.addBonusTile(Tile::OneOfBamboos);
 	s.addBonusTile(Tile::OneOfBamboos);
 	s.addBonusTile(Tile::OneOfBamboos);	
-
-	s.readyHand();
+	
 	selfDrawn();
 	auto r = c.report();
 
 	CHECK_EQUAL(1, r.patterns.count(Pattern::SelfDrawn));
 	CHECK_EQUAL(8, r.bonus_tile_count);
+	CHECK_EQUAL(9, r.doubling_factor);
 }
 
 TEST(WiningStateTest, BonusTiles_RedFives)
@@ -252,12 +265,12 @@ TEST(WiningStateTest, BonusTiles_RedFives)
 
 	s.addBonusTile(Tile::FiveOfBamboos);
 
-	s.readyHand();
 	selfDrawn();
 	auto r = c.report();
 
 	CHECK_EQUAL(1, r.patterns.count(Pattern::SelfDrawn));
 	CHECK_EQUAL(5, r.bonus_tile_count);
+	CHECK_EQUAL(6, r.doubling_factor);
 }
 
 TEST(WiningStateTest, HeavenlyHand)
@@ -271,6 +284,7 @@ TEST(WiningStateTest, HeavenlyHand)
 	auto r = c.report();
 
 	CHECK_EQUAL(1, r.patterns.count(Pattern::HeavenlyHand));
+	CHECK_EQUAL(100, r.doubling_factor);
 }
 
 TEST(WiningStateTest, EarthlyHand)
@@ -286,4 +300,5 @@ TEST(WiningStateTest, EarthlyHand)
 	auto r = c.report();
 
 	CHECK_EQUAL(1, r.patterns.count(Pattern::EarthlyHand));
+	CHECK_EQUAL(100, r.doubling_factor);
 }

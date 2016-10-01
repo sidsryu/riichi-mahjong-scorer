@@ -10,18 +10,22 @@ WiningState::WiningState()
 
 void WiningState::claim()
 {
+	assert(!is_ready_hand);
+	assert(!is_double_ready);
 	is_claim = true;
 }
 
 void WiningState::readyHand()
 {
 	assert(!is_double_ready);
+	assert(!is_claim);
 	is_ready_hand = true;
 }
 
 void WiningState::doubleReady()
 {
 	assert(!is_ready_hand);
+	assert(!is_claim);
 	is_double_ready = true;
 }
 
