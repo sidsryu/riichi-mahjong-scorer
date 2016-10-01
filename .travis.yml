@@ -20,7 +20,6 @@ before_script:
   - if [ ${CXX} = 'clang++' ]; then export CXX='clang++-3.7'; fi
   - if [ ${CXX} = 'g++' ]; then export CXX='g++-5'; fi
 script:
-  - mkdir build
   - cd build
   - cmake .. && make
 
