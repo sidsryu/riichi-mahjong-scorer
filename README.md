@@ -16,8 +16,6 @@ Japanese mahjong scorer in c++14
 완성된 손패에서 판수와 부수를 알아냅니다.
 오른 방식에 따라 지불해야하는 점수를 계산합니다.
 
-추가 목표로 텐파이 상태 확인 및 대기패 찾기 기능이 들어갑니다.
-
 
 ## Goal
 
@@ -90,9 +88,12 @@ h.bindSequence({
 ### 점수 계산
 
 ```c++
-#include "doubling-factor-counter.h"
 #include "player-hand.h"
 #include "wining-state.h"
+#include "doubling-factor-counter.h"
+#include "doubling-factor-report.h"
+#include "minipoint-counter.h"
+#include "scoring-table.h"
 
 using namespace mahjong;
 
@@ -100,7 +101,7 @@ PlayerHand h;
 ... // add tiles to hand
 
 WiningState s;
-s.selfDrawn();
+s.winByDiscard();
 
 // han: doubling factor
 DoublingFactorCounter dc { h, s };
@@ -111,7 +112,7 @@ MinipointCounter mc { h, s };
 int minipoints = mc.total();
 
 ScoringTable t;
-int score = t.dealerSelfDrawn(r.doubling_factor, minipoints);
+int score = t.dealerWinByDiscard(r.doubling_factor, minipoints);
 ```
 
 ## Scoring Tables
@@ -179,8 +180,53 @@ int score = t.dealerSelfDrawn(r.doubling_factor, minipoints);
 
 ## Winning Hands
 
-준비중입니다.
+### 인정역
 
+- 멘젠쯔모 Self-Drawn
+- 리치 Ready-Hand
+- 일발 One-Shot
+- 더블리치 Double-Ready
+- 영상개화 Dead-Wall-Draw
+- 창깡 Robbing-Quad
+- 하이떼이쯔모 Last-Tile-From-The-Wall
+- 하이떼이론 Last-Discard 
+- 도라 Bonus-Tile
+- 핑후 No-Points-Hand
+- 이페코 One-Set-Of-Identical-Sequences
+- 역패 Value tiles
+  - 삼원패 Dragon tiles
+  - 풍패 Seat wind tile and/or round wind tile
+  - 연풍패 Same seat and round wind tile
+- 당야오 All-Simples
+- 치또이 Seven-Pairs
+- 삼색동순 Three-Colour-Straights
+- 일기통관 Straight
+- 찬타 Terminal-Or-Honor-In-Each-Set
+- 또이또이 All-Triplets
+- 산안커 Three-Closed-Triplets
+- 삼색동각 Three-Colour-Triplets
+- 소삼원 Little-Three-Dragons
+- 혼노두 All-Terminals-And-Honors
+- 산깡쯔 Three-Quads
+- 량페코 Two-Sets-Of-Identical-Sequences
+- 준짱 Terminal-In-Each-Set
+- 혼일색 Half-Flush
+- 청일색 Flush
+
+### 역만 The limit hands
+
+- 천화 Heavenly-Hand
+- 지화 Earthly-Hand
+- 사안커 Four-Closed-Triplets
+- 국사무쌍 Thirteen-Orphans
+- 구련보등 Nine-Gates
+- 녹일색 All-Green
+- 자일색 All-Honors
+- 청노두 All-Terminals
+- 대삼원 Big-Three-Dragons
+- 소사희 Little-Four-Winds
+- 대사희 Big-Four-Winds
+- 사깡쯔 Four-Quads
 
 ## Licensing
 
